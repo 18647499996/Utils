@@ -34,7 +34,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 /**
- * Description：
+ * Description：Log日志
  *
  * @author Created by: Li_Min
  * Time:1/4/23
