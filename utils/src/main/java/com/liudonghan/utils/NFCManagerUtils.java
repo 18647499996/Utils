@@ -2,11 +2,9 @@ package com.liudonghan.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -154,14 +152,12 @@ public class NFCManagerUtils {
             // return metaInfo;
             return spMsg;
         } catch (Exception e) {
-            SnackbarUtils.getInstance().showError(context, e.getMessage());
             e.printStackTrace();
         } finally {
             if (mfc != null) {
                 try {
                     mfc.close();
                 } catch (IOException e) {
-                    SnackbarUtils.getInstance().showError(context, e.getMessage());
                 }
             }
         }
