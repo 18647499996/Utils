@@ -39,7 +39,7 @@ import javax.xml.transform.stream.StreamSource;
  * @author Created by: Li_Min
  * Time:1/4/23
  */
-public class LogUtils {
+public class ADLogUtils {
 
     public static final int V = Log.VERBOSE;
     public static final int D = Log.DEBUG;
@@ -86,7 +86,7 @@ public class LogUtils {
     private static final String ARGS = "args";
     private static final Config CONFIG = new Config();
 
-    private LogUtils() {
+    private ADLogUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -445,10 +445,10 @@ public class LogUtils {
         private Config() {
             if (sDefaultDir != null) return;
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-                    && ApplicationUtils.getApp().getExternalCacheDir() != null)
-                sDefaultDir = ApplicationUtils.getApp().getExternalCacheDir() + FILE_SEP + "log" + FILE_SEP;
+                    && ADApplicationUtils.getApp().getExternalCacheDir() != null)
+                sDefaultDir = ADApplicationUtils.getApp().getExternalCacheDir() + FILE_SEP + "log" + FILE_SEP;
             else {
-                sDefaultDir = ApplicationUtils.getApp().getCacheDir() + FILE_SEP + "log" + FILE_SEP;
+                sDefaultDir = ADApplicationUtils.getApp().getCacheDir() + FILE_SEP + "log" + FILE_SEP;
             }
         }
 

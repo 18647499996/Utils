@@ -19,25 +19,25 @@ import android.os.Handler;
  * <p/>
  * ============================================================
  **/
-public class HandlerUtils {
+public class ADHandlerUtils {
 
     public Handler handler = new Handler();
     public Runnable runnable = null;
     public static final long MILLIS = 1000;
 
 
-    private static volatile HandlerUtils instance = null;
+    private static volatile ADHandlerUtils instance = null;
 
-    private HandlerUtils() {
+    private ADHandlerUtils() {
     }
 
-    public static HandlerUtils getInstance() {
+    public static ADHandlerUtils getInstance() {
         //single chcekout
         if (null == instance) {
-            synchronized (HandlerUtils.class) {
+            synchronized (ADHandlerUtils.class) {
                 // double checkout
                 if (null == instance) {
-                    instance = new HandlerUtils();
+                    instance = new ADHandlerUtils();
                 }
             }
         }

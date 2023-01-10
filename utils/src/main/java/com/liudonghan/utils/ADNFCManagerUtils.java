@@ -14,23 +14,23 @@ import java.io.IOException;
  * @author Created by: Li_Min
  * Time:1/6/23
  */
-public class NFCManagerUtils {
+public class ADNFCManagerUtils {
 
     private int bIndex;// 共多少个扇区
     private int bCount;// 每个扇区的块数
 
-    private static volatile NFCManagerUtils instance = null;
+    private static volatile ADNFCManagerUtils instance = null;
 
-    private NFCManagerUtils() {
+    private ADNFCManagerUtils() {
     }
 
-    public static NFCManagerUtils getInstance() {
+    public static ADNFCManagerUtils getInstance() {
         //single chcekout
         if (null == instance) {
-            synchronized (NFCManagerUtils.class) {
+            synchronized (ADNFCManagerUtils.class) {
                 // double checkout
                 if (null == instance) {
-                    instance = new NFCManagerUtils();
+                    instance = new ADNFCManagerUtils();
                 }
             }
         }

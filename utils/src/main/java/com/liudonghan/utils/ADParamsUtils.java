@@ -4,19 +4,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ParamsUtils {
+public class ADParamsUtils {
 
     private HashMap<String, String> params = new HashMap();
 
-    public ParamsUtils() {
+    public ADParamsUtils() {
 //        params.put("token", AccountHelper.getToken());
     }
 
-    public static ParamsUtils newParams() {
-        return new ParamsUtils();
+    public static ADParamsUtils newParams() {
+        return new ADParamsUtils();
     }
 
-    public ParamsUtils put(String key, String value) {
+    public ADParamsUtils put(String key, String value) {
         params.put(key, value);
         return this;
     }

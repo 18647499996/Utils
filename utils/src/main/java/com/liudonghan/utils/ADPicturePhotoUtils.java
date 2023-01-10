@@ -22,7 +22,7 @@ import java.io.File;
  *
  * @author Administrator
  */
-public class PicturePhotoUtils {
+public class ADPicturePhotoUtils {
 
     private Context mContext;
     public Button btnDelete;
@@ -73,14 +73,14 @@ public class PicturePhotoUtils {
      * @param isSquare 是否是需要方形裁切框
      * @param callBack 返回图片路径的回调
      */
-    public PicturePhotoUtils(Context context, boolean corp, boolean isSquare, FetchImageCallback callBack) {
+    public ADPicturePhotoUtils(Context context, boolean corp, boolean isSquare, FetchImageCallback callBack) {
         this.mContext = context;
         this.mCallBack = callBack;
         this.isCrop = corp;
         this.isSquare = isSquare;
 //        Date date = new Date();
         mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),"xfsh_" + System.currentTimeMillis() + ".jpg");
-        LogUtils.d("打印一下-----------" + mFile.getAbsolutePath());
+        ADLogUtils.d("打印一下-----------" + mFile.getAbsolutePath());
 //        String name = date.getTime() + "";
 //        if (null != mFile && mFile.exists()) {
 //            mFile = new File(mFile, name + ".jpg");
@@ -220,7 +220,7 @@ public class PicturePhotoUtils {
                 case FETCH_PHOTO:
                     if (data != null && data.getData() != null) {
                         if (isCrop) {
-                            LogUtils.d("裁剪路径：" + data.getData().toString());
+                            ADLogUtils.d("裁剪路径：" + data.getData().toString());
                             cropImageUri(data.getData(), sdcardTempFile);
                         } else {
                             sendPicByUri(data.getData());
@@ -228,12 +228,12 @@ public class PicturePhotoUtils {
                     }
                     break;
                 case CROP_PHOTO:
-                    LogUtils.d("打印一下CROP_PHOTO");
+                    ADLogUtils.d("打印一下CROP_PHOTO");
                     if (sdcardTempFile != null && !photoFlag) {
-                        LogUtils.d("打印一下sdcardTempFile");
+                        ADLogUtils.d("打印一下sdcardTempFile");
                         mCallBack.handleResult(sdcardTempFile);
                     } else {
-                        LogUtils.d("打印一下mFile" + mFile.getAbsolutePath());
+                        ADLogUtils.d("打印一下mFile" + mFile.getAbsolutePath());
                         mCallBack.handleResult(mFile);
                     }
                     break;

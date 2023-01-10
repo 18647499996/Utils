@@ -16,21 +16,21 @@ import java.util.Stack;
  * @author Created by: Li_Min
  * Time:2018/8/4
  */
-public class ActivityManagerUtils {
+public class ADActivityManagerUtils {
 
     private static Stack<Activity> activityStack;
-    private static ActivityManagerUtils instance;
+    private static ADActivityManagerUtils instance;
 
-    private ActivityManagerUtils() {
+    private ADActivityManagerUtils() {
         activityStack = new Stack<>();
     }
 
     /**
      * 单一实例
      */
-    public static ActivityManagerUtils getActivityManager() {
+    public static ADActivityManagerUtils getActivityManager() {
         if (instance == null) {
-            instance = new ActivityManagerUtils();
+            instance = new ADActivityManagerUtils();
         }
         return instance;
     }

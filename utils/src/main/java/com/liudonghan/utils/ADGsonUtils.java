@@ -24,7 +24,7 @@ import java.util.List;
  * @author Created by: Li_Min
  * Time:2018/8/4
  */
-public class GsonUtils {
+public class ADGsonUtils {
     static {
         mGson = new GsonBuilder().disableHtmlEscaping().create();
     }

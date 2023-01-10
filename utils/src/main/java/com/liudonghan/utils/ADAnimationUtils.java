@@ -28,19 +28,19 @@ import androidx.fragment.app.FragmentActivity;
  * @author Created by: Li_Min
  * Time:2020/9/1
  */
-public class AnimationUtils {
-    private static volatile AnimationUtils instance = null;
+public class ADAnimationUtils {
+    private static volatile ADAnimationUtils instance = null;
 
-    private AnimationUtils() {
+    private ADAnimationUtils() {
     }
 
-    public static AnimationUtils getInstance() {
+    public static ADAnimationUtils getInstance() {
         //single chcekout
         if (null == instance) {
-            synchronized (AnimationUtils.class) {
+            synchronized (ADAnimationUtils.class) {
                 // double checkout
                 if (null == instance) {
-                    instance = new AnimationUtils();
+                    instance = new ADAnimationUtils();
                 }
             }
         }

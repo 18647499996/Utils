@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * Created by Administrator on 2017/5/31 0031.
  */
 
-public class CacheManager {
+public class ADCacheManager {
     /**
      * 获取缓存大小
      *

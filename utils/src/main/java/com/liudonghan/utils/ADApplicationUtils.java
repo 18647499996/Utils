@@ -17,7 +17,7 @@ import java.util.List;
  * @author Created by: Li_Min
  * Time:1/4/23
  */
-public class ApplicationUtils {
+public class ADApplicationUtils {
 
     @SuppressLint("StaticFieldLeak")
     private static Application sApplication;
@@ -63,7 +63,7 @@ public class ApplicationUtils {
         }
     };
 
-    private ApplicationUtils() {
+    private ADApplicationUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -73,7 +73,7 @@ public class ApplicationUtils {
      * @param app 应用
      */
     public static void init(@NonNull final Application app) {
-        ApplicationUtils.sApplication = app;
+        ADApplicationUtils.sApplication = app;
         app.registerActivityLifecycleCallbacks(mCallbacks);
     }
 
