@@ -13,7 +13,7 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 
 /**
- * Description：
+ * Description： TextViewStyle工具
  *
  * @author Created by: Li_Min
  * Time:1/12/23
@@ -36,21 +36,19 @@ public class ADTextStyleUtils {
 
     private static volatile ADTextStyleUtils instance = null;
 
+    private ADTextStyleUtils(){}
 
-    private ADTextStyleUtils() {
-    }
-
-    public static ADTextStyleUtils getInstance() {
-        //single chcekout
-        if (null == instance) {
-            synchronized (ADTextStyleUtils.class) {
-                // double checkout
-                if (null == instance) {
-                    instance = new ADTextStyleUtils();
-                }
+    public static ADTextStyleUtils getInstance(){
+     //single chcekout
+     if(null == instance){
+        synchronized (ADTextStyleUtils.class){
+            // double checkout
+            if(null == instance){
+                instance = new ADTextStyleUtils();
             }
         }
-        return instance;
+     }
+     return instance;
     }
 
 
