@@ -1,11 +1,13 @@
 package com.liudonghan.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.liudonghan.utils.ADScreenRecordUtils;
 import com.liudonghan.utils.ADTextStyleUtils;
 
 
@@ -40,6 +42,17 @@ public class MainActivity extends AppCompatActivity {
                         .textDescription("￥18990.00")
                         // 构建
                         .builder();
+            }
+        });
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ADScreenRecordUtils.getInstance().register(MainActivity.this, new ADScreenRecordUtils.OnContentObserverUtilsListener() {
+                    @Override
+                    public void isScreenRecord(boolean isScreenRecord) {
+                        Log.d("录屏监听：",String.valueOf(isScreenRecord));
+                    }
+                });
             }
         });
     }
