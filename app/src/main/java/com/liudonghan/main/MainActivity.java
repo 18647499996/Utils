@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.activity_main_tv);
-        findViewById(R.id.activity_main_tv).setOnClickListener(new View.OnClickListener() {
+        textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ADTextStyleUtils.getInstance()
@@ -42,11 +42,6 @@ public class MainActivity extends AppCompatActivity {
                         .textDescription("￥18990.00")
                         // 构建
                         .builder();
-            }
-        });
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 ADScreenRecordUtils.getInstance().register(MainActivity.this, new ADScreenRecordUtils.OnContentObserverUtilsListener() {
                     @Override
                     public void isScreenRecord(boolean isScreenRecord) {

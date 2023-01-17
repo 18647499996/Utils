@@ -183,7 +183,7 @@ public class ADTextStyleUtils {
         }
         if (0 != drawablesIcon && null != textView) {
             Drawable drawable = context.getResources().getDrawable(drawablesIcon);
-            drawable.setBounds(0, 0, 0 == width ? textView.getWidth() : width, 0 == height ? textView.getHeight() : height);
+            drawable.setBounds(0, 0, 0 == width ? textView.getHeight() : width, 0 == height ? textView.getHeight() : height);
             switch (direction) {
                 case LEFT:
                     textView.setCompoundDrawables(drawable, null, null, null);

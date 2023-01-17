@@ -226,15 +226,15 @@ public class ADAnimationUtils {
         //一、创造出执行动画的主题---imageview
         //代码new一个imageview，图片资源是上面的imageview的图片
         // (这个图片就是执行动画的图片，从开始位置出发，经过一个抛物线（贝塞尔曲线），移动到购物车里)
-        final TextView goods = new TextView(activity);
-        goods.setText(number);
-        goods.setTextColor(Color.WHITE);
-        goods.setGravity(Gravity.CENTER);
-        goods.setBackground(ContextCompat.getDrawable(activity, drawable));
+        final TextView textView = new TextView(activity);
+        textView.setText(number);
+        textView.setTextColor(Color.WHITE);
+        textView.setGravity(Gravity.CENTER);
+        textView.setBackground(ContextCompat.getDrawable(activity, drawable));
         //final ImageView goods = new ImageView(this);
         //goods.setImageDrawable(iv.getDrawable());
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(45, 45);
-        mRLayout.addView(goods, params);
+        mRLayout.addView(textView, params);
         //二、计算动画开始/结束点的坐标的准备工作
         //得到父布局的起始点坐标（用于辅助计算动画开始/结束时的点的坐标）
         int[] parentLocation = new int[2];
@@ -279,8 +279,8 @@ public class ADAnimationUtils {
                 // 离的坐标点和切线，pos会自动填充上坐标，这个方法很重要。
                 mPathMeasure.getPosTan(value, mCurrentPosition, null);//mCurrentPosition此时就是中间距离点的坐标值
                 // 移动的商品图片（动画图片）的坐标设置为该中间点的坐标
-                goods.setTranslationX(mCurrentPosition[0]);
-                goods.setTranslationY(mCurrentPosition[1]);
+                textView.setTranslationX(mCurrentPosition[0]);
+                textView.setTranslationY(mCurrentPosition[1]);
             }
         });
         //      五、 开始执行动画
@@ -313,7 +313,7 @@ public class ADAnimationUtils {
                 //i++;
                 //mCount.setText(String.valueOf(i));
                 // 把移动的图片imageView从父布局里移除
-                mRLayout.removeView(goods);
+                mRLayout.removeView(textView);
             }
 
             @Override

@@ -79,7 +79,7 @@ public class ADPicturePhotoUtils {
         this.isCrop = corp;
         this.isSquare = isSquare;
 //        Date date = new Date();
-        mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),"xfsh_" + System.currentTimeMillis() + ".jpg");
+        mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),"ad_liu_" + System.currentTimeMillis() + ".jpg");
         ADLogUtils.d("打印一下-----------" + mFile.getAbsolutePath());
 //        String name = date.getTime() + "";
 //        if (null != mFile && mFile.exists()) {
@@ -128,7 +128,7 @@ public class ADPicturePhotoUtils {
         // intent.addCategory(Intent.CATEGORY_OPENABLE);
         // ((Activity) mContext).startActivityForResult(intent, FETCH_PHOTO);
 //        Date date = new Date();
-        sdcardTempFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),"xfsh_" + System.currentTimeMillis() + ".jpg");
+        sdcardTempFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),"ad_liu_" + System.currentTimeMillis() + ".jpg");
 //        String name = date.getTime() + "";
 //        if (null != sdcardTempFile && sdcardTempFile.exists()) {
 //            sdcardTempFile = new File(sdcardTempFile, name + ".jpg");
