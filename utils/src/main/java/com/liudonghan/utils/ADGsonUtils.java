@@ -31,6 +31,12 @@ public class ADGsonUtils {
 
     private static Gson mGson;
 
+    /**
+     * 序列化json字符串
+     *
+     * @param object 对象
+     * @return String
+     */
     public static String toJson(Object object) {
         if (object == null) {
             return null;
@@ -39,51 +45,75 @@ public class ADGsonUtils {
 
     }
 
-
-
-    public static  <T> T fromJson(String json, Type t) throws RuntimeException {
-        T t1=null;
-        try {
-             t1 = mGson.fromJson(json, t);
-
-        }
-        catch (RuntimeException e){
-            Log.e("json解析异常：" , json);
-            e.printStackTrace();
-//            throw new JsonSyntaxFailException(" JsonSyntax fail: "+json,e);
-            return null;
-        }
-        return t1 ;
-
-    }
-
-    public static  <T> T fromJson(String json, Class<T> t) throws RuntimeException {
-        T t1=null;
+    /**
+     * 序列化json对象
+     *
+     * @param json json数据
+     * @param t    Type类型
+     * @return T
+     */
+    public static <T> T fromJson(String json, Type t) throws RuntimeException {
+        T t1 = null;
         try {
             t1 = mGson.fromJson(json, t);
 
+        } catch (RuntimeException e) {
+            Log.e("json解析异常：", json);
+            e.printStackTrace();
+//            throw new JsonSyntaxFailException(" JsonSyntax fail: "+json,e);
+            return null;
         }
-        catch (RuntimeException e){
+        return t1;
+
+    }
+
+    /**
+     * 序列化json对象
+     *
+     * @param json json数据
+     * @param t    序列化对象T
+     * @return T
+     */
+    public static <T> T fromJson(String json, Class<T> t) throws RuntimeException {
+        T t1 = null;
+        try {
+            t1 = mGson.fromJson(json, t);
+
+        } catch (RuntimeException e) {
 
             e.printStackTrace();
 //            throw new JsonSyntaxFailException(" JsonSyntax fail: "+json,e);
             return null;
         }
-        return t1 ;
+        return t1;
 
     }
+
+    /**
+     * 是否json数组
+     *
+     * @param json json字符串
+     * @return boolean true 是 false 否
+     */
     public static boolean isJsonArray(String json) {
 
         return json.startsWith("[");
     }
 
+    /**
+     * 序列化json数组
+     * @param launch json字符串
+     * @param tClass class类
+     * @param <T> List<T>集合
+     * @return List<T>
+     */
     public static <T> List<T> jsonArrayList(String launch, Class<T> tClass) {
         List<T> tList = new ArrayList<>();
         try {
             JSONArray jsonArray = new JSONArray(launch);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                T t = new Gson().fromJson(jsonObject.toString(),tClass);
+                T t = new Gson().fromJson(jsonObject.toString(), tClass);
                 tList.add(t);
             }
         } catch (JSONException e) {

@@ -27,7 +27,11 @@ public class ADPicturePhotoUtils {
     private Context mContext;
     public Button btnDelete;
     private boolean isCrop = false, isSquare = true;
-    private boolean photoFlag = false;//判断是否是拍照，拍照时true，相册是FALSE
+
+    /**
+     * 判断是否是拍照，拍照时true，相册是FALSE
+     */
+    private boolean photoFlag = false;
 
     /**
      * 调用系统拍照、图片浏览、图片裁剪状态
@@ -44,14 +48,14 @@ public class ADPicturePhotoUtils {
     /**
      * 图片默认保存路径
      */
-    private File mFile = null;
+    private File mFile;
 
     /**
      * 从相册中选择图片
      */
     private File sdcardTempFile;
 
-    private FetchImageCallback mCallBack = null;
+    private FetchImageCallback mCallBack;
 
     /**
      * 获取图片的回调接口
@@ -68,23 +72,20 @@ public class ADPicturePhotoUtils {
 
 
     /**
-     * @param context
-     * @param corp     是否裁切
-     * @param isSquare 是否是需要方形裁切框
-     * @param callBack 返回图片路径的回调
+     * @param context     上下文
+     * @param corp        是否裁切
+     * @param isSquare    是否是需要方形裁切框
+     * @param childPrefix 文件前缀名称
+     * @param callBack    返回图片路径的回调
      */
-    public ADPicturePhotoUtils(Context context, boolean corp, boolean isSquare, FetchImageCallback callBack) {
+    public ADPicturePhotoUtils(Context context, boolean corp, boolean isSquare, String childPrefix, FetchImageCallback callBack) {
         this.mContext = context;
         this.mCallBack = callBack;
         this.isCrop = corp;
         this.isSquare = isSquare;
-//        Date date = new Date();
-        mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),"ad_liu_" + System.currentTimeMillis() + ".jpg");
+        mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), childPrefix + System.currentTimeMillis() + ".jpg");
+        sdcardTempFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), childPrefix + System.currentTimeMillis() + ".jpg");
         ADLogUtils.d("打印一下-----------" + mFile.getAbsolutePath());
-//        String name = date.getTime() + "";
-//        if (null != mFile && mFile.exists()) {
-//            mFile = new File(mFile, name + ".jpg");
-//        }
     }
 
     /**
@@ -93,14 +94,11 @@ public class ADPicturePhotoUtils {
     public void takePicture() {
         photoFlag = true;
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        /***
-         * 以下程序是采用相机拍照，拍照后的图片存放在相册中，采用ContentValues方式保存的是拍照后的原图， 其它方式会不太清晰
-         */
+        // 以下程序是采用相机拍照，拍照后的图片存放在相册中，采用ContentValues方式保存的是拍照后的原图， 其它方式会不太清晰
         ContentValues values = new ContentValues();
         mUri = mContext.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         if (isCrop) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
-//            mCallBack.handleResult(mFile);
         } else {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri.fromFile(mFile));
         }
@@ -123,20 +121,6 @@ public class ADPicturePhotoUtils {
      */
     public void getPicture() {
         photoFlag = false;
-        // Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        // intent.setType("image/*");
-        // intent.addCategory(Intent.CATEGORY_OPENABLE);
-        // ((Activity) mContext).startActivityForResult(intent, FETCH_PHOTO);
-//        Date date = new Date();
-        sdcardTempFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),"ad_liu_" + System.currentTimeMillis() + ".jpg");
-//        String name = date.getTime() + "";
-//        if (null != sdcardTempFile && sdcardTempFile.exists()) {
-//            sdcardTempFile = new File(sdcardTempFile, name + ".jpg");
-//        }
-
-        // Intent intent = new Intent("android.intent.action.PICK");
-        // intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI,
-        // "image/*");
 
         Intent intent;
         if (Build.VERSION.SDK_INT < 19) {
@@ -145,16 +129,6 @@ public class ADPicturePhotoUtils {
         } else {
             intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         }
-
-        // if (isCrop) {
-        // intent.putExtra("output", Uri.fromFile(sdcardTempFile));
-        // intent.putExtra("crop", "true");
-        // intent.putExtra("aspectX", 1);// 裁剪框比例
-        // intent.putExtra("aspectY", 1);
-        // // intent.putExtra("outputX", 200);// 输出图片大小
-        // // intent.putExtra("outputY", 200);
-        // }
-
         ((Activity) mContext).startActivityForResult(intent, FETCH_PHOTO);
     }
 
@@ -165,7 +139,7 @@ public class ADPicturePhotoUtils {
      */
     public void cropImageUri(Uri uri, File file) {
         if (null == file) {
-            // CommonUtils.showToast(mContext, "启动相机异常");
+            ADLogUtils.e("启动相机异常");
             return;
         }
 
@@ -176,14 +150,14 @@ public class ADPicturePhotoUtils {
         intent.putExtra("crop", "true");
         if (isSquare) {
             //android api大于28
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P){
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
                 // 裁切框 的宽高比
                 intent.putExtra("aspectX", 3);
-                intent.putExtra("aspectY",2);
-            }else{
+                intent.putExtra("aspectY", 2);
+            } else {
                 // 裁切框 的宽高比
                 intent.putExtra("aspectX", 1);
-                intent.putExtra("aspectY",1);
+                intent.putExtra("aspectY", 1);
             }
 
         } else {
@@ -206,7 +180,7 @@ public class ADPicturePhotoUtils {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (Activity.RESULT_OK == resultCode) {
-            Log.i("chenliangsen", "result_ok");
+            Log.i("回调onActivityResult", "result_ok");
             Uri photoUri = null;
             switch (requestCode) {
                 case TAKE_CAMERA:
@@ -244,7 +218,7 @@ public class ADPicturePhotoUtils {
     /**
      * 不剪切图片
      *
-     * @param selectedImage
+     * @param selectedImage 选择图片
      */
     public void sendPicByUri(Uri selectedImage) {
         Log.e("chenliangsen", "sendPicByUri");
