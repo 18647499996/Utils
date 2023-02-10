@@ -55,12 +55,12 @@ public class ADPicturePhotoUtils {
      */
     private File sdcardTempFile;
 
-    private FetchImageCallback mCallBack;
+    private ADImageFileCallback adImageFileCallback;
 
     /**
      * 获取图片的回调接口
      */
-    public interface FetchImageCallback {
+    public interface ADImageFileCallback {
 
         void handleResult(File file);
 
@@ -71,21 +71,58 @@ public class ADPicturePhotoUtils {
     }
 
 
+    private static volatile ADPicturePhotoUtils instance = null;
+
+    private ADPicturePhotoUtils() {
+    }
+
+    public static ADPicturePhotoUtils getInstance() {
+        //single chcekout
+        if (null == instance) {
+            synchronized (ADPicturePhotoUtils.class) {
+                // double checkout
+                if (null == instance) {
+                    instance = new ADPicturePhotoUtils();
+                }
+            }
+        }
+        return instance;
+    }
+
+
     /**
-     * @param context     上下文
-     * @param corp        是否裁切
-     * @param isSquare    是否是需要方形裁切框
-     * @param childPrefix 文件前缀名称
-     * @param callBack    返回图片路径的回调
+     * 初始化相册、拍照选择工具
+     *
+     * @param context 上下文
      */
-    public ADPicturePhotoUtils(Context context, boolean corp, boolean isSquare, String childPrefix, FetchImageCallback callBack) {
+    public ADPicturePhotoUtils init(Context context) {
+        init(context, new Config(true, true, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), "AD_" + System.currentTimeMillis()));
+        return this;
+    }
+
+    /**
+     * 回调方法
+     *
+     * @param adImageFileCallback 回调函数
+     */
+    public void onCallBack(ADImageFileCallback adImageFileCallback) {
+        this.adImageFileCallback = adImageFileCallback;
+    }
+
+    /**
+     * 初始化相册、拍照选择工具
+     *
+     * @param context 上下文
+     * @param config  配置属性
+     */
+    public ADPicturePhotoUtils init(Context context, Config config) {
         this.mContext = context;
-        this.mCallBack = callBack;
-        this.isCrop = corp;
-        this.isSquare = isSquare;
-        mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), childPrefix + System.currentTimeMillis() + ".jpg");
-        sdcardTempFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), childPrefix + System.currentTimeMillis() + ".jpg");
-        ADLogUtils.d("打印一下-----------" + mFile.getAbsolutePath());
+        this.isCrop = config.isCrop();
+        this.isSquare = config.isSquare();
+        this.mFile = new File(config.getFilePath(), config.getFileName());
+        this.sdcardTempFile = new File(config.getFilePath(), config.getFileName());
+        Log.i("Mac_Liu", "配置路径：" + mFile.getAbsolutePath());
+        return this;
     }
 
     /**
@@ -111,7 +148,7 @@ public class ADPicturePhotoUtils {
     public void videotape() {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-        mCallBack.handleResult(mFile);
+        adImageFileCallback.handleResult(mFile);
         intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 7);//限制录制时间10秒
         ((Activity) mContext).startActivityForResult(intent, VIDEO_CAPTURE);
     }
@@ -188,7 +225,7 @@ public class ADPicturePhotoUtils {
                         photoUri = getPictureUri();
                         cropImageUri(photoUri, mFile);
                     } else {
-                        mCallBack.handleResult(mFile);
+                        adImageFileCallback.handleResult(mFile);
                     }
                     break;
                 case FETCH_PHOTO:
@@ -205,10 +242,10 @@ public class ADPicturePhotoUtils {
                     ADLogUtils.d("打印一下CROP_PHOTO");
                     if (sdcardTempFile != null && !photoFlag) {
                         ADLogUtils.d("打印一下sdcardTempFile");
-                        mCallBack.handleResult(sdcardTempFile);
+                        adImageFileCallback.handleResult(sdcardTempFile);
                     } else {
                         ADLogUtils.d("打印一下mFile" + mFile.getAbsolutePath());
-                        mCallBack.handleResult(mFile);
+                        adImageFileCallback.handleResult(mFile);
                     }
                     break;
             }
@@ -238,7 +275,7 @@ public class ADPicturePhotoUtils {
                 return;
             }
             sdcardTempFile = new File(picturePath);
-            mCallBack.handleResult(sdcardTempFile);
+            adImageFileCallback.handleResult(sdcardTempFile);
         } else {
             File file = new File(selectedImage.getPath());
             if (!file.exists()) {
@@ -248,8 +285,59 @@ public class ADPicturePhotoUtils {
                 return;
 
             }
-            mCallBack.handleResult(file);
+            adImageFileCallback.handleResult(file);
         }
 
+    }
+
+    public static class Config {
+
+        private boolean isCrop = false;
+
+        private boolean isSquare = false;
+
+        private String filePath;
+
+        private String fileName;
+
+
+        public Config(boolean isCrop, boolean isSquare, String filePath, String fileName) {
+            this.isCrop = isCrop;
+            this.isSquare = isSquare;
+            this.filePath = filePath;
+            this.fileName = fileName;
+        }
+
+        public boolean isCrop() {
+            return isCrop;
+        }
+
+        public void setCrop(boolean crop) {
+            isCrop = crop;
+        }
+
+        public boolean isSquare() {
+            return isSquare;
+        }
+
+        public void setSquare(boolean square) {
+            isSquare = square;
+        }
+
+        public String getFilePath() {
+            return filePath;
+        }
+
+        public void setFilePath(String filePath) {
+            this.filePath = filePath;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
     }
 }
