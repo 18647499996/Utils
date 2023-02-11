@@ -27,6 +27,7 @@ public class ADPicturePhotoUtils {
     private Context mContext;
     public Button btnDelete;
     private boolean isCrop = false, isSquare = true;
+    private static final String TAG = "Mac_Liu";
 
     /**
      * 判断是否是拍照，拍照时true，相册是FALSE
@@ -121,7 +122,7 @@ public class ADPicturePhotoUtils {
         this.isSquare = config.isSquare();
         this.mFile = new File(config.getFilePath(), config.getFileName());
         this.sdcardTempFile = new File(config.getFilePath(), config.getFileName() + ".jpg");
-        Log.i("Mac_Liu", "配置路径：" + mFile.getAbsolutePath());
+        Log.i(TAG, "配置路径：" + mFile.getAbsolutePath());
         return this;
     }
 
@@ -176,7 +177,7 @@ public class ADPicturePhotoUtils {
      */
     public void cropImageUri(Uri uri, File file) {
         if (null == file) {
-            ADLogUtils.e("启动相机异常");
+            Log.i(TAG,"启动相机异常");
             return;
         }
 
@@ -217,7 +218,7 @@ public class ADPicturePhotoUtils {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (Activity.RESULT_OK == resultCode) {
-            Log.i("回调onActivityResult", "result_ok");
+            Log.i(TAG, "onActivityResult is Ok");
             Uri photoUri = null;
             switch (requestCode) {
                 case TAKE_CAMERA:
@@ -231,7 +232,7 @@ public class ADPicturePhotoUtils {
                 case FETCH_PHOTO:
                     if (data != null && data.getData() != null) {
                         if (isCrop) {
-                            ADLogUtils.d("裁剪路径：" + data.getData().toString());
+                            Log.i(TAG,"Crop Image File Path：" + data.getData().toString());
                             cropImageUri(data.getData(), sdcardTempFile);
                         } else {
                             sendPicByUri(data.getData());
@@ -241,10 +242,10 @@ public class ADPicturePhotoUtils {
                 case CROP_PHOTO:
                     ADLogUtils.d("打印一下CROP_PHOTO");
                     if (sdcardTempFile != null && !photoFlag) {
-                        ADLogUtils.d("打印一下sdcardTempFile");
+                        Log.i(TAG,"打印一下sdcardTempFile");
                         adImageFileCallback.handleResult(sdcardTempFile);
                     } else {
-                        ADLogUtils.d("打印一下mFile" + mFile.getAbsolutePath());
+                        Log.i(TAG,"打印一下mFile" + mFile.getAbsolutePath());
                         adImageFileCallback.handleResult(mFile);
                     }
                     break;
