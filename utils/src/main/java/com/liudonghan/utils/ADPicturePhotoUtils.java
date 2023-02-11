@@ -120,7 +120,7 @@ public class ADPicturePhotoUtils {
         this.isCrop = config.isCrop();
         this.isSquare = config.isSquare();
         this.mFile = new File(config.getFilePath(), config.getFileName());
-        this.sdcardTempFile = new File(config.getFilePath(), config.getFileName());
+        this.sdcardTempFile = new File(config.getFilePath(), config.getFileName() + ".jpg");
         Log.i("Mac_Liu", "配置路径：" + mFile.getAbsolutePath());
         return this;
     }

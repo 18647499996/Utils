@@ -14,7 +14,7 @@ import com.liudonghan.utils.ADTextStyleUtils;
 import java.io.File;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ADPicturePhotoUtils.ADImageFileCallback {
 
     private TextView textView;
 
@@ -53,5 +53,11 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        ADPicturePhotoUtils.getInstance().init(this).onCallBack(this);
+    }
+
+    @Override
+    public void handleResult(File file) {
+
     }
 }
