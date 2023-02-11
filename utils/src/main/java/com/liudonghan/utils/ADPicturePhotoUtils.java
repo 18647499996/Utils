@@ -25,7 +25,10 @@ import java.io.File;
 public class ADPicturePhotoUtils {
 
     private Context mContext;
-    public Button btnDelete;
+    /**
+     * isCrop 是否裁剪
+     * isSpuare 是否正方形裁剪边框
+     */
     private boolean isCrop = false, isSquare = true;
     private static final String TAG = "Mac_Liu";
 
@@ -97,7 +100,7 @@ public class ADPicturePhotoUtils {
      * @param context 上下文
      */
     public ADPicturePhotoUtils init(Context context) {
-        init(context, new Config(true, true, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), "AD_" + System.currentTimeMillis()));
+        init(context, new Config(false, true, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), "AD_" + System.currentTimeMillis()));
         return this;
     }
 
