@@ -240,7 +240,6 @@ public class ADPicturePhotoUtils {
                     }
                     break;
                 case CROP_PHOTO:
-                    ADLogUtils.d("打印一下CROP_PHOTO");
                     if (sdcardTempFile != null && !photoFlag) {
                         Log.i(TAG,"打印一下sdcardTempFile");
                         adImageFileCallback.handleResult(sdcardTempFile);
