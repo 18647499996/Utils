@@ -167,7 +167,7 @@ public class ADTextStyleUtils {
      * 构建TextView样式
      */
     public void builder() {
-        if (TextUtils.isEmpty(description)) {
+        if (TextUtils.isEmpty(description) || null == context) {
             return;
         }
         SpannableString spannableString = new SpannableString(description);
@@ -203,6 +203,23 @@ public class ADTextStyleUtils {
         if (null != textView) {
             textView.setText(spannableString);
         }
+        clearConfig();
+    }
+
+    private void clearConfig() {
+        originSize = 0;
+        originColor = 0;
+        changeColor = 0;
+        changeSize = 0;
+        drawablesIcon = 0;
+        drawablesPadding = 0;
+        direction = Direction.LEFT;
+        start = 0;
+        end = 0;
+        textView = null;
+        description = "";
+        width = 0;
+        height = 0;
     }
 
 
