@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.heytap.msp.push.HeytapPushManager;
 import com.liudonghan.utils.ADPicturePhotoUtils;
 import com.liudonghan.utils.ADScreenRecordUtils;
 import com.liudonghan.utils.ADTextStyleUtils;
