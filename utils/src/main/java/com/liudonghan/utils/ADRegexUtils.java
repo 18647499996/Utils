@@ -59,18 +59,22 @@ public class ADRegexUtils {
                 }
             }
         }
-//        Log.d(MAC_LIU, "Count总数：" + count);
-//        Log.d(MAC_LIU, "开始：" + start + " ----- " + "结束：" + end);
-//        Log.d(MAC_LIU, "截取字符串：" + content.substring(start, end + 1));
-        if (isTelPhoneNumber(content.substring(start, end + 1))) {
-            String before = content.substring(0,start);
-            String phone = content.substring(start,end + 1);
-            String suffix = content.substring(end + 1);
-            Log.d(MAC_LIU, "前缀：" + before);
-            Log.d(MAC_LIU, "手机号码：" + mobileNaked(phone));
-            Log.d(MAC_LIU, "后缀：" + suffix);
-            return before + mobileNaked(phone) + suffix;
-        } else {
+        if (count != 0) {
+            Log.d(MAC_LIU, "Count总数：" + count);
+            Log.d(MAC_LIU, "开始：" + start + " ----- " + "结束：" + end);
+            Log.d(MAC_LIU, "截取字符串：" + content.substring(start, end + 1));
+            if (isTelPhoneNumber(content.substring(start, end + 1))) {
+                String before = content.substring(0, start);
+                String phone = content.substring(start, end + 1);
+                String suffix = content.substring(end + 1);
+                Log.d(MAC_LIU, "前缀：" + before);
+                Log.d(MAC_LIU, "手机号码：" + mobileNaked(phone));
+                Log.d(MAC_LIU, "后缀：" + suffix);
+                return before + mobileNaked(phone) + suffix;
+            } else {
+                return content;
+            }
+        }else{
             return content;
         }
     }

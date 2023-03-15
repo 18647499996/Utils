@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements ADPicturePhotoUti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.activity_main_tv);
-        Log.d("MAC_LIU", "验证字符串：" + ADRegexUtils.getInstance().getMobileAcute("哈哈18647499996"));
+        Log.d("MAC_LIU", "验证字符串：" + ADRegexUtils.getInstance().getMobileAcute("我通过了你的好友验证请求，12现在我们可以开始聊天了"));
         textView.setOnClickListener(view -> {
             ADTextStyleUtils.getInstance()
                     // 上下文
