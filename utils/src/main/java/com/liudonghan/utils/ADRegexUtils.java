@@ -1,8 +1,12 @@
 package com.liudonghan.utils;
 
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.util.Log;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +38,7 @@ public class ADRegexUtils {
             return content;
         }
         // 将字符串切割成数组
+        Map<Integer, Integer[]> map = new HashMap();
         String[] split = content.split("");
         int start = -1;
         int end = -1;
@@ -41,40 +46,47 @@ public class ADRegexUtils {
         for (int i = 0; i < split.length; i++) {
             if (isNumber(split[i])) {
                 // 当前字符包含数字
-                if (count < 11) {
-                    if (-1 == start) {
-                        start = i;
-                    } else {
-                        end = i;
-                    }
-                    count++;
+                count++;
+                if (-1 == start) {
+                    start = i;
+                } else {
+                    end = i;
                 }
             } else {
+//                Log.d(MAC_LIU, "Count值：" + count + " ------- " + i + "次：" + start + " ----- " + i + "次：" + end);
                 // 不包含数字
-                if (count != 11) {
-//                    Log.d(MAC_LIU, "Count值：" + count);
-                    start = -1;
-                    end = -1;
-                    count = 0;
+                if (count != 0) {
+                    map.put(i, new Integer[]{start, end});
                 }
+                start = -1;
+                end = -1;
+                count = 0;
             }
         }
+        // 最后一次
         if (count != 0) {
-            Log.d(MAC_LIU, "Count总数：" + count);
-            Log.d(MAC_LIU, "开始：" + start + " ----- " + "结束：" + end);
-            Log.d(MAC_LIU, "截取字符串：" + content.substring(start, end + 1));
-            if (isTelPhoneNumber(content.substring(start, end + 1))) {
-                String before = content.substring(0, start);
-                String phone = content.substring(start, end + 1);
-                String suffix = content.substring(end + 1);
-                Log.d(MAC_LIU, "前缀：" + before);
-                Log.d(MAC_LIU, "手机号码：" + mobileNaked(phone));
-                Log.d(MAC_LIU, "后缀：" + suffix);
-                return before + mobileNaked(phone) + suffix;
-            } else {
-                return content;
+            map.put(content.length(), new Integer[]{start, end});
+        }
+//        Log.d(MAC_LIU, "Map大小：" + map.size());
+        if (0 != map.size()) {
+            String meager = content;
+            Iterator<Map.Entry<Integer, Integer[]>> iterator = map.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<Integer, Integer[]> next = iterator.next();
+                Integer[] value = next.getValue();
+//                Log.d(MAC_LIU, "Count总数：" + count + " --------- " + "开始：" + value[0] + " ----- " + "结束：" + value[1]);
+//                Log.d(MAC_LIU, "截取字符串：" + meager.substring(value[0], value[1] + 1));
+                if (isTelPhoneNumber(meager.substring(value[0], value[1] + 1))) {
+                    String before = meager.substring(0, value[0]);
+                    String phone = meager.substring(value[0], value[1] + 1);
+                    String suffix = meager.substring(value[1] + 1);
+                    Log.d(MAC_LIU, "before：" + before + " --- " + "tel ：" + mobileNaked(phone) + " ----- " + "suffix：" + suffix);
+                    meager = before + mobileNaked(phone) + suffix;
+                    Log.d(MAC_LIU,"meager message content：" + meager);
+                }
             }
-        }else{
+            return meager;
+        } else {
             return content;
         }
     }
@@ -94,14 +106,15 @@ public class ADRegexUtils {
 
     /**
      * 手机号码脱敏显示
+     *
      * @param num 脱敏
      * @return String
      */
-    public static String mobileNaked(String num) {
+    public String mobileNaked(String num) {
         if (TextUtils.isEmpty(num)) {
             return "";
         }
-        if (!isTelPhoneNumber(num)){
+        if (!isTelPhoneNumber(num)) {
             return num;
         }
         StringBuilder sb = new StringBuilder();
@@ -125,7 +138,7 @@ public class ADRegexUtils {
         return match(regex, str);
     }
 
-    public static boolean isTelPhoneNumber(String value) {
+    public boolean isTelPhoneNumber(String value) {
         if (value != null && value.length() == 11) {
             Pattern pattern = Pattern.compile("^1[3|4|5|6|7|8][0-9]\\d{8}$");
             Matcher matcher = pattern.matcher(value);
@@ -141,7 +154,7 @@ public class ADRegexUtils {
      * @param str   字符串
      * @return boolean
      */
-    private static boolean match(String regex, String str) {
+    private boolean match(String regex, String str) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
