@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.heytap.msp.push.HeytapPushManager;
+import com.liudonghan.utils.ADNetworkStateUtils;
 import com.liudonghan.utils.ADPicturePhotoUtils;
 import com.liudonghan.utils.ADRegexUtils;
 import com.liudonghan.utils.ADScreenRecordUtils;
@@ -16,7 +17,7 @@ import com.liudonghan.utils.ADTextStyleUtils;
 import java.io.File;
 
 
-public class MainActivity extends AppCompatActivity implements ADPicturePhotoUtils.ADImageFileCallback {
+public class MainActivity extends AppCompatActivity implements ADPicturePhotoUtils.ADImageFileCallback, ADNetworkStateUtils.OnNetworkStateUtilsChangeListener {
 
     private TextView textView;
 
@@ -50,10 +51,37 @@ public class MainActivity extends AppCompatActivity implements ADPicturePhotoUti
             ADScreenRecordUtils.getInstance().register(MainActivity.this, isScreenRecord -> Log.d("录屏监听：", String.valueOf(isScreenRecord)));
         });
         ADPicturePhotoUtils.getInstance().init(this).onCallBack(this);
+        ADNetworkStateUtils.getInstance().setNetworkStateListener(this, this);
     }
 
     @Override
     public void handleResult(File file) {
+
+    }
+
+    @Override
+    public void onConnect(ADNetworkStateUtils.NetType netType) {
+        switch (netType) {
+            case AUTO:
+                Log.d("Mac_Liu","网络监听：任意网络");
+                break;
+            case NONE:
+                Log.d("Mac_Liu","网络监听：无网络");
+                break;
+            case WIFI:
+                Log.d("Mac_Liu","网络监听：WIFI");
+                break;
+            case CMNET:
+                Log.d("Mac_Liu","网络监听：CMNET");
+                break;
+            case CMWAP:
+                Log.d("Mac_Liu","网络监听：手机网络");
+                break;
+        }
+    }
+
+    @Override
+    public void onDisConnect() {
 
     }
 }

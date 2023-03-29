@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
-import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.File;
@@ -125,7 +124,7 @@ public class ADPicturePhotoUtils {
         this.isSquare = config.isSquare();
         this.mFile = new File(config.getFilePath(), config.getFileName());
         this.sdcardTempFile = new File(config.getFilePath(), config.getFileName() + ".jpg");
-        Log.i(TAG, "配置路径：" + mFile.getAbsolutePath());
+        Log.i(TAG, "config path：" + mFile.getAbsolutePath());
         return this;
     }
 
