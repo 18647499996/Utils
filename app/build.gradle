@@ -45,4 +45,5 @@ dependencies {
 
     implementation project(':utils')
     implementation 'com.github.18647499996:kit:1.2.8'
+    implementation 'com.github.18647499996:base:2.1.6'
 }

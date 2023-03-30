@@ -1,34 +1,53 @@
 package com.liudonghan.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.heytap.msp.push.HeytapPushManager;
-import com.liudonghan.utils.ADNetworkStateUtils;
+import com.liudonghan.mvp.ADBaseActivity;
+import com.liudonghan.utils.ADNetworkUtils;
 import com.liudonghan.utils.ADPicturePhotoUtils;
 import com.liudonghan.utils.ADRegexUtils;
 import com.liudonghan.utils.ADScreenRecordUtils;
 import com.liudonghan.utils.ADTextStyleUtils;
 
 import java.io.File;
+import java.io.IOException;
 
 
-public class MainActivity extends AppCompatActivity implements ADPicturePhotoUtils.ADImageFileCallback, ADNetworkStateUtils.OnNetworkStateUtilsChangeListener {
+public class MainActivity extends ADBaseActivity<MainPresenter> implements MainContract.View, ADPicturePhotoUtils.ADImageFileCallback, ADNetworkUtils.OnNetworkUtilsChangeListener {
 
-    private TextView textView;
+    private Button textView;
+    private ADNetworkUtils.NetworkReceive networkReceive;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        textView = findViewById(R.id.activity_main_tv);
+    protected int getLayout() throws RuntimeException {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected Object initBuilderTitle() throws RuntimeException {
+        return null;
+    }
+
+    @Override
+    protected MainPresenter createPresenter() throws RuntimeException {
+        return (MainPresenter) new MainPresenter(this).builder(this);
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) throws RuntimeException {
+        Log.e("Mac_Liu", "activity路径：" + getLocalClassName());
+        textView = (Button) findViewById(R.id.btn_3);
+        findViewById(R.id.btn_1).setOnClickListener(v -> networkReceive = ADNetworkUtils.getInstance().setNetworkListener(MainActivity.this , MainActivity.this));
+        findViewById(R.id.btn_2).setOnClickListener(v -> ADNetworkUtils.getInstance().unregisterReceiver(MainActivity.this, networkReceive));
         // 我通过了你的好友验证请求，12现在我们可以开始聊天了   13534536434和18647499996和15210176281
         Log.d("Mac_Liu", "验证字符串：" + ADRegexUtils.getInstance().getMobileAcute("123456789123"));
         textView.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, TestActivity.class);
+            this.startActivity(intent);
             ADTextStyleUtils.getInstance()
                     // 上下文
                     .from(MainActivity.this)
@@ -51,7 +70,23 @@ public class MainActivity extends AppCompatActivity implements ADPicturePhotoUti
             ADScreenRecordUtils.getInstance().register(MainActivity.this, isScreenRecord -> Log.d("录屏监听：", String.valueOf(isScreenRecord)));
         });
         ADPicturePhotoUtils.getInstance().init(this).onCallBack(this);
-        ADNetworkStateUtils.getInstance().setNetworkStateListener(this, this);
+        Log.i("Mac_Liu", "ip address " + ADNetworkUtils.getInstance().getIPAddress(true));
+
+    }
+
+    @Override
+    protected void addListener() throws RuntimeException {
+
+    }
+
+    @Override
+    protected void onClickDoubleListener(View view) throws RuntimeException, IOException {
+
+    }
+
+    @Override
+    protected void onDestroys() throws RuntimeException {
+
     }
 
     @Override
@@ -60,28 +95,46 @@ public class MainActivity extends AppCompatActivity implements ADPicturePhotoUti
     }
 
     @Override
-    public void onConnect(ADNetworkStateUtils.NetType netType) {
+    public void onConnect(ADNetworkUtils.NetworkType netType) {
         switch (netType) {
-            case AUTO:
-                Log.d("Mac_Liu","网络监听：任意网络");
+            case NETWORK_5G:
+                Log.d("Mac_Liu", "网络监听：5G");
                 break;
-            case NONE:
-                Log.d("Mac_Liu","网络监听：无网络");
+            case NETWORK_WIFI:
+                Log.d("Mac_Liu", "网络监听：WIFI");
                 break;
-            case WIFI:
-                Log.d("Mac_Liu","网络监听：WIFI");
+            case NETWORK_2G:
+                Log.d("Mac_Liu", "网络监听：2G");
                 break;
-            case CMNET:
-                Log.d("Mac_Liu","网络监听：CMNET");
+            case NETWORK_3G:
+                Log.d("Mac_Liu", "网络监听：3G");
                 break;
-            case CMWAP:
-                Log.d("Mac_Liu","网络监听：手机网络");
+            case NETWORK_4G:
+                Log.d("Mac_Liu", "网络监听：4G");
+                break;
+            default:
+                Log.d("Mac_Liu", "网络监听：无网络");
                 break;
         }
     }
 
     @Override
     public void onDisConnect() {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void setPresenter(MainContract.Presenter presenter) {
+        mPresenter = (MainPresenter) checkNotNull(presenter);
+    }
+
+    @Override
+    public void showErrorMessage(String msg) {
 
     }
 }

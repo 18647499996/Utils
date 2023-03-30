@@ -23,6 +23,7 @@ import java.util.Objects;
  */
 public class ADScreenRecordUtils {
 
+    private static final String TAG = "Mac_Liu";
     private Context context;
     private ContentResolver contentResolver;
     private OnContentObserverUtilsListener onContentObserverUtilsListener;
@@ -62,13 +63,13 @@ public class ADScreenRecordUtils {
         public void onChange(boolean selfChange, @Nullable Uri uri) {
             super.onChange(selfChange);
             if (null != uri) {
-                Log.d("监听：", selfChange + "     ------  " + uri.getPath());
+                Log.d(TAG, "ContentObserver Listener onChange：" + selfChange + "     ------  " + uri.getPath());
                 ContentResolver contentResolver = context.getContentResolver();
                 Cursor query = contentResolver.query(uri, null, null, null, MediaStore.Video.VideoColumns.DATE_ADDED + " desc");
                 if (null != query) {
                     while (query.moveToNext()) {
                         @SuppressLint("Range") String filePath = query.getString(query.getColumnIndex(MediaStore.Video.VideoColumns.DATA));
-                        Log.d("文件路径：", filePath + "   ~~~~~~~~~~~~ " + filePath.contains(".tmp"));
+                        Log.d(TAG, "File Path：" + filePath + "   ~~~~~~~~~~~~ " + filePath.contains(".tmp"));
                         if (null != onContentObserverUtilsListener) {
                             onContentObserverUtilsListener.isScreenRecord(filePath.contains(".tmp"));
                         }

@@ -24,7 +24,11 @@ import java.util.List;
  * @author Created by: Li_Min
  * Time:2018/8/4
  */
-public class ADGsonUtils {
+public class ADJsonUtils {
+
+    public static final String TAG = "Mac_Liu";
+    public static final String UTF_8 = "utf-8";
+
     static {
         mGson = new GsonBuilder().disableHtmlEscaping().create();
     }
@@ -58,9 +62,8 @@ public class ADGsonUtils {
             t1 = mGson.fromJson(json, t);
 
         } catch (RuntimeException e) {
-            Log.e("json解析异常：", json);
+            Log.e(TAG,"JsonSyntax Error：" + json);
             e.printStackTrace();
-//            throw new JsonSyntaxFailException(" JsonSyntax fail: "+json,e);
             return null;
         }
         return t1;
@@ -80,9 +83,8 @@ public class ADGsonUtils {
             t1 = mGson.fromJson(json, t);
 
         } catch (RuntimeException e) {
-
+            Log.e(TAG, "JsonSyntax Error：" + json);
             e.printStackTrace();
-//            throw new JsonSyntaxFailException(" JsonSyntax fail: "+json,e);
             return null;
         }
         return t1;
@@ -96,7 +98,6 @@ public class ADGsonUtils {
      * @return boolean true 是 false 否
      */
     public static boolean isJsonArray(String json) {
-
         return json.startsWith("[");
     }
 
@@ -117,6 +118,7 @@ public class ADGsonUtils {
                 tList.add(t);
             }
         } catch (JSONException e) {
+            Log.e(TAG, "JsonSyntax Error：" + launch);
             e.printStackTrace();
         }
         return tList;
@@ -135,8 +137,7 @@ public class ADGsonUtils {
         AssetManager assetManager = context.getAssets();
         //使用IO流读取json文件内容
         try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                    assetManager.open(fileName), "utf-8"));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(assetManager.open(fileName), UTF_8));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
