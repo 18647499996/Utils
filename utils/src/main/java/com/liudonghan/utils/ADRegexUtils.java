@@ -4,8 +4,10 @@ import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,12 +41,20 @@ public class ADRegexUtils {
         }
         // 将字符串切割成数组
         Map<Integer, Integer[]> map = new HashMap();
-        String[] split = content.split("");
+        String[] splits = content.split("");
+        List<String> split = new ArrayList<>();
+        Log.e(MAC_LIU,"split：" + splits.length);
+        for (int i = 0; i < splits.length; i++) {
+            if (!TextUtils.isEmpty(splits[i])) {
+                Log.e(MAC_LIU, "split for：" + splits[i]);
+                split.add(splits[i]);
+            }
+        }
         int start = -1;
         int end = -1;
         int count = 0;
-        for (int i = 0; i < split.length; i++) {
-            if (isNumber(split[i])) {
+        for (int i = 0; i < split.size(); i++) {
+            if (isNumber(split.get(i))) {
                 // 当前字符包含数字
                 count++;
                 if (-1 == start) {
@@ -53,7 +63,7 @@ public class ADRegexUtils {
                     end = i;
                 }
             } else {
-//                Log.d(MAC_LIU, "Count值：" + count + " ------- " + i + "次：" + start + " ----- " + i + "次：" + end);
+                Log.d(MAC_LIU, "Count值：" + count + " ------- " + i + "次：" + start + " ----- " + i + "次：" + end);
                 // 不包含数字
                 if (count != 0) {
                     map.put(i, new Integer[]{start, end});
@@ -67,15 +77,15 @@ public class ADRegexUtils {
         if (count != 0) {
             map.put(content.length(), new Integer[]{start, end});
         }
-//        Log.d(MAC_LIU, "Map大小：" + map.size());
+        Log.d(MAC_LIU, "Map大小：" + map.size());
         if (0 != map.size()) {
             String meager = content;
             Iterator<Map.Entry<Integer, Integer[]>> iterator = map.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<Integer, Integer[]> next = iterator.next();
                 Integer[] value = next.getValue();
-//                Log.d(MAC_LIU, "Count总数：" + count + " --------- " + "开始：" + value[0] + " ----- " + "结束：" + value[1]);
-//                Log.d(MAC_LIU, "截取字符串：" + meager.substring(value[0], value[1] + 1));
+                Log.d(MAC_LIU, "Count总数：" + count + " --------- " + "开始：" + value[0] + " ----- " + "结束：" + value[1]);
+                Log.d(MAC_LIU, "截取字符串：" + meager.substring(value[0], value[1] + 1));
                 if (isTelPhoneNumber(meager.substring(value[0], value[1] + 1))) {
                     String before = meager.substring(0, value[0]);
                     String phone = meager.substring(value[0], value[1] + 1);
