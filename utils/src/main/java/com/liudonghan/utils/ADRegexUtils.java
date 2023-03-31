@@ -43,10 +43,10 @@ public class ADRegexUtils {
         Map<Integer, Integer[]> map = new HashMap();
         String[] splits = content.split("");
         List<String> split = new ArrayList<>();
-        Log.e(MAC_LIU,"split：" + splits.length);
+//        Log.e(MAC_LIU,"split：" + splits.length);
         for (int i = 0; i < splits.length; i++) {
             if (!TextUtils.isEmpty(splits[i])) {
-                Log.e(MAC_LIU, "split for：" + splits[i]);
+//                Log.e(MAC_LIU, "split for：" + splits[i]);
                 split.add(splits[i]);
             }
         }
@@ -63,7 +63,7 @@ public class ADRegexUtils {
                     end = i;
                 }
             } else {
-                Log.d(MAC_LIU, "Count值：" + count + " ------- " + i + "次：" + start + " ----- " + i + "次：" + end);
+//                Log.d(MAC_LIU, "Count值：" + count + " ------- " + i + "次：" + start + " ----- " + i + "次：" + end);
                 // 不包含数字
                 if (count != 0) {
                     map.put(i, new Integer[]{start, end});
@@ -77,15 +77,15 @@ public class ADRegexUtils {
         if (count != 0) {
             map.put(content.length(), new Integer[]{start, end});
         }
-        Log.d(MAC_LIU, "Map大小：" + map.size());
+//        Log.d(MAC_LIU, "Map大小：" + map.size());
         if (0 != map.size()) {
             String meager = content;
             Iterator<Map.Entry<Integer, Integer[]>> iterator = map.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<Integer, Integer[]> next = iterator.next();
                 Integer[] value = next.getValue();
-                Log.d(MAC_LIU, "Count总数：" + count + " --------- " + "开始：" + value[0] + " ----- " + "结束：" + value[1]);
-                Log.d(MAC_LIU, "截取字符串：" + meager.substring(value[0], value[1] + 1));
+//                Log.d(MAC_LIU, "Count总数：" + count + " --------- " + "开始：" + value[0] + " ----- " + "结束：" + value[1]);
+//                Log.d(MAC_LIU, "截取字符串：" + meager.substring(value[0], value[1] + 1));
                 if (isTelPhoneNumber(meager.substring(value[0], value[1] + 1))) {
                     String before = meager.substring(0, value[0]);
                     String phone = meager.substring(value[0], value[1] + 1);
