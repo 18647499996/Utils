@@ -10,7 +10,26 @@ import java.math.BigDecimal;
  * Created by Administrator on 2017/5/31 0031.
  */
 
-public class ADCacheManager {
+public class ADCacheUtils {
+
+    private static volatile ADCacheUtils instance = null;
+
+    private ADCacheUtils(){}
+
+    public static ADCacheUtils getInstance(){
+     //single checkout
+     if(null == instance){
+        synchronized (ADCacheUtils.class){
+            // double checkout
+            if(null == instance){
+                instance = new ADCacheUtils();
+            }
+        }
+     }
+     return instance;
+    }
+
+
     /**
      * 获取缓存大小
      *

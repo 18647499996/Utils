@@ -6,7 +6,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.liudonghan.mvp.ADBaseActivity;
+import com.liudonghan.mvp.ADBaseExceptionManager;
+import com.liudonghan.mvp.ADBaseRequestResult;
+import com.liudonghan.utils.ADContentProviderUtils;
 import com.liudonghan.utils.ADNetworkUtils;
 import com.liudonghan.utils.ADPicturePhotoUtils;
 import com.liudonghan.utils.ADRegexUtils;
@@ -15,12 +21,19 @@ import com.liudonghan.utils.ADTextStyleUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class MainActivity extends ADBaseActivity<MainPresenter> implements MainContract.View, ADPicturePhotoUtils.ADImageFileCallback, ADNetworkUtils.OnNetworkUtilsChangeListener {
 
     private Button textView;
     private ADNetworkUtils.NetworkReceive networkReceive;
+    private RecyclerView recyclerView;
+    private VideoAdapter videoAdapter;
 
     @Override
     protected int getLayout() throws RuntimeException {
@@ -40,8 +53,12 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
         Log.e("Mac_Liu", "activity路径：" + getLocalClassName());
+        videoAdapter = new VideoAdapter(R.layout.item_video);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        recyclerView.setAdapter(videoAdapter);
         textView = (Button) findViewById(R.id.btn_3);
-        findViewById(R.id.btn_1).setOnClickListener(v -> networkReceive = ADNetworkUtils.getInstance().setNetworkListener(MainActivity.this , MainActivity.this));
+        findViewById(R.id.btn_1).setOnClickListener(v -> networkReceive = ADNetworkUtils.getInstance().setNetworkListener(MainActivity.this, MainActivity.this));
         findViewById(R.id.btn_2).setOnClickListener(v -> ADNetworkUtils.getInstance().unregisterReceiver(MainActivity.this, networkReceive));
         // 我通过了你的好友验证请求，12现在我们可以开始聊天了   13534536434和18647499996和15210176281
         Log.d("Mac_Liu", "验证字符串：" + ADRegexUtils.getInstance().getMobileAcute("电话：18647499996 欢迎来电"));
@@ -71,7 +88,38 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         });
         ADPicturePhotoUtils.getInstance().init(this).onCallBack(this);
         Log.i("Mac_Liu", "ip address " + ADNetworkUtils.getInstance().getIPAddress(true));
+        findViewById(R.id.btn_4).setOnClickListener(v -> Observable.unsafeCreate((Observable.OnSubscribe<List<ADContentProviderUtils.ADFileModel>>) subscriber -> {
+            List<ADContentProviderUtils.ADFileModel> contentProviderList = ADContentProviderUtils.getInstance()
+                    .getContentProviderList(MainActivity.this,
+                            ADContentProviderUtils.ContentType.video,
+                            ADContentProviderUtils.VIDEO_URI,
+                            ADContentProviderUtils.PROJECTION_VIDEO,
+                            ADContentProviderUtils.VIDEO_ORDER_BY,
+                            ADContentProviderUtils.SELECTION_ONE,
+                            ADContentProviderUtils.SELECTION_VIDEO,
+                            ADContentProviderUtils.DESC);
+            subscriber.onNext(contentProviderList);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ADBaseRequestResult<List<ADContentProviderUtils.ADFileModel>>() {
+                    @Override
+                    protected void onCompletedListener() {
 
+                    }
+
+                    @Override
+                    protected void onErrorListener(ADBaseExceptionManager.ApiException e) {
+
+                    }
+
+                    @Override
+                    protected void onNextListener(List<ADContentProviderUtils.ADFileModel> adFileModels) {
+                        Log.i("Mac_Liu", adFileModels.toString());
+                        videoAdapter.setNewData(adFileModels);
+                    }
+                }));
     }
 
     @Override

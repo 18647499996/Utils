@@ -20,13 +20,26 @@
         android:layout_toRightOf="@id/btn_1"
         android:text="注销网络监听" />
 
+    <Button
+        android:id="@+id/btn_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/btn_2"
+        android:text="获取视频文件" />
+
 
     <Button
         android:id="@+id/btn_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/btn_1"
         android:gravity="center"
         android:text="改变文字" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_3" />
 
 </RelativeLayout>
