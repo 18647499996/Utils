@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.liudonghan.utils.ADContentProviderUtils;
+import com.liudonghan.utils.ADCursorManageUtils;
 
 import java.io.File;
 
@@ -16,14 +16,14 @@ import java.io.File;
  * @author Created by: Li_Min
  * Time:4/4/23
  */
-public class VideoAdapter extends BaseQuickAdapter<ADContentProviderUtils.ADFileModel, BaseViewHolder> {
+public class VideoAdapter extends BaseQuickAdapter<ADCursorManageUtils.ADFileModel, BaseViewHolder> {
 
     public VideoAdapter(int layoutResId) {
         super(layoutResId);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ADContentProviderUtils.ADFileModel item) {
+    protected void convert(BaseViewHolder helper, ADCursorManageUtils.ADFileModel item) {
         helper.setText(R.id.item_video_tv_name, item.getFileName());
         Glide
                 .with(mContext)

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseRequestResult;
-import com.liudonghan.utils.ADContentProviderUtils;
+import com.liudonghan.utils.ADCursorManageUtils;
 import com.liudonghan.utils.ADNetworkUtils;
 import com.liudonghan.utils.ADPicturePhotoUtils;
 import com.liudonghan.utils.ADRegexUtils;
@@ -88,14 +88,14 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         });
         ADPicturePhotoUtils.getInstance().init(this).onCallBack(this);
         Log.i("Mac_Liu", "ip address " + ADNetworkUtils.getInstance().getIPAddress(true));
-        findViewById(R.id.btn_4).setOnClickListener(v -> Observable.unsafeCreate((Observable.OnSubscribe<List<ADContentProviderUtils.ADFileModel>>) subscriber -> {
-            List<ADContentProviderUtils.ADFileModel> contentProviderList = ADContentProviderUtils.getInstance(this).getFileModel(ADContentProviderUtils.ContentType.pdf);
+        findViewById(R.id.btn_4).setOnClickListener(v -> Observable.unsafeCreate((Observable.OnSubscribe<List<ADCursorManageUtils.ADFileModel>>) subscriber -> {
+            List<ADCursorManageUtils.ADFileModel> contentProviderList = ADCursorManageUtils.getInstance(this).getFileModel(ADCursorManageUtils.ContentType.pdf);
             subscriber.onNext(contentProviderList);
         })
                 .subscribeOn(Schedulers.newThread())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ADBaseRequestResult<List<ADContentProviderUtils.ADFileModel>>() {
+                .subscribe(new ADBaseRequestResult<List<ADCursorManageUtils.ADFileModel>>() {
                     @Override
                     protected void onCompletedListener() {
 
@@ -107,7 +107,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                     }
 
                     @Override
-                    protected void onNextListener(List<ADContentProviderUtils.ADFileModel> adFileModels) {
+                    protected void onNextListener(List<ADCursorManageUtils.ADFileModel> adFileModels) {
                         Log.i("Mac_Liu", adFileModels.toString());
                         videoAdapter.setNewData(adFileModels);
                     }

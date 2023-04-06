@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import java.util.Objects;
  * @author Created by: Li_Min
  * Time:4/4/23
  */
-public class ADContentProviderUtils {
+public class ADCursorManageUtils {
 
     private static final String TAG = "Mac_Liu";
 
@@ -111,19 +110,19 @@ public class ADContentProviderUtils {
     public static final String[] VIDEO_SELECTION = new String[]{"video/mp4"};
 
 
-    private static volatile ADContentProviderUtils instance = null;
+    private static volatile ADCursorManageUtils instance = null;
     private static ContentResolver mContentResolver;
 
-    private ADContentProviderUtils() {
+    private ADCursorManageUtils() {
     }
 
-    public static ADContentProviderUtils getInstance(Context context) {
+    public static ADCursorManageUtils getInstance(Context context) {
         //single checkout
         if (null == instance) {
-            synchronized (ADContentProviderUtils.class) {
+            synchronized (ADCursorManageUtils.class) {
                 // double checkout
                 if (null == instance) {
-                    instance = new ADContentProviderUtils();
+                    instance = new ADCursorManageUtils();
                     mContentResolver = context.getContentResolver();
                 }
             }
