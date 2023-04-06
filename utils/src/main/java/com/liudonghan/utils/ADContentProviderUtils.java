@@ -74,25 +74,41 @@ public class ADContentProviderUtils {
 
     public static final String AES = "aes";
 
-    public static final String ONE_SELECTION = MediaStore.Files.FileColumns.MIME_TYPE + "= ?";
+    public static final String TXT = MediaStore.Files.FileColumns.MIME_TYPE + "= ?";
 
-    public static final String TWO_SELECTION = MediaStore.Files.FileColumns.MIME_TYPE + "= ?" + " or " + MediaStore.Files.FileColumns.MIME_TYPE + " = ? ";
+    public static final String[] TXT_SELECTION = new String[]{"text/plain"};
+
+    public static final String PDF = MediaStore.Files.FileColumns.MIME_TYPE + "= ?";
+
+    public static final String[] PDF_SELECTION = new String[]{"application/pdf"};
+
+    public static final String DOC = MediaStore.Files.FileColumns.MIME_TYPE + "= ?" + " or " + MediaStore.Files.FileColumns.MIME_TYPE + " = ? ";
+
+    public static final String[] DOC_SELECTION = new String[]{"application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"};
+
+    public static final String PPT = MediaStore.Files.FileColumns.MIME_TYPE + "= ?" + " or " + MediaStore.Files.FileColumns.MIME_TYPE + " = ? ";
+
+    public static final String[] PPT_SELECTION = new String[]{"application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation"};
+
+    public static final String XLS = MediaStore.Files.FileColumns.MIME_TYPE + "= ?" + " or " + MediaStore.Files.FileColumns.MIME_TYPE + " = ? ";
+
+    public static final String[] XLS_SELECTION = new String[]{"application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"};
+
+    public static final String APK = MediaStore.Files.FileColumns.MIME_TYPE + "= ?";
+
+    public static final String[] APK_SELECTION = new String[]{"application/vnd.android.package-archive"};
+
+    public static final String ZIP = MediaStore.Files.FileColumns.MIME_TYPE + "= ?";
+
+    public static final String[] ZIP_SELECTION = new String[]{"application/zip"};
 
     public static final String IMAGE = MediaStore.Images.Media.MIME_TYPE + "= ? or " + MediaStore.Images.Media.MIME_TYPE + "= ?";
 
     public static final String[] IMAGE_SELECTION = new String[]{"image/jpeg", "image/png"};
 
+    public static final String VIDEO = MediaStore.Files.FileColumns.MIME_TYPE + "= ?";
+
     public static final String[] VIDEO_SELECTION = new String[]{"video/mp4"};
-
-    public static final String[] TXT_SELECTION = new String[]{"text/plain"};
-
-    public static final String[] DOC_SELECTION = new String[]{"application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"};
-
-    public static final String[] PDF_SELECTION = new String[]{"application/pdf"};
-
-    public static final String[] PPT_SELECTION = new String[]{"application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation"};
-
-    public static final String[] XLS_SELECTION = new String[]{"application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"};
 
 
     private static volatile ADContentProviderUtils instance = null;
@@ -116,14 +132,29 @@ public class ADContentProviderUtils {
     }
 
     /**
+     * 获取Cursor引用
+     *
+     * @param uri           uri文件流
+     * @param projection    查询字段
+     * @param selection     查询条件
+     * @param selectionArgs 扩展条件
+     * @param orderBy       排序条件
+     * @param sort          升降序
+     * @return Cursor
+     */
+    public Cursor getCursor(Uri uri, String[] projection, String selection, String[] selectionArgs, String orderBy, String sort) {
+        return mContentResolver.query(uri, projection, selection, selectionArgs, orderBy + " " + sort);
+    }
+
+    /**
      * 获取视频列表
      *
-     * @return
+     * @return List<VideoModel>
      */
     @SuppressLint("Range")
     public List<VideoModel> getVideoFile() {
         List<VideoModel> videoModelList = new ArrayList<>();
-        try (Cursor cursor = mContentResolver.query(VIDEO_URI, null, null, null, MediaStore.Video.Media.DATE_MODIFIED + " " + DESC)) {
+        try (Cursor cursor = getCursor(VIDEO_URI, null, VIDEO, VIDEO_SELECTION, MediaStore.Video.Media.DATE_MODIFIED, DESC)) {
             if (null != cursor) {
                 while (cursor.moveToNext()) {
                     if (ADFileUtils.getInstance().scannerFile(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)))) {
@@ -152,7 +183,7 @@ public class ADContentProviderUtils {
      */
     public List<ImageFolderModel.ImageModel> getImageFile() {
         List<ImageFolderModel.ImageModel> imageModelList = new ArrayList<>();
-        try (Cursor cursor = mContentResolver.query(IMAGE_URI, null, IMAGE, IMAGE_SELECTION, MediaStore.Images.Media.DATE_MODIFIED + " " + DESC)) {
+        try (Cursor cursor = getCursor(IMAGE_URI, null, IMAGE, IMAGE_SELECTION, MediaStore.Images.Media.DATE_MODIFIED, DESC)) {
             if (null != cursor) {
                 while (cursor.moveToNext()) {
                     imageModelList.add(new ImageFolderModel.ImageModel(
@@ -181,7 +212,7 @@ public class ADContentProviderUtils {
     @SuppressLint("Range")
     public List<ImageFolderModel> getImageFolder() {
         List<ImageFolderModel> imageFolderModelList = new ArrayList<>();
-        try (Cursor cursor = mContentResolver.query(IMAGE_URI, null, IMAGE, IMAGE_SELECTION, MediaStore.Images.Media.DATE_MODIFIED + " " + DESC)) {
+        try (Cursor cursor = getCursor(IMAGE_URI, null, IMAGE, IMAGE_SELECTION, MediaStore.Images.Media.DATE_MODIFIED, DESC)) {
             // 用于保存已经添加过的文件夹目录
             List<String> mDirs = new ArrayList<>();
             if (null != cursor) {
@@ -241,31 +272,53 @@ public class ADContentProviderUtils {
      * @return List<ADFileModel>
      */
     @SuppressLint("Range")
-    public List<ADFileModel> getContentProviderList(ContentType contentType) {
+    public List<ADFileModel> getFileModel(ContentType contentType) {
         List<ADFileModel> adFileModelList = new ArrayList<>();
-        try (Cursor cursor = mContentResolver.query(FILE_URI, null, null, null, MediaStore.Files.FileColumns.DATE_MODIFIED + " " + DESC)) {
+        Cursor cursor;
+        switch (contentType) {
+            case txt:
+                cursor = getCursor(FILE_URI, null, TXT, TXT_SELECTION, FILE_ORDER_BY, DESC);
+                break;
+            case pdf:
+                cursor = getCursor(FILE_URI, null, PDF, PDF_SELECTION, FILE_ORDER_BY, DESC);
+                break;
+            case doc:
+                cursor = getCursor(FILE_URI, null, DOC, DOC_SELECTION, FILE_ORDER_BY, DESC);
+                break;
+            case ppt:
+                cursor = getCursor(FILE_URI, null, PPT, PPT_SELECTION, FILE_ORDER_BY, DESC);
+                break;
+            case xls:
+                cursor = getCursor(FILE_URI, null, XLS, XLS_SELECTION, FILE_ORDER_BY, DESC);
+                break;
+            default:
+                cursor = getCursor(FILE_URI, null, null, null, FILE_ORDER_BY, DESC);
+                break;
+        }
+        try {
             if (cursor != null) {
                 while (cursor.moveToNext()) {
                     // 获取文件路径
                     String filePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA));
                     // 扫描是否是文件
                     if (ADFileUtils.getInstance().scannerFile(filePath)) {
-                        // 是否是当前文件类型
-                        if (isContainFileType(contentType, filePath)) {
-                            adFileModelList.add(new ADFileModel(
-                                    cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
-                                    filePath,
-                                    cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME)),
-                                    cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)),
-                                    cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED)),
-                                    contentType
-                            ));
-                        }
+                        adFileModelList.add(new ADFileModel(
+                                cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
+                                filePath,
+                                cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME)),
+                                cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)),
+                                cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED)),
+                                contentType
+                        ));
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (null != cursor) {
+                cursor.close();
+            }
         }
         return adFileModelList;
     }
@@ -535,6 +588,7 @@ public class ADContentProviderUtils {
         video,
         file,
         image,
+        audio,
         doc,
         txt,
         ppt,

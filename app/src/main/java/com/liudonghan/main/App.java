@@ -1,0 +1,22 @@
+package com.liudonghan.main;
+
+import android.app.Application;
+import android.os.StrictMode;
+
+/**
+ * Description：
+ *
+ * @author Created by: Li_Min
+ * Time:4/6/23
+ */
+public class App extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        // 解决打开相机和打开文件问题
+//        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+//        StrictMode.setVmPolicy(builder.build());
+//        builder.detectFileUriExposure();
+    }
+}

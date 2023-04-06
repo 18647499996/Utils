@@ -89,7 +89,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         ADPicturePhotoUtils.getInstance().init(this).onCallBack(this);
         Log.i("Mac_Liu", "ip address " + ADNetworkUtils.getInstance().getIPAddress(true));
         findViewById(R.id.btn_4).setOnClickListener(v -> Observable.unsafeCreate((Observable.OnSubscribe<List<ADContentProviderUtils.ADFileModel>>) subscriber -> {
-            List<ADContentProviderUtils.ADFileModel> contentProviderList = ADContentProviderUtils.getInstance(this).getContentProviderList(ADContentProviderUtils.ContentType.pdf);
+            List<ADContentProviderUtils.ADFileModel> contentProviderList = ADContentProviderUtils.getInstance(this).getFileModel(ADContentProviderUtils.ContentType.pdf);
             subscriber.onNext(contentProviderList);
         })
                 .subscribeOn(Schedulers.newThread())
