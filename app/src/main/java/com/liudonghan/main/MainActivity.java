@@ -64,7 +64,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         findViewById(R.id.btn_1).setOnClickListener(v -> networkReceive = ADNetworkUtils.getInstance().setNetworkListener(MainActivity.this, MainActivity.this));
         findViewById(R.id.btn_2).setOnClickListener(v -> ADNetworkUtils.getInstance().unregisterReceiver(MainActivity.this, networkReceive));
         // 我通过了你的好友验证请求，12现在我们可以开始聊天了   13534536434和18647499996和15210176281
-        Log.d("Mac_Liu", "验证字符串：" + ADRegexUtils.getInstance().getMobileAcute("电话：18647499996 欢迎来电"));
+        Log.d("Mac_Liu", "验证字符串：" + ADRegexUtils.getInstance().getMobileAcute("电话：18647499996 欢迎来电 和 18647499996"));
         textView.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, TestActivity.class);
             this.startActivity(intent);
