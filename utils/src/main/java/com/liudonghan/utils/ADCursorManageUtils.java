@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -109,6 +110,9 @@ public class ADCursorManageUtils {
 
     public static final String[] VIDEO_SELECTION = new String[]{"video/mp4"};
 
+    public static final String IMAGE_OR_VIDEO = MediaStore.Images.Media.MIME_TYPE + "= ? or " + MediaStore.Images.Media.MIME_TYPE + "= ? or " + MediaStore.Video.Media.MIME_TYPE + "= ?";
+
+    public static final String[] IMAGE_OR_VIDEO_SELECTION = new String[]{"image/jpeg", "image/png", "video/mp4"};
 
     private static volatile ADCursorManageUtils instance = null;
     private static ContentResolver mContentResolver;
@@ -180,12 +184,12 @@ public class ADCursorManageUtils {
      *
      * @return List<ImageFolderModel.ImageModel>
      */
-    public List<ImageFolderModel.ImageModel> getImageFile() {
-        List<ImageFolderModel.ImageModel> imageModelList = new ArrayList<>();
+    public List<ImageModel> getImageFile() {
+        List<ImageModel> imageModelList = new ArrayList<>();
         try (Cursor cursor = getCursor(IMAGE_URI, null, IMAGE, IMAGE_SELECTION, MediaStore.Images.Media.DATE_MODIFIED, DESC)) {
             if (null != cursor) {
                 while (cursor.moveToNext()) {
-                    imageModelList.add(new ImageFolderModel.ImageModel(
+                    imageModelList.add(new ImageModel(
                             cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)),
                             cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)),
                             cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)),
@@ -237,10 +241,10 @@ public class ADCursorManageUtils {
                     imageFolderModel.setDirName(parentFile.getName());
                     if (parentFile.list() == null)
                         continue;
-                    List<ImageFolderModel.ImageModel> imageModelList = new ArrayList<>();
+                    List<ImageModel> imageModelList = new ArrayList<>();
                     int count = Objects.requireNonNull(parentFile.list((dir1, filename) -> {
                         if (filename.endsWith(".jpeg") || filename.endsWith(".jpg") || filename.endsWith(".png")) {
-                            imageModelList.add(new ImageFolderModel.ImageModel(
+                            imageModelList.add(new ImageModel(
                                     cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)),
                                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)),
                                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)),
@@ -323,6 +327,91 @@ public class ADCursorManageUtils {
     }
 
     /**
+     * 获取图片与视频文件
+     *
+     * @return List<ADFileModel>
+     */
+    public List<ImageFolderModel> getImageOrVideoFile() {
+        List<ImageFolderModel> imageFolderModelList = new ArrayList<>();
+        try (Cursor cursor = getCursor(FILE_URI, null, IMAGE_OR_VIDEO, IMAGE_OR_VIDEO_SELECTION, FILE_ORDER_BY, DESC)) {
+            if (cursor != null) {
+                List<String> mDirs = new ArrayList<>();
+                while (cursor.moveToNext()) {
+                    // 获取文件路径
+                    String filePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA));
+                    String mimeType = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MIME_TYPE));
+                    // 获取图片父文件
+                    File file = getFolder(mDirs, filePath);
+                    if (null != file) {
+                        ImageFolderModel imageFolderModel = new ImageFolderModel();
+                        imageFolderModel.setDirName(file.getName());
+                        imageFolderModel.setCoverPath(filePath);
+                        imageFolderModel.setDirPath(file.getAbsolutePath());
+                        List<ImageFolderModel.MediaModel> adFileModelList = new ArrayList<>();
+                        int length = Objects.requireNonNull(file.list((file1, s) -> {
+                            if (s.endsWith(".jpeg") || s.endsWith(".jpg") || s.endsWith(".png") || s.endsWith(".mp4")) {
+                                adFileModelList.add(new ImageFolderModel.MediaModel(
+                                        cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)),
+                                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)),
+                                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)),
+                                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)),
+                                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED)),
+                                        getContentType(mimeType),
+                                        cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.WIDTH)),
+                                        cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.HEIGHT)),
+                                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.RESOLUTION)),
+                                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION))));
+                                return true;
+                            }
+                            return false;
+                        })).length;
+                        imageFolderModel.setFileCount(length);
+                        imageFolderModel.setMediaPath(adFileModelList);
+                        imageFolderModelList.add(imageFolderModel);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return imageFolderModelList;
+    }
+
+    private ContentType getContentType(String mimeType) {
+        switch (mimeType) {
+            case "image/jpeg":
+            case "image/png":
+                return ContentType.image;
+            case "video/mp4":
+                return ContentType.video;
+        }
+        return null;
+    }
+
+    /**
+     * 获取文件父级文件夹
+     *
+     * @param dirs     文件夹列表
+     * @param filePath 文件路径
+     * @return boolean
+     */
+    public File getFolder(List<String> dirs, String filePath) {
+        // 获取图片父文件
+        File parentFile = new File(filePath).getParentFile();
+        if (null == parentFile) {
+            return null;
+        }
+        // 获取父文件绝对路径
+        String dir = parentFile.getAbsolutePath();
+        // 如果已经添加过
+        if (dirs.contains(dir)) {
+            return null;
+        }
+        dirs.add(dir);
+        return parentFile;
+    }
+
+    /**
      * 是否
      *
      * @param contentType 文件类型
@@ -355,6 +444,7 @@ public class ADCursorManageUtils {
         return true;
     }
 
+
     public static class ImageFolderModel {
         /**
          * 当前文件夹的路径
@@ -377,6 +467,10 @@ public class ADCursorManageUtils {
          * 通过图片文件夹的路径获取该目录下的图片
          */
         private List<ImageModel> imagePath;
+
+        private List<VideoModel> videoPath;
+
+        private List<MediaModel> mediaPath;
 
         public String getDirPath() {
             return dirPath;
@@ -418,18 +512,49 @@ public class ADCursorManageUtils {
             this.imagePath = imagePath;
         }
 
-        public static class ImageModel extends ADFileModel {
+        public List<VideoModel> getVideoPath() {
+            return videoPath;
+        }
+
+        public void setVideoPath(List<VideoModel> videoPath) {
+            this.videoPath = videoPath;
+        }
+
+        public List<MediaModel> getMediaPath() {
+            return mediaPath;
+        }
+
+        public void setMediaPath(List<MediaModel> mediaPath) {
+            this.mediaPath = mediaPath;
+        }
+
+        @Override
+        public String toString() {
+            return "ImageFolderModel{" +
+                    "dirPath='" + dirPath + '\'' +
+                    ", coverPath='" + coverPath + '\'' +
+                    ", dirName='" + dirName + '\'' +
+                    ", fileCount=" + fileCount +
+                    ", imagePath=" + imagePath +
+                    '}';
+        }
+
+        public static class MediaModel extends ADFileModel {
             private int width;
             private int height;
+            private String resolution;// 分辨率
+            private long duration = 0;
 
-            public ImageModel() {
-
-            }
-
-            public ImageModel(int id, String mFilePath, String mFileName, long fileSize, long fileDate, ContentType mContentType, int width, int height) {
+            public MediaModel(int id, String mFilePath, String mFileName, long fileSize, long fileDate, ContentType mContentType, int width, int height, String resolution, long duration) {
                 super(id, mFilePath, mFileName, fileSize, fileDate, mContentType);
                 this.width = width;
                 this.height = height;
+                this.resolution = resolution;
+                this.duration = duration;
+            }
+
+            public MediaModel() {
+
             }
 
             public int getWidth() {
@@ -448,23 +573,59 @@ public class ADCursorManageUtils {
                 this.height = height;
             }
 
-            @Override
-            public String toString() {
-                return "ImageModel{" +
-                        "width=" + width +
-                        ", height=" + height +
-                        '}';
+            public String getResolution() {
+                return resolution;
             }
+
+            public void setResolution(String resolution) {
+                this.resolution = resolution;
+            }
+
+            public long getDuration() {
+                return duration;
+            }
+
+            public void setDuration(long duration) {
+                this.duration = duration;
+            }
+        }
+    }
+
+    public static class ImageModel extends ADFileModel {
+        private int width;
+        private int height;
+
+        public ImageModel() {
+
+        }
+
+        public ImageModel(int id, String mFilePath, String mFileName, long fileSize, long fileDate, ContentType mContentType, int width, int height) {
+            super(id, mFilePath, mFileName, fileSize, fileDate, mContentType);
+            this.width = width;
+            this.height = height;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public void setWidth(int width) {
+            this.width = width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
         }
 
         @Override
         public String toString() {
-            return "ImageFolderModel{" +
-                    "dirPath='" + dirPath + '\'' +
-                    ", coverPath='" + coverPath + '\'' +
-                    ", dirName='" + dirName + '\'' +
-                    ", fileCount=" + fileCount +
-                    ", imagePath=" + imagePath +
+            return "ImageModel{" +
+                    "width=" + width +
+                    ", height=" + height +
                     '}';
         }
     }
@@ -594,6 +755,7 @@ public class ADCursorManageUtils {
         xls,
         pdf,
         zip,
-        apk
+        apk,
+        unknown
     }
 }
