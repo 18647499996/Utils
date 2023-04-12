@@ -1,12 +1,10 @@
 package com.liudonghan.utils;
 
 import android.text.TextUtils;
-import android.util.ArrayMap;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
