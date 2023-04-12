@@ -33,72 +33,78 @@ public class ADRegexUtils {
      * @return String
      */
     public String getMobileAcute(String content) {
-        if (TextUtils.isEmpty(content)) {
-            return "";
-        }
-        if (content.length() < 11) {
-            return content;
-        }
-        // 将字符串切割成数组
-        Map<Integer, Integer[]> map = new HashMap();
-        String[] splits = content.split("");
-        List<String> split = new ArrayList<>();
+        try {
+            if (TextUtils.isEmpty(content)) {
+                return "";
+            }
+            if (content.length() < 11) {
+                return content;
+            }
+            // 将字符串切割成数组
+            Map<Integer, Integer[]> map = new HashMap();
+            String[] splits = content.split("");
+            List<String> split = new ArrayList<>();
 //        Log.e(MAC_LIU,"split：" + splits.length);
-        for (int i = 0; i < splits.length; i++) {
-            if (!TextUtils.isEmpty(splits[i])) {
+            for (int i = 0; i < splits.length; i++) {
+                if (!TextUtils.isEmpty(splits[i])) {
 //                Log.e(MAC_LIU, "split for：" + splits[i]);
-                split.add(splits[i]);
+                    split.add(splits[i]);
+                }
             }
-        }
-        int start = -1;
-        int end = -1;
-        int count = 0;
-        for (int i = 0; i < split.size(); i++) {
-            if (isNumber(split.get(i))) {
-                // 当前字符包含数字
-                count++;
-                if (-1 == start) {
-                    start = i;
+            int start = -1;
+            int end = -1;
+            int count = 0;
+            for (int i = 0; i < split.size(); i++) {
+                if (isNumber(split.get(i))) {
+                    // 当前字符包含数字
+                    count++;
+                    if (-1 == start) {
+                        start = i;
+                    } else {
+                        end = i;
+                    }
                 } else {
-                    end = i;
-                }
-            } else {
 //                Log.d(MAC_LIU, "Count值：" + count + " ------- " + i + "次：" + start + " ----- " + i + "次：" + end);
-                // 不包含数字
-                if (count != 0) {
-                    map.put(i, new Integer[]{start, end});
+                    // 不包含数字
+                    if (count != 0 && end != -1) {
+                        map.put(i, new Integer[]{start, end});
+                    }
+                    start = -1;
+                    end = -1;
+                    count = 0;
                 }
-                start = -1;
-                end = -1;
-                count = 0;
             }
-        }
-        // 最后一次
-        if (count != 0) {
-            map.put(content.length(), new Integer[]{start, end});
-        }
+            // 最后一次
+            if (count != 0) {
+                map.put(content.length(), new Integer[]{start, end});
+            }
 //        Log.d(MAC_LIU, "Map大小：" + map.size());
-        if (0 != map.size()) {
-            String meager = content;
-            Iterator<Map.Entry<Integer, Integer[]>> iterator = map.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<Integer, Integer[]> next = iterator.next();
-                Integer[] value = next.getValue();
-//                Log.d(MAC_LIU, "Count总数：" + count + " --------- " + "开始：" + value[0] + " ----- " + "结束：" + value[1]);
-//                Log.d(MAC_LIU, "截取字符串：" + meager.substring(value[0], value[1] + 1));
-                if (isTelPhoneNumber(meager.substring(value[0], value[1] + 1))) {
-                    String before = meager.substring(0, value[0]);
-                    String phone = meager.substring(value[0], value[1] + 1);
-                    String suffix = meager.substring(value[1] + 1);
-                    Log.d(MAC_LIU, "before：" + before + " --- " + "tel ：" + mobileNaked(phone) + " ----- " + "suffix：" + suffix);
-                    meager = before + mobileNaked(phone) + suffix;
-                    Log.d(MAC_LIU, "meager message content：" + meager);
+            if (0 != map.size()) {
+                String meager = content;
+                Iterator<Map.Entry<Integer, Integer[]>> iterator = map.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<Integer, Integer[]> next = iterator.next();
+                    Integer[] value = next.getValue();
+//                    Log.d(MAC_LIU, "Count总数：" + count + " --------- " + "开始：" + value[0] + " ----- " + "结束：" + value[1]);
+//                    Log.d(MAC_LIU, "截取字符串：" + meager.substring(value[0], value[1] + 1));
+                    if (isTelPhoneNumber(meager.substring(value[0], value[1] + 1))) {
+                        String before = meager.substring(0, value[0]);
+                        String phone = meager.substring(value[0], value[1] + 1);
+                        String suffix = meager.substring(value[1] + 1);
+                        Log.d(MAC_LIU, "before：" + before + " --- " + "tel ：" + mobileNaked(phone) + " ----- " + "suffix：" + suffix);
+                        meager = before + mobileNaked(phone) + suffix;
+                        Log.d(MAC_LIU, "meager message content：" + meager);
+                    }
                 }
+                return meager;
+            } else {
+                return content;
             }
-            return meager;
-        } else {
+        } catch (Exception e) {
+            e.printStackTrace();
             return content;
         }
+
     }
 
     public static ADRegexUtils getInstance() {

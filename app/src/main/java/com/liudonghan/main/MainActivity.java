@@ -9,11 +9,9 @@ import android.widget.Button;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseRequestResult;
-import com.liudonghan.utils.ADBitmapUtils;
 import com.liudonghan.utils.ADCursorManageUtils;
 import com.liudonghan.utils.ADNetworkUtils;
 import com.liudonghan.utils.ADPicturePhotoUtils;
@@ -24,7 +22,6 @@ import com.liudonghan.utils.ADTextStyleUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -64,7 +61,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         findViewById(R.id.btn_1).setOnClickListener(v -> networkReceive = ADNetworkUtils.getInstance().setNetworkListener(MainActivity.this, MainActivity.this));
         findViewById(R.id.btn_2).setOnClickListener(v -> ADNetworkUtils.getInstance().unregisterReceiver(MainActivity.this, networkReceive));
         // 我通过了你的好友验证请求，12现在我们可以开始聊天了   13534536434和18647499996和15210176281
-        Log.d("Mac_Liu", "验证字符串：" + ADRegexUtils.getInstance().getMobileAcute("电话：18647499996 欢迎来电 和 18647499996"));
+        Log.d("Mac_Liu", "验证字符串：" + ADRegexUtils.getInstance().getMobileAcute("王莹，1*讯飞耳机，中通:73198854716123"));
         textView.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, TestActivity.class);
             this.startActivity(intent);
