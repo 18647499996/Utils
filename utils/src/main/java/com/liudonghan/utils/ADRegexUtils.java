@@ -81,9 +81,7 @@ public class ADRegexUtils {
 //        Log.d(MAC_LIU, "Map大小：" + map.size());
             if (0 != map.size()) {
                 String meager = content;
-                Iterator<Map.Entry<Integer, Integer[]>> iterator = map.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Map.Entry<Integer, Integer[]> next = iterator.next();
+                for (Map.Entry<Integer, Integer[]> next : map.entrySet()) {
                     Integer[] value = next.getValue();
 //                    Log.d(MAC_LIU, "Count总数：" + count + " --------- " + "开始：" + value[0] + " ----- " + "结束：" + value[1]);
 //                    Log.d(MAC_LIU, "截取字符串：" + meager.substring(value[0], value[1] + 1));
