@@ -724,6 +724,7 @@ public class ADCursorManageUtils {
         private long fileSize;
         private long fileDate;
         private ContentType contentType;
+        private boolean isSelector = false;
 
         public ADFileModel() {
 
@@ -785,6 +786,14 @@ public class ADCursorManageUtils {
 
         public void setContentType(ContentType contentType) {
             this.contentType = contentType;
+        }
+
+        public boolean isSelector() {
+            return isSelector;
+        }
+
+        public void setSelector(boolean selector) {
+            isSelector = selector;
         }
 
         @Override
