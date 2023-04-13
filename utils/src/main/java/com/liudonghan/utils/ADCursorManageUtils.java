@@ -439,11 +439,9 @@ public class ADCursorManageUtils {
         }
 
         if (isContains) {
-            Log.i(TAG, "已添加：" + dir);
             dirs.get(position).getMediaPath().add(mediaModel);
             dirs.get(position).setFileCount(dirs.get(position).getMediaPath().size());
         } else {
-            Log.i(TAG, "未添加：" + dir);
             ImageFolderModel imageFolderModel = new ImageFolderModel();
             List<ImageFolderModel.MediaModel> mediaModelList = new ArrayList<>();
             imageFolderModel.setDirName(parentFile.getName());
