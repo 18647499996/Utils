@@ -509,6 +509,11 @@ public class ADCursorManageUtils {
         private int fileCount;
 
         /**
+         * 是否选中
+         */
+        private boolean isSelect = false;
+
+        /**
          * 通过图片文件夹的路径获取该目录下的图片
          */
         private List<ImageModel> imagePath;
@@ -571,6 +576,14 @@ public class ADCursorManageUtils {
 
         public void setMediaPath(List<MediaModel> mediaPath) {
             this.mediaPath = mediaPath;
+        }
+
+        public boolean isSelect() {
+            return isSelect;
+        }
+
+        public void setSelect(boolean select) {
+            isSelect = select;
         }
 
         @Override
