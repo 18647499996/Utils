@@ -4,9 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -335,46 +339,68 @@ public class ADCursorManageUtils {
         List<ImageFolderModel> imageFolderModelList = new ArrayList<>();
         try (Cursor cursor = getCursor(FILE_URI, null, IMAGE_OR_VIDEO, IMAGE_OR_VIDEO_SELECTION, FILE_ORDER_BY, DESC)) {
             if (cursor != null) {
-                List<String> mDirs = new ArrayList<>();
                 while (cursor.moveToNext()) {
                     // 获取文件路径
                     String filePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA));
                     String mimeType = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MIME_TYPE));
+                    ImageFolderModel.MediaModel mediaModel = new ImageFolderModel.MediaModel(
+                            cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
+                            filePath,
+                            cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME)),
+                            cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)),
+                            cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED)),
+                            getContentType(mimeType),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.WIDTH)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.HEIGHT)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.RESOLUTION)),
+                            cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DURATION)));
                     // 获取图片父文件
-                    File file = getFolder(mDirs, filePath);
-                    if (null != file) {
-                        ImageFolderModel imageFolderModel = new ImageFolderModel();
-                        imageFolderModel.setDirName(file.getName());
-                        imageFolderModel.setCoverPath(filePath);
-                        imageFolderModel.setDirPath(file.getAbsolutePath());
-                        List<ImageFolderModel.MediaModel> adFileModelList = new ArrayList<>();
-                        int length = Objects.requireNonNull(file.list((file1, s) -> {
-                            if (s.endsWith(".jpeg") || s.endsWith(".jpg") || s.endsWith(".png") || s.endsWith(".mp4")) {
-                                adFileModelList.add(new ImageFolderModel.MediaModel(
-                                        cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)),
-                                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)),
-                                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)),
-                                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)),
-                                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED)),
-                                        getContentType(mimeType),
-                                        cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.WIDTH)),
-                                        cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.HEIGHT)),
-                                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.RESOLUTION)),
-                                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION))));
-                                return true;
-                            }
-                            return false;
-                        })).length;
-                        imageFolderModel.setFileCount(length);
-                        imageFolderModel.setMediaPath(adFileModelList);
-                        imageFolderModelList.add(imageFolderModel);
-                    }
+                    getFolder(imageFolderModelList, filePath, mediaModel);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return imageFolderModelList;
+    }
+
+    /**
+     * 获取视频时长
+     *
+     * @param videoFilePath 视频文件路径
+     * @return long
+     */
+    public long getMediaDuration(String videoFilePath) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(videoFilePath);
+            String duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            return Long.parseLong(Objects.requireNonNull(duration));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            retriever.release();
+        }
+        return 0;
+    }
+
+    /**
+     * 获取媒体类型
+     *
+     * @param mediaFilePath 媒体文件路径
+     * @return String
+     */
+    public String getMediaMimeType(String mediaFilePath) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(mediaFilePath);
+            return retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            retriever.release();
+        }
+        return "";
     }
 
     private ContentType getContentType(String mimeType) {
@@ -391,24 +417,42 @@ public class ADCursorManageUtils {
     /**
      * 获取文件父级文件夹
      *
-     * @param dirs     文件夹列表
-     * @param filePath 文件路径
-     * @return boolean
+     * @param dirs       文件夹列表
+     * @param filePath   文件路径
+     * @param mediaModel 媒体文件数据
      */
-    public File getFolder(List<String> dirs, String filePath) {
+    public void getFolder(List<ImageFolderModel> dirs, String filePath, ImageFolderModel.MediaModel mediaModel) {
         // 获取图片父文件
         File parentFile = new File(filePath).getParentFile();
         if (null == parentFile) {
-            return null;
+            return;
         }
         // 获取父文件绝对路径
         String dir = parentFile.getAbsolutePath();
-        // 如果已经添加过
-        if (dirs.contains(dir)) {
-            return null;
+        boolean isContains = false;
+        int position = 0;
+        for (int i = 0; i < dirs.size(); i++) {
+            if (dirs.get(i).getDirPath().contains(dir)) {
+                position = i;
+                isContains = true;
+            }
         }
-        dirs.add(dir);
-        return parentFile;
+
+        if (isContains) {
+            Log.i(TAG, "已添加：" + dir);
+            dirs.get(position).getMediaPath().add(mediaModel);
+        } else {
+            Log.i(TAG, "未添加：" + dir);
+            ImageFolderModel imageFolderModel = new ImageFolderModel();
+            List<ImageFolderModel.MediaModel> mediaModelList = new ArrayList<>();
+            imageFolderModel.setDirName(parentFile.getName());
+            imageFolderModel.setCoverPath(filePath);
+            imageFolderModel.setDirPath(parentFile.getAbsolutePath());
+            mediaModelList.add(mediaModel);
+            imageFolderModel.setMediaPath(mediaModelList);
+            imageFolderModel.setFileCount(1);
+            dirs.add(imageFolderModel);
+        }
     }
 
     /**

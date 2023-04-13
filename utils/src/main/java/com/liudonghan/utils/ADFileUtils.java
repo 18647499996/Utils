@@ -1,6 +1,7 @@
 package com.liudonghan.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 /**
  * Description：

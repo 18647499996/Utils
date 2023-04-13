@@ -57,40 +57,19 @@ public class ADBitmapUtils {
      * @param videoFilePath 视频文件路径
      * @return String
      */
-    public String getVideoCoverUrl(String videoFilePath) {
+    public Bitmap getVideoCoverUrl(String videoFilePath) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         try {
             retriever.setDataSource(videoFilePath);
             //getFrameAtTime()--->在setDataSource()之后调用此方法。 如果可能，该方法在任何时间位置找到代表性的帧，
             // 并将其作为位图返回。这对于生成输入数据源的缩略图很有用。
-            Bitmap bitmap = retriever.getFrameAtTime();
-            return saveBitmap(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), Objects.requireNonNull(bitmap));
+            return retriever.getFrameAtTime();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             retriever.release();
         }
-        return "";
-    }
-
-    /**
-     * 获取视频时长
-     *
-     * @param videoFilePath 视频文件路径
-     * @return long
-     */
-    public long getVideoDuration(String videoFilePath) {
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        try {
-            retriever.setDataSource(videoFilePath);
-            String duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-            return Long.parseLong(Objects.requireNonNull(duration));
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            retriever.release();
-        }
-        return 0;
+        return null;
     }
 
     /**
