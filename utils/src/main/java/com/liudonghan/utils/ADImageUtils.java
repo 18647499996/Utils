@@ -38,7 +38,7 @@ public class ADImageUtils {
      * @return ImageView
      */
     public ImageView setImageScale(ImageView imageView, int width, int height) {
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
         if (width == 0 || height == 0) {
             layoutParams.width = 540;
             layoutParams.height = 540;
@@ -69,5 +69,6 @@ public class ADImageUtils {
         layoutParams.width = width;
         layoutParams.height = height;
         imageView.setLayoutParams(layoutParams);
+        return imageView;
     }
 }
