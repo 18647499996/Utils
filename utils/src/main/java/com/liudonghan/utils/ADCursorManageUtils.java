@@ -347,15 +347,14 @@ public class ADCursorManageUtils {
      * @return List<ADFileModel>
      */
     public List<ImageFolderModel> getImageOrVideoFile() {
-        List<ImageFolderModel> imageFolder = getImageFolder();
         List<ImageFolderModel> videoFolder = getVideoFolder();
-        List<ImageFolderModel> imageFolderModelList = new ArrayList<>(imageFolder);
-        for (int i = 0; i < imageFolder.size(); i++) {
+        List<ImageFolderModel> imageFolderModelList = new ArrayList<>(getImageFolder());
+        for (int i = 0; i < imageFolderModelList.size(); i++) {
             for (int j = 0; j < videoFolder.size(); j++) {
-                if (imageFolder.get(i).getDirName().equals(videoFolder.get(j).getDirName())) {
+                if (imageFolderModelList.get(i).getDirName().equals(videoFolder.get(j).getDirName())) {
                     for (int k = 0; k < videoFolder.get(j).getMediaPath().size(); k++) {
-                        imageFolder.get(i).setFileCount(imageFolder.get(i).getFileCount() + 1);
-                        imageFolder.get(i).getMediaPath().add(videoFolder.get(j).getMediaPath().get(k));
+                        imageFolderModelList.get(i).setFileCount(imageFolderModelList.get(i).getFileCount() + 1);
+                        imageFolderModelList.get(i).getMediaPath().add(videoFolder.get(j).getMediaPath().get(k));
                     }
                 }
             }
