@@ -359,33 +359,8 @@ public class ADCursorManageUtils {
                 }
             }
         }
-        return imageFolderModelList;
 
-//        try (Cursor cursor = getCursor(FILE_URI, null, IMAGE_OR_VIDEO, IMAGE_OR_VIDEO_SELECTION, FILE_ORDER_BY, DESC)) {
-//            if (cursor != null) {
-//                while (cursor.moveToNext()) {
-//                    // 获取文件路径
-//                    String filePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA));
-//                    String mimeType = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MIME_TYPE));
-//                    ImageFolderModel.MediaModel mediaModel = new ImageFolderModel.MediaModel(
-//                            cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
-//                            filePath,
-//                            cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME)),
-//                            cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)),
-//                            cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED)),
-//                            getContentType(mimeType),
-//                            cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.WIDTH)),
-//                            cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.HEIGHT)),
-//                            cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.RESOLUTION)),
-//                            cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DURATION)));
-//                    // 获取图片父文件
-//                    getFolder(imageFolder ModelList, filePath, mediaModel);
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return imageFolderModelList;
+        return imageFolderModelList;
     }
 
     /**
