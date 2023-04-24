@@ -16,18 +16,18 @@ import java.io.File;
  * @author Created by: Li_Min
  * Time:4/4/23
  */
-public class VideoAdapter extends BaseQuickAdapter<ADCursorManageUtils.ImageFolderModel, BaseViewHolder> {
+public class VideoAdapter extends BaseQuickAdapter<ADCursorManageUtils.ADFileModel, BaseViewHolder> {
 
     public VideoAdapter(int layoutResId) {
         super(layoutResId);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ADCursorManageUtils.ImageFolderModel item) {
-        helper.setText(R.id.item_video_tv_name, item.getDirName());
+    protected void convert(BaseViewHolder helper, ADCursorManageUtils.ADFileModel item) {
+        helper.setText(R.id.item_video_tv_name, String.valueOf(item.getFilePath()));
         Glide
                 .with(mContext)
-                .load(Uri.fromFile(new File(item.getCoverPath())))
+                .load(Uri.fromFile(new File(item.getFilePath())))
                 .into((ImageView) helper.getView(R.id.item_video_img_cover));
     }
 }
