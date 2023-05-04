@@ -3,6 +3,9 @@ package com.liudonghan.utils;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Description：
  *
@@ -75,5 +78,27 @@ public class ADFormatUtils {
         } else {
             return "00:" + (second >= 10 ? (second + "") : ("0" + second));
         }
+    }
+
+    /**
+     * todo 获取SimpleDateFormat
+     *
+     * @param format format格式
+     * @return
+     */
+    @SuppressLint("SimpleDateFormat")
+    public SimpleDateFormat getSimpleDateFormat(String format) {
+        return new SimpleDateFormat(TextUtils.isEmpty(format) ? "yyyy-MM-dd HH:mm:ss" : format);
+    }
+
+    /**
+     * todo 根据时间戳获取时间
+     *
+     * @param millis 时间戳
+     * @param format 格式
+     * @return String
+     */
+    public String getTimeStampToFormat(long millis, String format) {
+        return getSimpleDateFormat(format).format(new Date(millis));
     }
 }
