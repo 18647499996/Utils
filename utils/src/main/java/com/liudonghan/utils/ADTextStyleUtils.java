@@ -1,6 +1,7 @@
 package com.liudonghan.utils;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -36,19 +37,20 @@ public class ADTextStyleUtils {
 
     private static volatile ADTextStyleUtils instance = null;
 
-    private ADTextStyleUtils(){}
+    private ADTextStyleUtils() {
+    }
 
-    public static ADTextStyleUtils getInstance(){
-     //single chcekout
-     if(null == instance){
-        synchronized (ADTextStyleUtils.class){
-            // double checkout
-            if(null == instance){
-                instance = new ADTextStyleUtils();
+    public static ADTextStyleUtils getInstance() {
+        //single chcekout
+        if (null == instance) {
+            synchronized (ADTextStyleUtils.class) {
+                // double checkout
+                if (null == instance) {
+                    instance = new ADTextStyleUtils();
+                }
             }
         }
-     }
-     return instance;
+        return instance;
     }
 
 
@@ -204,6 +206,38 @@ public class ADTextStyleUtils {
             textView.setText(spannableString);
         }
         clearConfig();
+    }
+
+    /**
+     * 下划线
+     *
+     * @param textView    TextView组件
+     * @param description 文字内容
+     */
+    public void handlerTextUnderLine(TextView textView, String description) {
+        // 下划线
+        textView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        // 抗锯齿
+        textView.getPaint().setAntiAlias(true);
+        // 设置文本
+        textView.setText(description);
+    }
+
+    /**
+     * 中划线
+     *
+     * @param textView    TextView组件
+     * @param description 文字内容
+     */
+    public static void handlerTextCenterLine(TextView textView, String description) {
+        // 中划线
+        textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        // 设置中划线并加清晰
+        textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+        // 抗锯齿
+        textView.getPaint().setAntiAlias(true);
+        // 设置文本
+        textView.setText(description);
     }
 
     private void clearConfig() {
