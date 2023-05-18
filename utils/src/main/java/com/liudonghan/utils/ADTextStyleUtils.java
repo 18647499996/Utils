@@ -169,6 +169,9 @@ public class ADTextStyleUtils {
      * 构建TextView样式
      */
     public void builder() {
+        if (null == textView) {
+            return;
+        }
         if (TextUtils.isEmpty(description) || null == context) {
             return;
         }
@@ -183,9 +186,9 @@ public class ADTextStyleUtils {
             spannableString.setSpan(new AbsoluteSizeSpan(originSize, true), end, description.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new ForegroundColorSpan(context.getResources().getColor(originColor)), end, description.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        if (0 != drawablesIcon && null != textView) {
+        if (0 != drawablesIcon) {
             Drawable drawable = context.getResources().getDrawable(drawablesIcon);
-            drawable.setBounds(0, 0, 0 == width ? textView.getHeight() : width, 0 == height ? textView.getHeight() : height);
+            drawable.setBounds(0, 0, 0 == width ? drawable.getMinimumWidth() : width, 0 == height ? drawable.getMinimumHeight() : height);
             switch (direction) {
                 case LEFT:
                     textView.setCompoundDrawables(drawable, null, null, null);
@@ -201,6 +204,8 @@ public class ADTextStyleUtils {
                     break;
             }
             textView.setCompoundDrawablePadding(drawablesPadding);
+        } else {
+            textView.setCompoundDrawables(null, null, null, null);
         }
         if (null != textView) {
             textView.setText(spannableString);
