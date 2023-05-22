@@ -172,7 +172,7 @@ public class ADCursorManageUtils {
                                 ContentType.video,
                                 cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.WIDTH)),
                                 cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.HEIGHT)),
-                                cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.RESOLUTION)),
+                                "",
                                 cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DURATION)));
                         videoModelList.add(mediaModel);
                     }
@@ -205,7 +205,7 @@ public class ADCursorManageUtils {
                             ContentType.video,
                             cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.WIDTH)),
                             cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.HEIGHT)),
-                            cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.RESOLUTION)),
+                            "",
                             cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DURATION)));
                     getFolder(videoModelList, filePath, mediaModel);
                 }
@@ -238,7 +238,7 @@ public class ADCursorManageUtils {
                                 ContentType.image,
                                 cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.WIDTH)),
                                 cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.HEIGHT)),
-                                cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.RESOLUTION)),
+                                "",
                                 cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DURATION)));
                         imageModelList.add(mediaModel);
                     }
@@ -272,7 +272,7 @@ public class ADCursorManageUtils {
                             ContentType.image,
                             cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.WIDTH)),
                             cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.HEIGHT)),
-                            cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.RESOLUTION)),
+                            "",
                             cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DURATION)));
                     getFolder(imageFolderModelList, filePath, mediaModel);
                 }
