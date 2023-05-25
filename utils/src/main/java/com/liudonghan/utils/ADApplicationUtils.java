@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -17,6 +18,7 @@ public class ADApplicationUtils {
 
     @SuppressLint("StaticFieldLeak")
     private static Application application;
+    private static final String TAG = "Mac_Liu";
 
 
     private ADApplicationUtils() {
@@ -58,6 +60,7 @@ public class ADApplicationUtils {
                     adApplicationUtilsListener.onStarted(activity);
                     foregroundActivities++;
                     if (foregroundActivities == 1 && !isChangingConfiguration) {
+                        Log.i(TAG,"application run in foreground");
                         adApplicationUtilsListener.onActivityForeground();
                     }
                     isChangingConfiguration = false;
@@ -84,6 +87,7 @@ public class ADApplicationUtils {
                     adApplicationUtilsListener.onStopped(activity);
                     foregroundActivities--;
                     if (0 == foregroundActivities) {
+                        Log.i(TAG,"application run in background");
                         adApplicationUtilsListener.onActivityBackground();
                     }
                     isChangingConfiguration = activity.isChangingConfigurations();
