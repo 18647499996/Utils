@@ -24,7 +24,7 @@ import java.util.List;
  * @author Created by: Li_Min
  * Time:2018/8/4
  */
-public class ADJsonUtils {
+public class ADGsonUtils {
 
     public static final String TAG = "Mac_Liu";
     public static final String UTF_8 = "utf-8";

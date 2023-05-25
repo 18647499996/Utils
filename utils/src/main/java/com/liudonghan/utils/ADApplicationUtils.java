@@ -7,10 +7,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import java.lang.ref.WeakReference;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * Description：
  *
@@ -20,48 +16,8 @@ import java.util.List;
 public class ADApplicationUtils {
 
     @SuppressLint("StaticFieldLeak")
-    private static Application sApplication;
+    private static Application application;
 
-    static WeakReference<Activity> sTopActivityWeakRef;
-    static List<Activity> sActivityList = new LinkedList<>();
-
-    private static Application.ActivityLifecycleCallbacks mCallbacks = new Application.ActivityLifecycleCallbacks() {
-        @Override
-        public void onActivityCreated(Activity activity, Bundle bundle) {
-            sActivityList.add(activity);
-            setTopActivityWeakRef(activity);
-        }
-
-        @Override
-        public void onActivityStarted(Activity activity) {
-            setTopActivityWeakRef(activity);
-        }
-
-        @Override
-        public void onActivityResumed(Activity activity) {
-            setTopActivityWeakRef(activity);
-        }
-
-        @Override
-        public void onActivityPaused(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivityStopped(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-
-        }
-
-        @Override
-        public void onActivityDestroyed(Activity activity) {
-            sActivityList.remove(activity);
-        }
-    };
 
     private ADApplicationUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -73,8 +29,82 @@ public class ADApplicationUtils {
      * @param app 应用
      */
     public static void init(@NonNull final Application app) {
-        ADApplicationUtils.sApplication = app;
-        app.registerActivityLifecycleCallbacks(mCallbacks);
+        init(app, null);
+    }
+
+    /**
+     * 初始化Application
+     *
+     * @param app                        应用
+     * @param adApplicationUtilsListener 回调
+     */
+    public static void init(@NonNull final Application app, ADApplicationUtilsListener adApplicationUtilsListener) {
+        ADApplicationUtils.application = app;
+        app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+            private int foregroundActivities = 0;
+            private boolean isChangingConfiguration;
+
+            @Override
+            public void onActivityCreated(@NonNull Activity activity, Bundle bundle) {
+                ADActivityManagerUtils.getActivityManager().addActivity(activity);
+                if (null != adApplicationUtilsListener) {
+                    adApplicationUtilsListener.onCreated(activity, bundle);
+                }
+            }
+
+            @Override
+            public void onActivityStarted(@NonNull Activity activity) {
+                if (null != adApplicationUtilsListener) {
+                    adApplicationUtilsListener.onStarted(activity);
+                    foregroundActivities++;
+                    if (foregroundActivities == 1 && !isChangingConfiguration) {
+                        adApplicationUtilsListener.onActivityForeground();
+                    }
+                    isChangingConfiguration = false;
+                }
+            }
+
+            @Override
+            public void onActivityResumed(@NonNull Activity activity) {
+                if (null != adApplicationUtilsListener) {
+                    adApplicationUtilsListener.onResumed(activity);
+                }
+            }
+
+            @Override
+            public void onActivityPaused(@NonNull Activity activity) {
+                if (null != adApplicationUtilsListener) {
+                    adApplicationUtilsListener.onPaused(activity);
+                }
+            }
+
+            @Override
+            public void onActivityStopped(@NonNull Activity activity) {
+                if (null != adApplicationUtilsListener) {
+                    adApplicationUtilsListener.onStopped(activity);
+                    foregroundActivities--;
+                    if (0 == foregroundActivities) {
+                        adApplicationUtilsListener.onActivityBackground();
+                    }
+                    isChangingConfiguration = activity.isChangingConfigurations();
+                }
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
+                if (null != adApplicationUtilsListener) {
+                    adApplicationUtilsListener.onSaveInstanceState(activity, bundle);
+                }
+            }
+
+            @Override
+            public void onActivityDestroyed(@NonNull Activity activity) {
+                ADActivityManagerUtils.getActivityManager().finishActivity(activity);
+                if (null != adApplicationUtilsListener) {
+                    adApplicationUtilsListener.onDestroyed(activity);
+                }
+            }
+        });
     }
 
     /**
@@ -83,13 +113,28 @@ public class ADApplicationUtils {
      * @return Application
      */
     public static Application getApp() {
-        if (sApplication != null) return sApplication;
+        if (application != null) return application;
         throw new NullPointerException("u should init first");
     }
 
-    private static void setTopActivityWeakRef(Activity activity) {
-        if (sTopActivityWeakRef == null || !activity.equals(sTopActivityWeakRef.get())) {
-            sTopActivityWeakRef = new WeakReference<>(activity);
-        }
+    public interface ADApplicationUtilsListener {
+
+        void onCreated(Activity activity, Bundle bundle);
+
+        void onStarted(Activity activity);
+
+        void onResumed(Activity activity);
+
+        void onPaused(Activity activity);
+
+        void onStopped(Activity activity);
+
+        void onDestroyed(Activity activity);
+
+        void onSaveInstanceState(Activity activity, Bundle bundle);
+
+        void onActivityForeground();
+
+        void onActivityBackground();
     }
 }
