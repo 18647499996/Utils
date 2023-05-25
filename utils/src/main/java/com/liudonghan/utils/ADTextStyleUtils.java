@@ -8,6 +8,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
@@ -21,6 +22,7 @@ import androidx.annotation.DrawableRes;
  */
 public class ADTextStyleUtils {
 
+    private static final String TAG = "Mac_Liu";
     private Context context;
     private TextView textView;
     private int originSize;
@@ -234,7 +236,7 @@ public class ADTextStyleUtils {
      * @param textView    TextView组件
      * @param description 文字内容
      */
-    public static void handlerTextCenterLine(TextView textView, String description) {
+    public void handlerTextCenterLine(TextView textView, String description) {
         // 中划线
         textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 设置中划线并加清晰
@@ -243,6 +245,64 @@ public class ADTextStyleUtils {
         textView.getPaint().setAntiAlias(true);
         // 设置文本
         textView.setText(description);
+    }
+
+    /**
+     * 设置TextView图标
+     *
+     * @param context  上下文
+     * @param textView TextView组件
+     * @param left     左侧图标
+     * @param top      顶部图标
+     * @param right    右侧图标
+     * @param bottom   底部图标
+     */
+    public void setCompoundDrawables(Context context, TextView textView, @DrawableRes int left, @DrawableRes int top, @DrawableRes int right, @DrawableRes int bottom) {
+        setCompoundDrawables(context, textView, left, top, right, bottom, 20);
+    }
+
+    /**
+     * 设置TextView图标
+     *
+     * @param context  上下文
+     * @param textView TextView组件
+     * @param left     左侧图标
+     * @param top      顶部图标
+     * @param right    右侧图标
+     * @param bottom   底部图标
+     * @param padding  图标与文字距离
+     */
+    public void setCompoundDrawables(Context context, TextView textView, @DrawableRes int left, @DrawableRes int top, @DrawableRes int right, @DrawableRes int bottom, int padding) {
+        if (null == context) {
+            Log.i(TAG, "context is null");
+            return;
+        }
+        if (null == textView) {
+            Log.i(TAG, "TextView is null");
+            return;
+        }
+        Drawable drawableLeft = null;
+        Drawable drawableRight = null;
+        Drawable drawableTop = null;
+        Drawable drawableBottom = null;
+        if (0 != left) {
+            drawableLeft = context.getResources().getDrawable(left);
+            drawableLeft.setBounds(0, 0, drawableLeft.getMinimumWidth(), drawableLeft.getMinimumHeight());
+        }
+        if (0 != right) {
+            drawableRight = context.getResources().getDrawable(right);
+            drawableRight.setBounds(0, 0, drawableRight.getMinimumWidth(), drawableRight.getMinimumHeight());
+        }
+        if (0 != top) {
+            drawableTop = context.getResources().getDrawable(top);
+            drawableTop.setBounds(0, 0, drawableTop.getMinimumWidth(), drawableTop.getMinimumHeight());
+        }
+        if (0 != bottom) {
+            drawableBottom = context.getResources().getDrawable(bottom);
+            drawableBottom.setBounds(0, 0, drawableBottom.getMinimumWidth(), drawableBottom.getMinimumHeight());
+        }
+        textView.setCompoundDrawablePadding(padding);
+        textView.setCompoundDrawables(drawableLeft, drawableTop, drawableRight, drawableBottom);
     }
 
     private void clearConfig() {

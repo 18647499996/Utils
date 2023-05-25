@@ -62,6 +62,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         findViewById(R.id.btn_1).setOnClickListener(v -> networkReceive = ADNetworkUtils.getInstance().setNetworkListener(MainActivity.this, MainActivity.this));
         findViewById(R.id.btn_2).setOnClickListener(v -> ADNetworkUtils.getInstance().unregisterReceiver(MainActivity.this, networkReceive));
         // 我通过了你的好友验证请求，12现在我们可以开始聊天了   13534536434和18647499996和15210176281
+        ADTextStyleUtils.getInstance().setCompoundDrawables(this, textView, R.mipmap.ic_launcher, 0, R.mipmap.ic_launcher, 0);
         Log.d("Mac_Liu", "验证字符串：" + ADRegexUtils.getInstance().getMobileAcute("王莹，1*讯飞耳机，中通:73198854716123"));
         textView.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, TestActivity.class);
@@ -117,7 +118,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ADCursorManageUtils.ImageFolderModel item = videoAdapter.getItem(position);
-                Log.i("MAC_LIU",item.getMediaPath().toString());
+                Log.i("MAC_LIU", item.getMediaPath().toString());
             }
         });
     }
