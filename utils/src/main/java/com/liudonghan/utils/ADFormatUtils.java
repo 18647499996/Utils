@@ -3,8 +3,10 @@ package com.liudonghan.utils;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Description：
@@ -13,6 +15,7 @@ import java.util.Date;
  * Time:3/23/23
  */
 public class ADFormatUtils {
+    private static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static volatile ADFormatUtils instance = null;
 
     private ADFormatUtils() {
@@ -69,11 +72,9 @@ public class ADFormatUtils {
             int minute = minuteTemp % 60;
             int hour = minuteTemp / 60;
             if (hour > 0) {
-                return (hour >= 10 ? (hour + "") : ("0" + hour)) + ":" + (minute >= 10 ? (minute + "") : ("0" + minute))
-                        + ":" + (second >= 10 ? (second + "") : ("0" + second));
+                return (hour >= 10 ? (hour + "") : ("0" + hour)) + ":" + (minute >= 10 ? (minute + "") : ("0" + minute)) + ":" + (second >= 10 ? (second + "") : ("0" + second));
             } else {
-                return (minute >= 10 ? (minute + "") : ("0" + minute)) + ":"
-                        + (second >= 10 ? (second + "") : ("0" + second));
+                return (minute >= 10 ? (minute + "") : ("0" + minute)) + ":" + (second >= 10 ? (second + "") : ("0" + second));
             }
         } else {
             return "00:" + (second >= 10 ? (second + "") : ("0" + second));
@@ -83,12 +84,22 @@ public class ADFormatUtils {
     /**
      * todo 获取SimpleDateFormat
      *
+     * @return SimpleDateFormat
+     */
+    @SuppressLint("SimpleDateFormat")
+    public SimpleDateFormat getSimpleDateFormat() {
+        return getSimpleDateFormat("");
+    }
+
+    /**
+     * todo 获取SimpleDateFormat
+     *
      * @param format format格式
-     * @return
+     * @return SimpleDateFormat
      */
     @SuppressLint("SimpleDateFormat")
     public SimpleDateFormat getSimpleDateFormat(String format) {
-        return new SimpleDateFormat(TextUtils.isEmpty(format) ? "yyyy-MM-dd HH:mm:ss" : format);
+        return new SimpleDateFormat(TextUtils.isEmpty(format) ? DEFAULT_FORMAT : format);
     }
 
     /**
@@ -100,5 +111,22 @@ public class ADFormatUtils {
      */
     public String getTimeStampToFormat(long millis, String format) {
         return getSimpleDateFormat(format).format(new Date(millis));
+    }
+
+    /**
+     * todo 根据日期获取时间戳
+     *
+     * @param simpleDate 日期
+     * @return long
+     */
+    public long getSimpleDateToTime(String simpleDate) {
+        SimpleDateFormat simpleDateFormat = getSimpleDateFormat();
+        try {
+            Date date = simpleDateFormat.parse(simpleDate);
+            return Objects.requireNonNull(date).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
