@@ -258,7 +258,7 @@ public class ADTextStyleUtils {
      * @param bottom   底部图标
      */
     public void setCompoundDrawables(Context context, TextView textView, @DrawableRes int left, @DrawableRes int top, @DrawableRes int right, @DrawableRes int bottom) {
-        setCompoundDrawables(context, textView, left, top, right, bottom, 20);
+        setCompoundDrawables(context, textView, left, top, right, bottom, 12);
     }
 
     /**
