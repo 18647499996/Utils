@@ -42,4 +42,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_3" />
 
+    <TextView
+        android:id="@+id/textview"
+        android:text="。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recycler"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="#222222"
+        android:textStyle="bold" />
+
 </RelativeLayout>

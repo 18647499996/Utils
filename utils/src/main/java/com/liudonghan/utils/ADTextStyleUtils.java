@@ -305,6 +305,26 @@ public class ADTextStyleUtils {
         textView.setCompoundDrawables(drawableLeft, drawableTop, drawableRight, drawableBottom);
     }
 
+    /**
+     * 省略文本末尾添加描述
+     *
+     * @param context  上下文
+     * @param textView TextView组件
+     * @param content  内容
+     */
+    private void setTextEllipsis(Context context, TextView textView, String content) {
+        textView.setText(content);
+        ADHandlerUtils.getInstance().delayExecute(() -> {
+            int ellipsisCount = textView.getLayout().getEllipsisCount(textView.getLineCount() - 1);
+            if (ellipsisCount > 0) {
+                String text = content.substring(0, content.length() - ellipsisCount - 4) + "…更多";
+                textView.setText(text);
+            } else {
+                textView.setText(content);
+            }
+        }, 200);
+    }
+
     private void clearConfig() {
         originSize = 0;
         originColor = 0;

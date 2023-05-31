@@ -253,6 +253,18 @@ public class ADRegexUtils {
     }
 
     /**
+     * 正则过滤器
+     *
+     * @param regex 匹配符
+     * @param str   字符串
+     * @return Matcher
+     */
+    public Matcher getMatch(String regex, CharSequence str) {
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(str);
+    }
+
+    /**
      * 正则：手机号（简单）
      */
     public static final String REGEX_MOBILE_SIMPLE = "^[1]\\d{10}$";
@@ -290,5 +302,11 @@ public class ADRegexUtils {
      * 正则：汉字
      */
     public static final String REGEX_ZH = "^[\\u4e00-\\u9fa5]+$";
+
+    /**
+     * 正则：特殊字符
+     */
+    public static final String REGEX_SPECIAL_CHAR_PATTERN = "[`~!@#$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+
 
 }
