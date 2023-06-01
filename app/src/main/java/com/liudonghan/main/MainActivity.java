@@ -18,6 +18,7 @@ import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseRequestResult;
 import com.liudonghan.utils.ADCursorManageUtils;
 import com.liudonghan.utils.ADHandlerUtils;
+import com.liudonghan.utils.ADIntentManager;
 import com.liudonghan.utils.ADNetworkUtils;
 import com.liudonghan.utils.ADPicturePhotoUtils;
 import com.liudonghan.utils.ADRegexUtils;
@@ -67,6 +68,21 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         ep = (TextView) findViewById(R.id.textview);
 //        ADTextStyleUtils.getInstance().setTextEllipsis(this, ep, "在神舟十六号载人飞行任务新闻发布会上，林西强表示，近期，我国载人月球探测工程登月阶段任务已启动实施，计划在2030年前实现中国人首次登陆月球，开展月球科学考察及相关技术试验，突破掌握载人地月往返、月面短期驻留、人机联合探测等关键技术，完成“登、巡、采、研、回”等多重任务，形成独立自主的载人月球探测能力。");
         findViewById(R.id.btn_1).setOnClickListener(v -> networkReceive = ADNetworkUtils.getInstance().setNetworkListener(MainActivity.this, MainActivity.this));
+        findViewById(R.id.btn_5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ADIntentManager.getInstance()
+                        .from(MainActivity.this)
+                        .startClass(TestActivity.class)
+                        .putExt("int", 99)
+                        .builder();
+//                ADIntentManager.getInstance()
+//                        .from(MainActivity.this)
+//                        .startAction("com.liudonghan.main.TestActivity")
+//                        .putExt("String", "传递字符串")
+//                        .builder();
+            }
+        });
         findViewById(R.id.btn_2).setOnClickListener(v -> ADNetworkUtils.getInstance().unregisterReceiver(MainActivity.this, networkReceive));
         // 我通过了你的好友验证请求，12现在我们可以开始聊天了   13534536434和18647499996和15210176281
         ADTextStyleUtils.getInstance().setCompoundDrawables(this, textView, R.mipmap.ic_launcher, 0, R.mipmap.ic_launcher, 0);

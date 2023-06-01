@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 
 import com.liudonghan.utils.ADNetworkUtils;
 
@@ -13,6 +14,8 @@ public class TestActivity extends AppCompatActivity implements ADNetworkUtils.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        Button button = findViewById(R.id.btn1);
+        button.setText(String.valueOf(getIntent().getIntExtra("int",0)));
     }
 
     @Override

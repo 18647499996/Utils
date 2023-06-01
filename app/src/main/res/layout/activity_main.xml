@@ -36,6 +36,14 @@
         android:gravity="center"
         android:text="改变文字" />
 
+    <Button
+        android:id="@+id/btn_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_1"
+        android:layout_toRightOf="@id/btn_3"
+        android:text="Intent跳转" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
@@ -44,12 +52,12 @@
 
     <TextView
         android:id="@+id/textview"
-        android:text="。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/recycler"
         android:ellipsize="end"
         android:maxLines="2"
+        android:text="。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。"
         android:textColor="#222222"
         android:textStyle="bold" />
 
