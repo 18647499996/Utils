@@ -7,11 +7,10 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import java.io.Serializable;
-import java.util.Map;
 
 
 /**
- * Description：
+ * Description：Intent管理工具
  *
  * @author Created by: Li_Min
  * Time:6/1/23
