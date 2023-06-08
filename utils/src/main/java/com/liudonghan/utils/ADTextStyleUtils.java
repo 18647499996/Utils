@@ -312,12 +312,12 @@ public class ADTextStyleUtils {
      * @param textView TextView组件
      * @param content  内容
      */
-    private void setTextEllipsis(Context context, TextView textView, String content) {
+    public void setTextEllipsis(Context context, TextView textView, String content,String suffix) {
         textView.setText(content);
         ADHandlerUtils.getInstance().delayExecute(() -> {
             int ellipsisCount = textView.getLayout().getEllipsisCount(textView.getLineCount() - 1);
             if (ellipsisCount > 0) {
-                String text = content.substring(0, content.length() - ellipsisCount - 4) + "…更多";
+                String text = content.substring(0, content.length() - ellipsisCount - suffix.length()) + suffix;
                 textView.setText(text);
             } else {
                 textView.setText(content);

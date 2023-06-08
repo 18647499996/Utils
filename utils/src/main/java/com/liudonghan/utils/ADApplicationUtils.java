@@ -3,6 +3,9 @@ package com.liudonghan.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -60,7 +63,7 @@ public class ADApplicationUtils {
                     adApplicationUtilsListener.onStarted(activity);
                     foregroundActivities++;
                     if (foregroundActivities == 1 && !isChangingConfiguration) {
-                        Log.i(TAG,"application run in foreground");
+                        Log.i(TAG, "application run in foreground");
                         adApplicationUtilsListener.onActivityForeground();
                     }
                     isChangingConfiguration = false;
@@ -87,7 +90,7 @@ public class ADApplicationUtils {
                     adApplicationUtilsListener.onStopped(activity);
                     foregroundActivities--;
                     if (0 == foregroundActivities) {
-                        Log.i(TAG,"application run in background");
+                        Log.i(TAG, "application run in background");
                         adApplicationUtilsListener.onActivityBackground();
                     }
                     isChangingConfiguration = activity.isChangingConfigurations();
@@ -120,6 +123,35 @@ public class ADApplicationUtils {
         if (application != null) return application;
         throw new NullPointerException("u should init first");
     }
+
+
+    /**
+     * 获取应用图标
+     * todo 使用次方法必须调用init()
+     *
+     * @return int
+     */
+    public static int getAppIcon() {
+        return getAppIcon(getApp());
+    }
+
+    /**
+     * 获取应用图标
+     *
+     * @param context 上下文
+     * @return int
+     */
+    public static int getAppIcon(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.applicationInfo.icon;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
     public interface ADApplicationUtilsListener {
 

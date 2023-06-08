@@ -25,51 +25,73 @@ public class App extends Application {
 //        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
 //        StrictMode.setVmPolicy(builder.build());
 //        builder.detectFileUriExposure();
-        ADApplicationUtils.init(this, new ADApplicationUtils.ADApplicationUtilsListener() {
+        ADApplicationUtils.init(this, new ApplicationUtils() {
             @Override
-            public void onCreated(Activity activity, Bundle bundle) {
-                Log.i("Mac_Liu","onCreated：" + activity.getLocalClassName());
+            protected void onForeground() {
+                Log.i("Mac_Liu", "前台服务");
             }
 
             @Override
-            public void onStarted(Activity activity) {
-                Log.i("Mac_Liu","onStarted：" + activity.getLocalClassName());
-            }
-
-            @Override
-            public void onResumed(Activity activity) {
-                Log.i("Mac_Liu","onResumed：" + activity.getLocalClassName());
-            }
-
-            @Override
-            public void onPaused(Activity activity) {
-                Log.i("Mac_Liu","onPaused：" + activity.getLocalClassName());
-            }
-
-            @Override
-            public void onStopped(Activity activity) {
-                Log.i("Mac_Liu","onStopped：" + activity.getLocalClassName());
-            }
-
-            @Override
-            public void onDestroyed(Activity activity) {
-                Log.i("Mac_Liu","onDestroyed：" + activity.getLocalClassName());
-            }
-
-            @Override
-            public void onSaveInstanceState(Activity activity, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onActivityForeground() {
-                Log.i("Mac_Liu","前台运行");
+            protected void onBackground() {
+                Log.i("Mac_Liu", "后台服务");
             }
 
             @Override
             public void onActivityBackground() {
-                Log.i("Mac_Liu","后台运行");
+                Log.i("Mac_Liu","后台服务另一个方法");
             }
         });
+    }
+
+    public static abstract class ApplicationUtils implements ADApplicationUtils.ADApplicationUtilsListener {
+
+        protected abstract void onForeground();
+
+        protected abstract void onBackground();
+
+        @Override
+        public void onCreated(Activity activity, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onStarted(Activity activity) {
+
+        }
+
+        @Override
+        public void onResumed(Activity activity) {
+
+        }
+
+        @Override
+        public void onPaused(Activity activity) {
+
+        }
+
+        @Override
+        public void onStopped(Activity activity) {
+
+        }
+
+        @Override
+        public void onDestroyed(Activity activity) {
+
+        }
+
+        @Override
+        public void onSaveInstanceState(Activity activity, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onActivityForeground() {
+            onForeground();
+        }
+
+        @Override
+        public void onActivityBackground() {
+            onBackground();
+        }
     }
 }

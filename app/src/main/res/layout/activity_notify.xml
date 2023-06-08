@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <Button
+        android:id="@+id/activity_btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="创建渠道"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/activity_btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送通知"
+        app:layout_constraintLeft_toRightOf="@id/activity_btn1"
+        app:layout_constraintTop_toTopOf="@id/activity_btn1" />
+
+    <Button
+        android:id="@+id/activity_btn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开应用设置"
+        app:layout_constraintLeft_toRightOf="@id/activity_btn2"
+        app:layout_constraintTop_toTopOf="@id/activity_btn1" />
+
+    <Button
+        android:id="@+id/activity_btn4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开渠道通知"
+        app:layout_constraintLeft_toRightOf="@id/activity_btn3"
+        app:layout_constraintTop_toTopOf="@id/activity_btn3" />
+
+    <Button
+        android:id="@+id/activity_btn5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="是否开启通知"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_btn1" />
+
+    <Button
+        android:id="@+id/activity_btn6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="是否开启渠道通知"
+        app:layout_constraintLeft_toRightOf="@id/activity_btn5"
+        app:layout_constraintTop_toTopOf="@id/activity_btn5" />
+
+    <Button
+        android:id="@+id/activity_btn7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取渠道信息"
+        app:layout_constraintLeft_toRightOf="@id/activity_btn6"
+        app:layout_constraintTop_toTopOf="@id/activity_btn5" />
+
+    <Button
+        android:id="@+id/activity_btn8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取所有渠道通知信息"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_btn5" />
+
+    <Button
+        android:id="@+id/activity_btn9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="删除渠道通知"
+        app:layout_constraintLeft_toRightOf="@id/activity_btn8"
+        app:layout_constraintTop_toTopOf="@id/activity_btn8" />
+
+    <Button
+        android:id="@+id/activity_btn10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取通知消息"
+        app:layout_constraintLeft_toRightOf="@id/activity_btn9"
+        app:layout_constraintTop_toTopOf="@id/activity_btn9" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,21 +1,32 @@
 package com.liudonghan.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.liudonghan.utils.ADNetworkUtils;
+import com.liudonghan.utils.ADNotificationManager;
 
 public class TestActivity extends AppCompatActivity implements ADNetworkUtils.OnNetworkUtilsChangeListener {
+
+    private int notifyId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Button button = findViewById(R.id.btn1);
-        button.setText(String.valueOf(getIntent().getIntExtra("int",0)));
+        button.setText(String.valueOf(getIntent().getIntExtra("int", 0)));
+        findViewById(R.id.btn4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 打开通知权限
+                ADNotificationManager.getInstance().openNotifySetting(TestActivity.this);
+            }
+        });
     }
 
     @Override

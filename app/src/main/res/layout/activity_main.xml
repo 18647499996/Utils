@@ -61,4 +61,17 @@
         android:textColor="#222222"
         android:textStyle="bold" />
 
+    <ImageView
+        android:id="@+id/img1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview" />
+
+    <Button
+        android:id="@+id/btn_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img1"
+        android:text="通知栏管理" />
+
 </RelativeLayout>

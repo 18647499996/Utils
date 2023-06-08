@@ -2,11 +2,10 @@ package com.liudonghan.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -16,13 +15,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseRequestResult;
+import com.liudonghan.utils.ADApplicationUtils;
 import com.liudonghan.utils.ADCursorManageUtils;
-import com.liudonghan.utils.ADHandlerUtils;
 import com.liudonghan.utils.ADIntentManager;
 import com.liudonghan.utils.ADNetworkUtils;
 import com.liudonghan.utils.ADPicturePhotoUtils;
 import com.liudonghan.utils.ADRegexUtils;
-import com.liudonghan.utils.ADScreenRecordUtils;
+import com.liudonghan.utils.ADScreenUtils;
 import com.liudonghan.utils.ADTextStyleUtils;
 
 import java.io.File;
@@ -41,6 +40,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
     private RecyclerView recyclerView;
     private VideoAdapter videoAdapter;
     private TextView ep;
+    private ImageView imageView;
 
     @Override
     protected int getLayout() throws RuntimeException {
@@ -65,8 +65,10 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView.setAdapter(videoAdapter);
         textView = (Button) findViewById(R.id.btn_3);
+        imageView = (ImageView) findViewById(R.id.img1);
         ep = (TextView) findViewById(R.id.textview);
-//        ADTextStyleUtils.getInstance().setTextEllipsis(this, ep, "在神舟十六号载人飞行任务新闻发布会上，林西强表示，近期，我国载人月球探测工程登月阶段任务已启动实施，计划在2030年前实现中国人首次登陆月球，开展月球科学考察及相关技术试验，突破掌握载人地月往返、月面短期驻留、人机联合探测等关键技术，完成“登、巡、采、研、回”等多重任务，形成独立自主的载人月球探测能力。");
+        imageView.setImageResource(ADApplicationUtils.getAppIcon());
+        ADTextStyleUtils.getInstance().setTextEllipsis(this, ep, "在神舟十六号载人飞行任务新闻发布会上，林西强表示，近期，我国载人月球探测工程登月阶段任务已启动实施，计划在2030年前实现中国人首次登陆月球，开展月球科学考察及相关技术试验，突破掌握载人地月往返、月面短期驻留、人机联合探测等关键技术，完成“登、巡、采、研、回”等多重任务，形成独立自主的载人月球探测能力。", "…更多");
         findViewById(R.id.btn_1).setOnClickListener(v -> networkReceive = ADNetworkUtils.getInstance().setNetworkListener(MainActivity.this, MainActivity.this));
         findViewById(R.id.btn_5).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,11 +78,6 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                         .startClass(TestActivity.class)
                         .putExt("int", 99)
                         .builder();
-//                ADIntentManager.getInstance()
-//                        .from(MainActivity.this)
-//                        .startAction("com.liudonghan.main.TestActivity")
-//                        .putExt("String", "传递字符串")
-//                        .builder();
             }
         });
         findViewById(R.id.btn_2).setOnClickListener(v -> ADNetworkUtils.getInstance().unregisterReceiver(MainActivity.this, networkReceive));
@@ -109,8 +106,8 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                     .textDescription("￥18990.00")
                     // 构建
                     .builder();
-            ADScreenRecordUtils.getInstance().register(MainActivity.this, isScreenRecord -> Log.d("录屏监听：", String.valueOf(isScreenRecord)));
         });
+        ADScreenUtils.getInstance().register(MainActivity.this, isScreenRecord -> Log.d("录屏监听：", String.valueOf(isScreenRecord)));
         ADPicturePhotoUtils.getInstance().init(this).onCallBack(this);
         Log.i("Mac_Liu", "ip address " + ADNetworkUtils.getInstance().getIPAddress(true));
         findViewById(R.id.btn_4).setOnClickListener(v -> Observable.unsafeCreate((Observable.OnSubscribe<List<ADCursorManageUtils.ImageFolderModel>>) subscriber -> {
@@ -144,6 +141,10 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 Log.i("MAC_LIU", item.getMediaPath().toString());
             }
         });
+        findViewById(R.id.btn_6).setOnClickListener(v -> ADIntentManager.getInstance()
+                .from(MainActivity.this)
+                .startClass(NotificationActivity.class)
+                .builder());
     }
 
     @Override
