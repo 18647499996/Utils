@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseRequestResult;
+import com.liudonghan.utils.ADAnimationUtils;
 import com.liudonghan.utils.ADApplicationUtils;
 import com.liudonghan.utils.ADCursorManageUtils;
 import com.liudonghan.utils.ADIntentManager;
@@ -145,6 +146,13 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 .from(MainActivity.this)
                 .startClass(NotificationActivity.class)
                 .builder());
+        Button button7 = (Button) findViewById(R.id.btn_7);
+        findViewById(R.id.btn_7).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ADAnimationUtils.getInstance().startStretchWidthAnim(findViewById(R.id.btn_7), button7.getWidth(), button7.getWidth() + 300, 500);
+            }
+        });
     }
 
     @Override

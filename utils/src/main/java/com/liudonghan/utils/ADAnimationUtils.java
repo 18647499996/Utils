@@ -1,6 +1,7 @@
 package com.liudonghan.utils;
 
 import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -211,5 +212,20 @@ public class ADAnimationUtils {
         //设置动画播放完以后消失，终止填充
         set.setFillAfter(false);
         imageViewBg.startAnimation(set);
+    }
+
+    /**
+     * view拉伸动画（ 宽度拉伸 ）
+     *
+     * @param view     view组件
+     * @param startAnim    开始宽度
+     * @param endAnim  结束宽度
+     * @param duration 动画时长
+     */
+    @SuppressLint("ObjectAnimatorBinding")
+    public void startStretchWidthAnim(View view, int startAnim, int endAnim, int duration) {
+        ObjectAnimator scaleX = ObjectAnimator.ofInt(view, "width", startAnim, endAnim);
+        scaleX.setDuration(duration);
+        scaleX.start();
     }
 }
