@@ -29,14 +29,26 @@ public class ADFragmentUtils {
     }
 
     /**
-     * todo 根据Activity View 获取Fragment引用
+     * todo 根据Activity View 获取Fragment引用（ Activity 嵌套 Fragment ）
      *
      * @param fragmentActivity activity引用
      * @param viewId           viewId
      * @param position         索引
      * @return Fragment
      */
-    public Fragment findFragmentByActivityViewId(FragmentActivity fragmentActivity, int viewId, int position) {
+    public Fragment findFragmentByViewId(FragmentActivity fragmentActivity, int viewId, int position) {
         return fragmentActivity.getSupportFragmentManager().findFragmentByTag("android:switcher:" + viewId + ":" + position);
+    }
+
+    /**
+     * todo 根据Fragment View 获取Fragment引用（ Fragment 嵌套 Fragment ）
+     *
+     * @param fragment fragment引用
+     * @param viewId   viewId
+     * @param position 索引
+     * @return Fragment
+     */
+    public Fragment findFragmentByViewId(Fragment fragment, int viewId, int position) {
+        return fragment.getChildFragmentManager().findFragmentByTag("android:switcher:" + viewId + ":" + position);
     }
 }
