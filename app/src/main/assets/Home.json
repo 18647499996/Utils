@@ -1,0 +1,480 @@
+[
+  {
+    "id": 114,
+    "name": "首页banner②",
+    "subtitle": "sy",
+    "content": [
+      {
+        "id": 362,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20230109\/\/20230109154540194.jpg",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/newActivity?activityId=3",
+        "sort": 0,
+        "title": "首页banner②",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2023-01-09 15:45:51"
+      },
+      {
+        "id": 309,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20221102\/\/20221102151810815.png",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/newActivity?activityId=2",
+        "sort": 1,
+        "title": "首页banner②",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2022-11-02 15:18:23"
+      },
+      {
+        "id": 371,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20230203\/\/20230203114306185.jpg",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/newActivity?activityId=3",
+        "sort": 1,
+        "title": "元宵节banner②",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2023-02-03 11:43:25"
+      },
+      {
+        "id": 376,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20230213\/\/20230213162045297.jpg",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/newActivity?activityId=3",
+        "sort": 1,
+        "title": "情人节banner②",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2023-02-13 16:20:59"
+      },
+      {
+        "id": 379,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20230307\/\/20230307091801259.jpg",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/newActivity?activityId=1",
+        "sort": 1,
+        "title": "38妇女节②",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2023-03-07 09:18:07"
+      },
+      {
+        "id": 349,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20221201\/\/20221201102625619.png",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/newActivity?activityId=3",
+        "sort": 2,
+        "title": "首页banner②",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2022-12-01 10:26:34"
+      },
+      {
+        "id": 396,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20230501\/\/20230501114922886.png",
+        "url": "{\"type\":9,\"id\":56,\"jump_url\":\"banner_activity_cutumn\"}",
+        "sort": 2,
+        "title": "五一banner2",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 1,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2023-05-01 11:49:32"
+      },
+      {
+        "id": 417,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20230601\/\/20230601192530969.jpg",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/newActivity?activityId=3",
+        "sort": 2,
+        "title": "六一儿童节",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2023-06-01 19:25:39"
+      },
+      {
+        "id": 358,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20221230\/\/20221230133942989.jpg",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/newActivity?activityId=3",
+        "sort": 3,
+        "title": "首页banner②",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2022-12-30 13:39:50"
+      },
+      {
+        "id": 352,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20221215\/\/20221215170749625.png",
+        "url": "{     \"type\":11,     \"id\": 95520 }",
+        "sort": 4,
+        "title": "首页banner②",
+        "remark": "",
+        "status": 1,
+        "route_id": 0,
+        "url_type": 1,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2022-12-15 17:07:59"
+      },
+      {
+        "id": 297,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20221027\/\/20221027145851434.jpg",
+        "url": "https:\/\/api1.xinfushenghuo.cn\/apicompare\/compare\/banner-interlayer?types=7",
+        "sort": 5,
+        "title": "首页banner②",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2022-10-27 14:59:07"
+      },
+      {
+        "id": 310,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20221102\/\/20221102151845320.jpg",
+        "url": "https:\/\/api1.xinfushenghuo.cn\/apicompare\/compare\/banner-interlayer?types=1",
+        "sort": 6,
+        "title": "首页banner②",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2022-11-02 15:19:11"
+      },
+      {
+        "id": 350,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20221202\/\/20221202172059883.png",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/cardApply",
+        "sort": 7,
+        "title": "信用卡",
+        "remark": "",
+        "status": 1,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2022-12-02 17:21:02"
+      }
+    ],
+    "model_type": 2,
+    "activity_bg": null,
+    "goods_bg": null,
+    "jump_path": "",
+    "is_show": 1,
+    "sort": 1
+  },
+  {
+    "id": 15,
+    "name": "汇速递",
+    "subtitle": "全网快递集合",
+    "content": [
+      {
+        "sort": 1,
+        "count": "8871",
+        "images": [
+          "https:\/\/files.lawxp.com\/public\/ctx\/HuiSuDi\/banner\/huisudi1@2x.png",
+          "https:\/\/files.lawxp.com\/public\/ctx\/HuiSuDi\/banner\/huisudi22@2x.png"
+        ],
+        "moduleList": [
+          {
+            "id": "1",
+            "icon": "https:\/\/api.tuansudi.com\/api\/File\/GetFileStreamByFileName?fileName=1656405286\/jikuaidi@3x.png",
+            "name": "寄快递",
+            "sort": "1",
+            "backTitle": "汇速递"
+          },
+          {
+            "id": "2",
+            "icon": "https:\/\/api.tuansudi.com\/api\/File\/GetFileStreamByFileName?fileName=1656405286\/jikuaidi@3x.png",
+            "name": "寄件查询",
+            "sort": "2",
+            "backTitle": "汇速递"
+          }
+        ]
+      }
+    ],
+    "model_type": 5,
+    "activity_bg": null,
+    "goods_bg": null,
+    "jump_path": "hsd",
+    "is_show": 1,
+    "sort": 3
+  },
+  {
+    "id": 11,
+    "name": "好友汇",
+    "subtitle": "海内存知己，天天分享见",
+    "content": [
+      {
+        "id": 16013,
+        "url": "https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689673836915.jpg;https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689673837507.jpg;https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689673837790.jpg;https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689673838236.jpg",
+        "ouid": 2103425308,
+        "sort": 16013,
+        "type": 0,
+        "title": "表情包更新",
+        "avatar": "https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Portrait\/1689659433074.jpg",
+        "address": "上海市",
+        "content": "我可什么都不知道\n\n瞅你这可怜样\n\n我！不！信！\n\n谢谢，有被笑到😆",
+        "role_id": 41,
+        "user_id": 3380,
+        "like_num": 1,
+        "nickname": "抓马西瓜？",
+        "cover_img": ";;;",
+        "share_num": 5,
+        "browse_num": 1454,
+        "create_time": "",
+        "time_length": "",
+        "home_province": ""
+      },
+      {
+        "id": 15801,
+        "url": "https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689642509563.jpg;https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689642511801.jpg;https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689642513106.jpg;https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689642514485.jpg;https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689642515045.jpg;https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689642516477.jpg;https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689642518024.jpg;https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689642518914.jpg;https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Article\/1689642519845.jpg",
+        "ouid": 2103425308,
+        "sort": 15801,
+        "type": 0,
+        "title": "🍉",
+        "avatar": "https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/APPLE\/Image\/Portrait\/1689659433074.jpg",
+        "address": "上海市",
+        "content": "这个夏天祝你每次都能吃到超甜的西瓜",
+        "role_id": 41,
+        "user_id": 3380,
+        "like_num": 1,
+        "nickname": "抓马西瓜？",
+        "cover_img": ";;;;;;;;",
+        "share_num": 0,
+        "browse_num": 2767,
+        "create_time": "",
+        "time_length": "",
+        "home_province": ""
+      },
+      {
+        "id": 4538,
+        "url": "https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/Android\/Image\/Article\/1682983262619",
+        "ouid": 2103426964,
+        "sort": 4538,
+        "type": 0,
+        "title": "影响执行力的因素3",
+        "avatar": "https:\/\/live-play-1307611133.cos.ap-beijing.myqcloud.com\/touxiang%402x.png",
+        "address": "",
+        "content": "任正非说：“华为获得持续成功，有三个要素：一个坚强、有力的领导集团，听得进去批评；一个严格有序的规则、制度，同时这个规则、制度是进取的；一个庞大、勤劳、勇敢、善于学习和强大执行力的奋斗群体。”\n\n任正非的这个说法，放到任何组织中，都是适用的。其中的重心是执行力，前两个也是执行力的保障机制。\n\n可以说，执行力是通向成功的重要保障。我们看到很多人都把失败归因于执行力不够，却不知道到底是什么影响了执行力。故略把影响执行力的因素做梳理以共勉：\n\n前面讲了影响执行力的因素2［目标是否正确和正当］之后，接下来谈谈影响执行力的因素3。\n\n3.目标是否合理及可行\n\n目标的合理性及可行性，通常是充满争议的。你认为合理，不代表其他人也认为合理。\n\n目标是否合理，与目标是否明确，是相辅相成的。在明确目标的过程中，一定要考虑目标是否合理及是否可行，如果目标本身设定得不合理或者不可行，即使明确了目标，往往也很难达成。\n\n当然，很容易达成的目标，通常也是不合理的。不需要太多努力就可以达成的目标，体现不出执行力。顺手就可以完成的事情，也没必要上升到目标管理。一直让团队去做很容易做成的事，不利于提升团队的执行力，反而会让团队变得更加懒散。\n\n通常情况下，目标要让执行人可以达到，但需要付出一定的努力才可以达到。所以，目标设定是否合理，跟团队的能力和能量有关。当现有的团队无法达成你想要的目标时，要么调整团队，要么修改目标。给团队赋能或者提升其能力、激发其潜能，也是调整团队的方式之一。\n\n设定合理及可行的目标，真正考验的是决策人的综合素质，包括洞察力、预判力、组织能力、沟通能力等等。",
+        "role_id": 41,
+        "user_id": 3410,
+        "like_num": 11,
+        "nickname": "执行力注解",
+        "cover_img": "",
+        "share_num": 13639,
+        "browse_num": 13911,
+        "create_time": "",
+        "time_length": "",
+        "home_province": ""
+      }
+    ],
+    "model_type": 3,
+    "activity_bg": null,
+    "goods_bg": null,
+    "jump_path": "hyh",
+    "is_show": 1,
+    "sort": 4
+  },
+  {
+    "id": 112,
+    "name": "首页banner①",
+    "subtitle": "sy1",
+    "content": [
+      {
+        "id": 311,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20221102\/\/20221102153250273.png",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/newActivity?activityId=2",
+        "sort": 0,
+        "title": "首页banner①",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2022-11-02 15:33:14"
+      },
+      {
+        "id": 312,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20221102\/\/20221102153338111.png",
+        "url": "{\"type\":9,\"id\":56,\"jump_url\":\"banner_activity_cutumn\"}",
+        "sort": 1,
+        "title": "五一首页banner1",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 1,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2023-05-01 11:49:09"
+      },
+      {
+        "id": 415,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20230601\/\/20230601184116510.jpg",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/newActivity?activityId=3",
+        "sort": 1,
+        "title": "儿童节",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2023-06-01 18:41:21"
+      },
+      {
+        "id": 421,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20230622\/\/20230622122117271.png",
+        "url": "https:\/\/h5.xinfushenghuo.cn\/#\/newActivity?activityId=3",
+        "sort": 1,
+        "title": "端午节",
+        "remark": "",
+        "status": 2,
+        "route_id": 0,
+        "url_type": 2,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2023-06-22 12:21:35"
+      },
+      {
+        "id": 313,
+        "img": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20221102\/\/20221102153411996.png",
+        "url": "{     \"type\": 10,     \"id\": 95520 }",
+        "sort": 2,
+        "title": "首页banner①",
+        "remark": "",
+        "status": 1,
+        "route_id": 0,
+        "url_type": 1,
+        "browse_num": 0,
+        "route_name": "",
+        "create_time": "2022-11-02 15:34:24"
+      }
+    ],
+    "model_type": 2,
+    "activity_bg": null,
+    "goods_bg": null,
+    "jump_path": "",
+    "is_show": 1,
+    "sort": 5
+  },
+  {
+    "id": 14,
+    "name": "好物汇",
+    "subtitle": "商城推荐",
+    "content": [
+      {
+        "id": "LG_2503",
+        "url": "https:\/\/shanghaipc-1307611133.cos.ap-shanghai.myqcloud.com\/product\/20220803\/20220803055456-710.jpg",
+        "name": "",
+        "sort": 1,
+        "price": "69",
+        "presale": null
+      },
+      {
+        "id": "LG_1946",
+        "url": "https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/2022-02-23\/61f7a0aabea85f2fa07cf177c04075f2",
+        "name": "",
+        "sort": 2,
+        "price": "55",
+        "presale": null
+      },
+      {
+        "id": "LG_1945",
+        "url": "https:\/\/shops-1307611133.cos.ap-beijing.myqcloud.com\/2022-02-23\/7da249a69d1e217f88c265b922ad8244",
+        "name": "",
+        "sort": 3,
+        "price": "49",
+        "presale": null
+      },
+      {
+        "id": "LG_2502",
+        "url": "https:\/\/shanghaipc-1307611133.cos.ap-shanghai.myqcloud.com\/product\/20220803\/20220803055859-487.jpg",
+        "name": "",
+        "sort": 4,
+        "price": "79",
+        "presale": null
+      },
+      {
+        "id": "LG_3192",
+        "url": "https:\/\/shanghaipc-1307611133.cos.ap-shanghai.myqcloud.com\/product\/20221207\/20221207045702-620.png",
+        "name": "",
+        "sort": 5,
+        "price": "99",
+        "presale": null
+      }
+    ],
+    "model_type": 4,
+    "activity_bg": null,
+    "goods_bg": null,
+    "jump_path": "hwy",
+    "is_show": 1,
+    "sort": 8
+  },
+  {
+    "id": 12,
+    "name": "景区汇",
+    "subtitle": "亲子游玩集合",
+    "content": [
+      {
+        "id": 3541,
+        "url": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20230712\/\/20230712160701936.jpg",
+        "sort": 1,
+        "price": 49,
+        "sales_nums": 0
+      },
+      {
+        "id": 3540,
+        "url": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20230712\/\/20230712150023590.jpg",
+        "sort": 2,
+        "price": 49,
+        "sales_nums": 0
+      },
+      {
+        "id": 3539,
+        "url": "https:\/\/static.xinfushenghuo.cn\/publics\/imgs\/updatas\/20230712\/\/20230712144021171.jpg",
+        "sort": 3,
+        "price": 49,
+        "sales_nums": 0
+      }
+    ],
+    "model_type": 7,
+    "activity_bg": null,
+    "goods_bg": null,
+    "jump_path": "jqh",
+    "is_show": 1,
+    "sort": 9
+  }
+]

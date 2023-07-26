@@ -1,0 +1,41 @@
+apply plugin: 'com.android.library'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
+
+android {
+    compileSdkVersion 31
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdkVersion 17
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+greendao {
+    schemaVersion 12 //数据库版本号
+    daoPackage 'com.liudonghan.db.dao'// 设置DaoMaster、DaoSession、Dao   一般包名+文件夹名
+    targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录   文件生成的目录，相当于父级目录
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    api project(':utils')
+    api 'com.facebook.stetho:stetho:1.5.1'
+    api 'org.greenrobot:greendao:3.3.0' // add library
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+
+
+}

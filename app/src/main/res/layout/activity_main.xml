@@ -73,19 +73,28 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/img1"
         android:text="通知栏管理" />
+
     <Button
         android:id="@+id/btn_7"
-        android:text="宽度动画"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/img1"
         android:layout_toRightOf="@id/btn_6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:text="宽度动画" />
+
     <Button
         android:id="@+id/btn_8"
-        android:text="高度动画"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/img1"
         android:layout_toRightOf="@id/btn_7"
+        android:text="高度动画" />
+
+    <Button
+        android:id="@+id/btn_9"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_8"
+        android:text="数据库" />
 
 </RelativeLayout>

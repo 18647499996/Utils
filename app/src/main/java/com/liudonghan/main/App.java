@@ -7,6 +7,8 @@ import android.util.Log;
 
 import androidx.multidex.MultiDex;
 
+import com.facebook.stetho.Stetho;
+import com.liudonghan.db.GreenDaoManager;
 import com.liudonghan.utils.ADApplicationUtils;
 
 /**
@@ -21,10 +23,16 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         MultiDex.install(this);
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                        .build());
         // 解决打开相机和打开文件问题
 //        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
 //        StrictMode.setVmPolicy(builder.build());
 //        builder.detectFileUriExposure();
+        GreenDaoManager.getInstance().init(getApplicationContext(), "liudonghan.db");
         ADApplicationUtils.init(this, new ApplicationUtils() {
             @Override
             protected void onForeground() {
@@ -38,8 +46,9 @@ public class App extends Application {
 
             @Override
             public void onActivityBackground() {
-                Log.i("Mac_Liu","后台服务另一个方法");
+                Log.i("Mac_Liu", "后台服务另一个方法");
             }
+
         });
     }
 

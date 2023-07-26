@@ -153,6 +153,10 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 ADAnimationUtils.getInstance().startStretchWidthAnim(findViewById(R.id.btn_7), button7.getWidth(), button7.getWidth() + 300, 500);
             }
         });
+        findViewById(R.id.btn_9).setOnClickListener(v -> ADIntentManager.getInstance()
+                .from(MainActivity.this)
+                .startClass(GreenDaoActivity.class)
+                .builder());
     }
 
     @Override

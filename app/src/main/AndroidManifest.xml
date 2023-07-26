@@ -28,6 +28,9 @@
             android:name=".NotificationActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".GreenDaoActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".MainActivity"
             android:launchMode="singleTask">
             <intent-filter>
