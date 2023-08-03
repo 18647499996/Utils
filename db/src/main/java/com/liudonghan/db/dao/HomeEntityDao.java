@@ -1,13 +1,18 @@
 package com.liudonghan.db.dao;
 
+import java.util.List;
+import java.util.ArrayList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.Property;
+import org.greenrobot.greendao.internal.SqlUtils;
 import org.greenrobot.greendao.internal.DaoConfig;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseStatement;
+
+import com.liudonghan.db.entity.HomeEntity;
 
 import com.liudonghan.db.entity.HomeEntity;
 
@@ -32,7 +37,10 @@ public class HomeEntityDao extends AbstractDao<HomeEntity, Long> {
         public final static Property Path = new Property(5, String.class, "path", false, "PATH");
         public final static Property Category = new Property(6, int.class, "category", false, "CATEGORY");
         public final static Property Sort = new Property(7, int.class, "sort", false, "SORT");
+        public final static Property HomeEntity = new Property(8, Long.class, "homeEntity", false, "HOME_ENTITY");
     }
+
+    private DaoSession daoSession;
 
 
     public HomeEntityDao(DaoConfig config) {
@@ -41,6 +49,7 @@ public class HomeEntityDao extends AbstractDao<HomeEntity, Long> {
     
     public HomeEntityDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
+        this.daoSession = daoSession;
     }
 
     /** Creates the underlying database table. */
@@ -54,7 +63,8 @@ public class HomeEntityDao extends AbstractDao<HomeEntity, Long> {
                 "\"IS_SHOW\" INTEGER NOT NULL ," + // 4: isShow
                 "\"PATH\" TEXT," + // 5: path
                 "\"CATEGORY\" INTEGER NOT NULL ," + // 6: category
-                "\"SORT\" INTEGER NOT NULL );"); // 7: sort
+                "\"SORT\" INTEGER NOT NULL ," + // 7: sort
+                "\"HOME_ENTITY\" INTEGER);"); // 8: homeEntity
     }
 
     /** Drops the underlying database table. */
@@ -122,6 +132,12 @@ public class HomeEntityDao extends AbstractDao<HomeEntity, Long> {
     }
 
     @Override
+    protected final void attachEntity(HomeEntity entity) {
+        super.attachEntity(entity);
+        entity.__setDaoSession(daoSession);
+    }
+
+    @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.getLong(offset + 0);
     }    
@@ -178,4 +194,95 @@ public class HomeEntityDao extends AbstractDao<HomeEntity, Long> {
         return true;
     }
     
+    private String selectDeep;
+
+    protected String getSelectDeep() {
+        if (selectDeep == null) {
+            StringBuilder builder = new StringBuilder("SELECT ");
+            SqlUtils.appendColumns(builder, "T", getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T0", daoSession.getHomeEntityDao().getAllColumns());
+            builder.append(" FROM HOME_ENTITY T");
+            builder.append(" LEFT JOIN HOME_ENTITY T0 ON T.\"HOME_ENTITY\"=T0.\"_id\"");
+            builder.append(' ');
+            selectDeep = builder.toString();
+        }
+        return selectDeep;
+    }
+    
+    protected HomeEntity loadCurrentDeep(Cursor cursor, boolean lock) {
+        HomeEntity entity = loadCurrent(cursor, 0, lock);
+        int offset = getAllColumns().length;
+
+        HomeEntity homeEntity = loadCurrentOther(daoSession.getHomeEntityDao(), cursor, offset);
+        entity.setHomeEntity(homeEntity);
+
+        return entity;    
+    }
+
+    public HomeEntity loadDeep(Long key) {
+        assertSinglePk();
+        if (key == null) {
+            return null;
+        }
+
+        StringBuilder builder = new StringBuilder(getSelectDeep());
+        builder.append("WHERE ");
+        SqlUtils.appendColumnsEqValue(builder, "T", getPkColumns());
+        String sql = builder.toString();
+        
+        String[] keyArray = new String[] { key.toString() };
+        Cursor cursor = db.rawQuery(sql, keyArray);
+        
+        try {
+            boolean available = cursor.moveToFirst();
+            if (!available) {
+                return null;
+            } else if (!cursor.isLast()) {
+                throw new IllegalStateException("Expected unique result, but count was " + cursor.getCount());
+            }
+            return loadCurrentDeep(cursor, true);
+        } finally {
+            cursor.close();
+        }
+    }
+    
+    /** Reads all available rows from the given cursor and returns a list of new ImageTO objects. */
+    public List<HomeEntity> loadAllDeepFromCursor(Cursor cursor) {
+        int count = cursor.getCount();
+        List<HomeEntity> list = new ArrayList<HomeEntity>(count);
+        
+        if (cursor.moveToFirst()) {
+            if (identityScope != null) {
+                identityScope.lock();
+                identityScope.reserveRoom(count);
+            }
+            try {
+                do {
+                    list.add(loadCurrentDeep(cursor, false));
+                } while (cursor.moveToNext());
+            } finally {
+                if (identityScope != null) {
+                    identityScope.unlock();
+                }
+            }
+        }
+        return list;
+    }
+    
+    protected List<HomeEntity> loadDeepAllAndCloseCursor(Cursor cursor) {
+        try {
+            return loadAllDeepFromCursor(cursor);
+        } finally {
+            cursor.close();
+        }
+    }
+    
+
+    /** A raw-style query where you can pass any WHERE clause and arguments. */
+    public List<HomeEntity> queryDeep(String where, String... selectionArg) {
+        Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
+        return loadDeepAllAndCloseCursor(cursor);
+    }
+ 
 }

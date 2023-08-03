@@ -3,6 +3,7 @@ package com.liudonghan.utils;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -129,4 +130,16 @@ public class ADFormatUtils {
         }
         return 0;
     }
+
+    /**
+     * todo 格式化数字
+     * todo 例如：1,000,000
+     * @param value 值
+     * @return String
+     */
+    public String decimalFormatNumber(long value){
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+        return decimalFormat.format(value);
+    }
+
 }

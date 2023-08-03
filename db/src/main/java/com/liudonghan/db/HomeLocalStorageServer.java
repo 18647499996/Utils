@@ -1,13 +1,12 @@
 package com.liudonghan.db;
 
 
-
 import com.liudonghan.db.dao.HomeEntityDao;
 import com.liudonghan.db.entity.HomeEntity;
-import com.liudonghan.db.entity.NewHomePageListModel;
-import com.liudonghan.utils.ADGsonUtils;
 
-import java.util.ArrayList;
+import org.greenrobot.greendao.query.Join;
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.List;
 
 /**
@@ -40,22 +39,11 @@ public class HomeLocalStorageServer {
     /**
      * 保存首页数据
      *
-     * @param newHomePageListModels 数据类型
+     * @param homeEntity 首页数据
+     * @return long 自增id
      */
-    public void saveHomeEntity(List<NewHomePageListModel> newHomePageListModels) {
-        List<HomeEntity> homeEntityList = new ArrayList<>();
-        for (int i = 0; i < newHomePageListModels.size(); i++) {
-            homeEntityList.add(new HomeEntity(
-                    newHomePageListModels.get(i).getId(),
-                    newHomePageListModels.get(i).getName(),
-                    newHomePageListModels.get(i).getSubtitle(),
-                    ADGsonUtils.toJson(newHomePageListModels.get(i).getContent()),
-                    true,
-                    newHomePageListModels.get(i).getJump_path(),
-                    newHomePageListModels.get(i).getModel_type(),
-                    newHomePageListModels.get(i).getSort()));
-        }
-        GreenDaoManager.getInstance().baseHomeDao().insertOrReplaceInTx(homeEntityList);
+    public long saveHomeEntity(HomeEntity homeEntity) {
+        return GreenDaoManager.getInstance().baseHomeDao().insertOrReplace(homeEntity);
     }
 
     /**
@@ -68,8 +56,44 @@ public class HomeLocalStorageServer {
                 .getInstance()
                 .baseHomeDao()
                 .queryBuilder()
+                .where(HomeEntityDao.Properties.Id.in(12, 14))
                 .orderAsc(HomeEntityDao.Properties.Sort)
                 .build()
                 .list();
+    }
+
+    /**
+     * 获取首页列表（ 分页查询 ）
+     *
+     * @param page  页数 todo 这里默认从第0页开始
+     * @param limit 分页大小
+     * @return List<HomeEntity>
+     */
+    public List<HomeEntity> getHomeList(int page, int limit) {
+        return GreenDaoManager
+                .getInstance()
+                .baseHomeDao()
+                .queryBuilder()
+                .limit(limit)
+                .offset(page)
+                .orderAsc(HomeEntityDao.Properties.Sort)
+                .build()
+                .list();
+    }
+
+    /**
+     * 根据ID查询首页数据
+     *
+     * @param id 自增ID
+     * @return HomeEntity
+     */
+    public HomeEntity findHomeEntityById(int id) {
+        QueryBuilder<HomeEntity> homeEntityQueryBuilder = GreenDaoManager
+                .getInstance()
+                .baseHomeDao()
+                .queryBuilder();
+        homeEntityQueryBuilder.where(HomeEntityDao.Properties.Id.eq(id));
+        homeEntityQueryBuilder.join(HomeEntityDao.Properties.Id, HomeEntity.class, HomeEntityDao.Properties.Id);
+        return homeEntityQueryBuilder.build().unique();
     }
 }

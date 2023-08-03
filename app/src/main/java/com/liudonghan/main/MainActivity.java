@@ -18,6 +18,7 @@ import com.liudonghan.mvp.ADBaseRequestResult;
 import com.liudonghan.utils.ADAnimationUtils;
 import com.liudonghan.utils.ADApplicationUtils;
 import com.liudonghan.utils.ADCursorManageUtils;
+import com.liudonghan.utils.ADFormatUtils;
 import com.liudonghan.utils.ADIntentManager;
 import com.liudonghan.utils.ADNetworkUtils;
 import com.liudonghan.utils.ADPicturePhotoUtils;
@@ -157,6 +158,8 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 .from(MainActivity.this)
                 .startClass(GreenDaoActivity.class)
                 .builder());
+        Button button = (Button) findViewById(R.id.btn_10);
+        button.setText(ADFormatUtils.getInstance().decimalFormatNumber(10000000));
     }
 
     @Override

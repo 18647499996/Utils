@@ -1,4 +1,4 @@
-package com.liudonghan.db.entity;
+package com.liudonghan.main;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
