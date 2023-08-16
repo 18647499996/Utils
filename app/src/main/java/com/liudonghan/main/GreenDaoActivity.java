@@ -60,7 +60,7 @@ public class GreenDaoActivity extends AppCompatActivity {
         });
         findViewById(R.id.unique).setOnClickListener(v -> {
             HomeEntity homeEntityById = HomeLocalStorageServer.getInstance().findHomeEntityById(12);
-            HomeEntity homeEntity = homeEntityById.getHomeEntity();
+            HomeEntity homeEntity = homeEntityById.peakHomeEntity();
             Log.i("Mac_Liu",homeEntityById.toString());
         });
         findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {

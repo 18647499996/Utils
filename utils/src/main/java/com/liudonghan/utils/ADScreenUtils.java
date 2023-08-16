@@ -11,8 +11,10 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
@@ -50,8 +52,14 @@ public class ADScreenUtils {
         return instance;
     }
 
+    /**
+     * todo 获取当前屏幕大小
+     *
+     * @param context 上下文引用
+     * @return Point
+     */
     @SuppressLint("ObsoleteSdkInt")
-    public static Point getScreenSize(Context context) {
+    public Point getScreenSize(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point out = new Point();
@@ -63,6 +71,27 @@ public class ADScreenUtils {
             out.set(width, height);
         }
         return out;
+    }
+
+    /**
+     * todo 获取当前屏幕大小
+     *
+     * @param window 当前窗体
+     * @return Point
+     */
+    public Point getScreenSize(Window window) {
+        if (window == null) {
+            return null;
+        }
+        Point point = new Point();
+        DisplayMetrics dm = new DisplayMetrics();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.getWindowManager().getDefaultDisplay().getRealMetrics(dm);
+        } else {
+            window.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        }
+        point.set(dm.widthPixels, dm.heightPixels);
+        return point;
     }
 
     /**

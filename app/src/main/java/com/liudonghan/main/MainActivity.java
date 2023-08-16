@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.liudonghan.main.html.HtmlTextActivity;
 import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseRequestResult;
@@ -160,6 +161,15 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 .builder());
         Button button = (Button) findViewById(R.id.btn_10);
         button.setText(ADFormatUtils.getInstance().decimalFormatNumber(10000000));
+        findViewById(R.id.btn_11).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ADIntentManager.getInstance()
+                        .from(MainActivity.this)
+                        .startClass(HtmlTextActivity.class)
+                        .builder();
+            }
+        });
     }
 
     @Override
@@ -169,7 +179,6 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
     @Override
     protected void onClickDoubleListener(View view) throws RuntimeException, IOException {
-
     }
 
     @Override

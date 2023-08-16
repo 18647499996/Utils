@@ -119,18 +119,6 @@ public class HomeEntity implements MultiItemEntity {
         return 0;
     }
 
-    @Override
-    public String toString() {
-        return "HomeEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", subName='" + subName + '\'' +
-                ", isShow=" + isShow +
-                ", path='" + path + '\'' +
-                ", category=" + category +
-                '}';
-    }
-
     public int getSort() {
         return this.sort;
     }
@@ -209,5 +197,19 @@ public class HomeEntity implements MultiItemEntity {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getHomeEntityDao() : null;
+    }
+
+    @Override
+    public String toString() {
+        return "HomeEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", subName='" + subName + '\'' +
+                ", isShow=" + isShow +
+                ", path='" + path + '\'' +
+                ", category=" + category +
+                ", sort=" + sort +
+                ", homeEntity=" + homeEntity +
+                '}';
     }
 }
