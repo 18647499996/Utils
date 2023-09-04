@@ -113,4 +113,12 @@
         android:layout_toRightOf="@id/btn_10"
         android:text="html" />
 
+    <Button
+        android:id="@+id/btn_12"
+        android:text="定时器"
+        android:layout_toRightOf="@id/btn_11"
+        android:layout_alignTop="@id/btn_11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </RelativeLayout>

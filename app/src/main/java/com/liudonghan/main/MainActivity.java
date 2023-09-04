@@ -18,6 +18,7 @@ import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseRequestResult;
 import com.liudonghan.utils.ADAnimationUtils;
 import com.liudonghan.utils.ADApplicationUtils;
+import com.liudonghan.utils.ADCountDownUtils;
 import com.liudonghan.utils.ADCursorManageUtils;
 import com.liudonghan.utils.ADFormatUtils;
 import com.liudonghan.utils.ADIntentManager;
@@ -168,6 +169,29 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                         .from(MainActivity.this)
                         .startClass(HtmlTextActivity.class)
                         .builder();
+            }
+        });
+        findViewById(R.id.btn_12).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ADCountDownUtils.getInstance()
+                        .find((Button) findViewById(R.id.btn_12))
+                        .setInterval(1000)
+                        .setTime(60)
+                        .setDesc("获取验证码")
+                        .setPostfix("s")
+                        .request(new ADCountDownUtils.Builder.OnADCountDownUtilsListener() {
+
+                            @Override
+                            public void onTick(String time, long countDown, int total, int interval) {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                            }
+                        }).start();
             }
         });
     }
