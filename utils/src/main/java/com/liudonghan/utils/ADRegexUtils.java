@@ -138,6 +138,22 @@ public class ADRegexUtils {
         return sb.toString();
     }
 
+    /**
+     * 银行卡脱敏
+     *
+     * @param bank 银行卡号
+     * @return String
+     */
+    public String bankNaked(String bank) {
+        if (TextUtils.isEmpty(bank)) {
+            return "";
+        }
+        if (bank.length() < 10) {
+            return bank;
+        }
+        return "**** **** **** " + bank.substring(bank.length() - 4);
+    }
+
 
     /**
      * 验证数字
