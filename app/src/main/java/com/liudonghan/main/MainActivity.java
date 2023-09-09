@@ -64,6 +64,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
         Log.e("Mac_Liu", "activity路径：" + getLocalClassName());
+        Log.i("Mac_Liu", "7天：" + ADFormatUtils.getInstance().getBeforeDay(7));
         videoAdapter = new VideoAdapter(R.layout.item_video);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));

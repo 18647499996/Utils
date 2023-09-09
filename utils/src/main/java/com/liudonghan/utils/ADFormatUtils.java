@@ -16,7 +16,13 @@ import java.util.Objects;
  * Time:3/23/23
  */
 public class ADFormatUtils {
-    private static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String YEAR_MONTH_DAY_HOUR_MINUTE = "yyyy-MM-dd HH:mm";
+    public static final String YEAR_MONTH_DAY = "yyyy-MM-dd";
+    public static final String YEAR_MONTH = "yyyy-MM";
+    public static final String HOUR_MINUTE = "HH:mm";
+
+
     private static volatile ADFormatUtils instance = null;
 
     private ADFormatUtils() {
@@ -66,7 +72,7 @@ public class ADFormatUtils {
      * @param timeSeconds
      * @return
      */
-    public static String formatDurations(int timeSeconds) {
+    public String formatDurations(int timeSeconds) {
         int second = timeSeconds % 60;
         int minuteTemp = timeSeconds / 60;
         if (minuteTemp > 0) {
@@ -115,6 +121,30 @@ public class ADFormatUtils {
     }
 
     /**
+     * todo 获取时间戳（ 天数 ）
+     *
+     * @param dayNum 共计天数
+     * @return long
+     */
+    public long getDayTimeStamp(int dayNum) {
+        // 一天时间戳
+        long date = 60 * 60 * 24 * 1000;
+        return date * dayNum;
+    }
+
+
+    /**
+     * todo 获取当前之前日期 （ 几天前 ）
+     *
+     * @param dayNum 共计天数
+     * @return String
+     */
+    public String getBeforeDay(int dayNum) {
+        long beforeTimeStamp = System.currentTimeMillis() - getDayTimeStamp(dayNum);
+        return getTimeStampToFormat(beforeTimeStamp, ADFormatUtils.YEAR_MONTH_DAY);
+    }
+
+    /**
      * todo 根据日期获取时间戳
      *
      * @param simpleDate 日期
@@ -134,10 +164,11 @@ public class ADFormatUtils {
     /**
      * todo 格式化数字
      * todo 例如：1,000,000
+     *
      * @param value 值
      * @return String
      */
-    public String decimalFormatNumber(long value){
+    public String decimalFormatNumber(long value) {
         DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
         return decimalFormat.format(value);
     }
