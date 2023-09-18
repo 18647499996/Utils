@@ -3,6 +3,7 @@ package com.liudonghan.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -117,7 +118,7 @@ public class ADRegexUtils {
     }
 
     /**
-     * 手机号码脱敏显示
+     * todo 手机号码脱敏显示
      *
      * @param num 脱敏
      * @return String
@@ -139,7 +140,7 @@ public class ADRegexUtils {
     }
 
     /**
-     * 银行卡脱敏
+     * todo 银行卡脱敏
      *
      * @param bank 银行卡号
      * @return String
@@ -156,7 +157,7 @@ public class ADRegexUtils {
 
 
     /**
-     * 验证数字
+     * todo 验证数字
      *
      * @param str 字符串
      * @return boolean
@@ -166,6 +167,11 @@ public class ADRegexUtils {
         return match(regex, str);
     }
 
+    /**
+     * todo 验证手机号码
+     * @param value
+     * @return
+     */
     public boolean isTelPhoneNumber(String value) {
         if (value != null && value.length() == 11) {
             Pattern pattern = Pattern.compile("^1[3|4|5|6|7|8][0-9]\\d{8}$");
@@ -176,7 +182,7 @@ public class ADRegexUtils {
     }
 
     /**
-     * 验证手机号（简单）
+     * todo 验证手机号（简单）
      *
      * @param input 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
@@ -186,7 +192,29 @@ public class ADRegexUtils {
     }
 
     /**
-     * 验证手机号（精确）
+     * todo 格式化金额
+     * todo 例如：1,000,000
+     *
+     * @param amount 金额
+     * @return String
+     */
+    public String decimalFormatNumber(long amount) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+        return decimalFormat.format(amount);
+    }
+
+    /**
+     * todo 格式化银行卡
+     *
+     * @param bank 银行卡号
+     * @return String
+     */
+    public String decimalFormatBank(String bank) {
+        return bank.replaceAll("(.{4})", "$1  ");
+    }
+
+    /**
+     * todo 验证手机号（精确）
      *
      * @param input 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
@@ -196,7 +224,7 @@ public class ADRegexUtils {
     }
 
     /**
-     * 验证电话号码
+     * todo 验证电话号码
      *
      * @param input 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
@@ -206,7 +234,7 @@ public class ADRegexUtils {
     }
 
     /**
-     * 验证身份证号码15位
+     * todo 验证身份证号码15位
      *
      * @param input 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
@@ -216,7 +244,7 @@ public class ADRegexUtils {
     }
 
     /**
-     * 验证身份证号码18位
+     * todo 验证身份证号码18位
      *
      * @param input 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
@@ -226,7 +254,7 @@ public class ADRegexUtils {
     }
 
     /**
-     * 验证邮箱
+     * todo 验证邮箱
      *
      * @param input 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
@@ -236,7 +264,7 @@ public class ADRegexUtils {
     }
 
     /**
-     * 验证URL
+     * todo 验证URL
      *
      * @param input 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
@@ -246,7 +274,7 @@ public class ADRegexUtils {
     }
 
     /**
-     * 验证汉字
+     * todo 验证汉字
      *
      * @param input 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
@@ -256,7 +284,7 @@ public class ADRegexUtils {
     }
 
     /**
-     * 正则过滤器
+     * todo 正则过滤器
      *
      * @param regex 匹配符
      * @param str   字符串
@@ -269,7 +297,7 @@ public class ADRegexUtils {
     }
 
     /**
-     * 正则过滤器
+     * todo 正则过滤器
      *
      * @param regex 匹配符
      * @param str   字符串

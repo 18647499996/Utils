@@ -88,7 +88,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         findViewById(R.id.btn_2).setOnClickListener(v -> ADNetworkUtils.getInstance().unregisterReceiver(MainActivity.this, networkReceive));
         // 我通过了你的好友验证请求，12现在我们可以开始聊天了   13534536434和18647499996和15210176281
         ADTextStyleUtils.getInstance().setCompoundDrawables(this, textView, R.mipmap.ic_launcher, 0, R.mipmap.ic_launcher, 0);
-        Log.d("Mac_Liu", "验证字符串：" + ADRegexUtils.getInstance().getMobileAcute("王莹，1*讯飞耳机，中通:73198854716123"));
+        Log.d("Mac_Liu", "验证字符串：" + ADRegexUtils.getInstance().getMobileAcute("王莹，1*讯飞耳机，中通:73198854716123 18647499996"));
         textView.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, TestActivity.class);
             this.startActivity(intent);
@@ -162,7 +162,9 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 .startClass(GreenDaoActivity.class)
                 .builder());
         Button button = (Button) findViewById(R.id.btn_10);
-        button.setText(ADFormatUtils.getInstance().decimalFormatNumber(10000000));
+        Button button13 = (Button) findViewById(R.id.btn_13);
+        button.setText(ADRegexUtils.getInstance().decimalFormatNumber(10000));
+        button13.setText(ADRegexUtils.getInstance().decimalFormatBank("6226220142005874"));
         findViewById(R.id.btn_11).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
