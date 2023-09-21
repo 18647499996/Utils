@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.liudonghan.main.pet.PetActivity">
+
+    <com.liudonghan.view.recycler.ADRecyclerView
+        android:id="@+id/activity_pet_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:liu_layout_manager="grid"
+        app:liu_span_count="3" />
+
+</LinearLayout>

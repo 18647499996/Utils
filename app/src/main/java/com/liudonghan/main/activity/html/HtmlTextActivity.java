@@ -1,10 +1,8 @@
-package com.liudonghan.main.html;
+package com.liudonghan.main.activity.html;
 
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liudonghan.main.R;
@@ -13,7 +11,6 @@ import com.liudonghan.view.snackbar.ADSnackBarManager;
 import com.liudonghan.view.title.ADTitleBuilder;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Description：

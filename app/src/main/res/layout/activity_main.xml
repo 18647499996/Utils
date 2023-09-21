@@ -4,127 +4,141 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.liudonghan.main.MainActivity">
+    tools:context="com.liudonghan.main.activity.main.MainActivity">
 
-    <Button
-        android:id="@+id/btn_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="注册网络监听" />
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_1"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="注册网络监听" />-->
 
-    <Button
-        android:id="@+id/btn_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/btn_1"
-        android:text="注销网络监听" />
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_2"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_toRightOf="@id/btn_1"-->
+    <!--        android:text="注销网络监听" />-->
 
-    <Button
-        android:id="@+id/btn_4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/btn_2"
-        android:text="获取视频文件" />
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_4"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_toRightOf="@id/btn_2"-->
+    <!--        android:text="获取视频文件" />-->
 
 
-    <Button
-        android:id="@+id/btn_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_1"
-        android:gravity="center"
-        android:text="改变文字" />
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_3"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/btn_1"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="改变文字" />-->
 
-    <Button
-        android:id="@+id/btn_5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_1"
-        android:layout_toRightOf="@id/btn_3"
-        android:text="Intent跳转" />
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_5"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/btn_1"-->
+    <!--        android:layout_toRightOf="@id/btn_3"-->
+    <!--        android:text="Intent跳转" />-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/recycler"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/btn_3" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textview"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/recycler"-->
+    <!--        android:ellipsize="end"-->
+    <!--        android:maxLines="2"-->
+    <!--        android:text="。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。"-->
+    <!--        android:textColor="#222222"-->
+    <!--        android:textStyle="bold" />-->
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/img1"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/textview" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_6"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/img1"-->
+    <!--        android:text="通知栏管理" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_7"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/img1"-->
+    <!--        android:layout_toRightOf="@id/btn_6"-->
+    <!--        android:text="宽度动画" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_8"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/img1"-->
+    <!--        android:layout_toRightOf="@id/btn_7"-->
+    <!--        android:text="高度动画" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_9"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/btn_8"-->
+    <!--        android:text="数据库" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_10"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/btn_8"-->
+    <!--        android:layout_toRightOf="@id/btn_9"-->
+    <!--        android:text="10000000" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_11"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/btn_8"-->
+    <!--        android:layout_toRightOf="@id/btn_10"-->
+    <!--        android:text="html" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_12"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignTop="@id/btn_11"-->
+    <!--        android:layout_toRightOf="@id/btn_11"-->
+    <!--        android:text="定时器" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_13"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/btn_9"-->
+    <!--        android:layout_alignLeft="@id/btn_9" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_14"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/btn_12"-->
+    <!--        android:layout_toRightOf="@id/btn_13"-->
+    <!--        android:text="宠物信息" />-->
+
+    <com.liudonghan.view.recycler.ADRecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_3" />
-
-    <TextView
-        android:id="@+id/textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recycler"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:text="。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。"
-        android:textColor="#222222"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/img1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textview" />
-
-    <Button
-        android:id="@+id/btn_6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/img1"
-        android:text="通知栏管理" />
-
-    <Button
-        android:id="@+id/btn_7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/img1"
-        android:layout_toRightOf="@id/btn_6"
-        android:text="宽度动画" />
-
-    <Button
-        android:id="@+id/btn_8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/img1"
-        android:layout_toRightOf="@id/btn_7"
-        android:text="高度动画" />
-
-    <Button
-        android:id="@+id/btn_9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_8"
-        android:text="数据库" />
-
-    <Button
-        android:id="@+id/btn_10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_8"
-        android:layout_toRightOf="@id/btn_9"
-        android:text="10000000" />
-
-    <Button
-        android:id="@+id/btn_11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_8"
-        android:layout_toRightOf="@id/btn_10"
-        android:text="html" />
-
-    <Button
-        android:id="@+id/btn_12"
-        android:text="定时器"
-        android:layout_toRightOf="@id/btn_11"
-        android:layout_alignTop="@id/btn_11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btn_13"
-        android:layout_below="@id/btn_9"
-        android:layout_width="wrap_content"
-        android:layout_alignLeft="@id/btn_9"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        app:liu_layout_manager="flow" />
 
 </RelativeLayout>

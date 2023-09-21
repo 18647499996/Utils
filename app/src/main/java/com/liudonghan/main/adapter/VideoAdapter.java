@@ -1,4 +1,4 @@
-package com.liudonghan.main;
+package com.liudonghan.main.adapter;
 
 import android.net.Uri;
 import android.widget.ImageView;
@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.liudonghan.main.R;
 import com.liudonghan.utils.ADCursorManageUtils;
 
 import java.io.File;

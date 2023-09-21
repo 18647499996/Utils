@@ -1,4 +1,4 @@
-package com.liudonghan.main.html;
+package com.liudonghan.main.activity.style;
 
 import com.liudonghan.mvp.ADBasePresenter;
 import com.liudonghan.mvp.ADBaseView;
@@ -9,7 +9,7 @@ import com.liudonghan.mvp.ADBaseView;
  * @author Created by: Li_Min
  * Time:
  */
-public interface HtmlTextContract {
+public interface TextStyleContract {
 
     interface View extends ADBaseView<Presenter> {
 

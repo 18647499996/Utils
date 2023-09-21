@@ -20,7 +20,7 @@ import com.liudonghan.db.dao.DaoSession;
  */
 @Entity
 public class HomeEntity implements MultiItemEntity {
-    @Id
+    @Id()
     private long id;
     private String name;
     private String subName;

@@ -29,7 +29,7 @@ android {
 }
 
 greendao {
-    schemaVersion 13 //数据库版本号
+    schemaVersion 14 //数据库版本号
     daoPackage 'com.liudonghan.db.dao'// 设置DaoMaster、DaoSession、Dao   一般包名+文件夹名
     targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录   文件生成的目录，相当于父级目录
 }

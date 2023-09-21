@@ -1,4 +1,4 @@
-package com.liudonghan.main;
+package com.liudonghan.main.activity.main;
 
 import com.liudonghan.mvp.ADBaseSubscription;
 

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.liudonghan.main.html.HtmlTextActivity">
+    tools:context="com.liudonghan.main.activity.html.HtmlTextActivity">
 
     <include layout="@layout/ad_title_builder" />
 
