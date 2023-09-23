@@ -4,6 +4,8 @@ import android.os.CountDownTimer;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * Description：
  *
@@ -11,8 +13,9 @@ import android.widget.TextView;
  * Time:9/4/23
  */
 public class ADCountDownUtils {
+    private static ConcurrentHashMap<Object, Builder> concurrentHashMap = new ConcurrentHashMap<>();
+
     private static volatile ADCountDownUtils instance = null;
-    private static CountDownTimer timer;
 
     private ADCountDownUtils() {
     }
@@ -34,33 +37,50 @@ public class ADCountDownUtils {
         return new Builder();
     }
 
-    public Builder find(Button button) {
-        return new Builder(button);
+    public Builder tag(String tag) {
+        Builder builderModel = concurrentHashMap.get(tag);
+        if (null == builderModel) {
+            Builder builder = new Builder(tag);
+            concurrentHashMap.put(tag, builder);
+            return builder;
+        } else {
+            return builderModel;
+        }
     }
 
-    public Builder find(TextView textView) {
+    public Builder from(TextView textView) {
         return new Builder(textView);
     }
 
-    public void destroy() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
+    public Builder from(Button button) {
+        return new Builder(button);
+    }
+
+    public void unTaskTimer(String tag) {
+        Builder builder = concurrentHashMap.get(tag);
+        if (null != builder) {
+            builder.getTimer().cancel();
+            concurrentHashMap.remove(tag);
         }
     }
 
     public static class Builder {
-
         private int interval = 1000;
         private int time = 60 * 1000;
+        private String tag;
+        private CountDownTimer timer;
+        private boolean isFinished = true;
+        private TextView textView;
         private String desc = "获取验证码";
         private String postfix = "";
-        private TextView textView;
-        private boolean isFinished = true;
         private OnADCountDownUtilsListener onADCountDownUtilsListener;
 
         public Builder() {
 
+        }
+
+        public Builder(String tag) {
+            this.tag = tag;
         }
 
         public Builder(Button button) {
@@ -76,15 +96,17 @@ public class ADCountDownUtils {
             return this;
         }
 
-        /**
-         * todo 设置总时长
-         *
-         * @param time 单位（ 秒 ）
-         * @return Builder
-         */
         public Builder setTime(int time) {
             this.time = time * 1000;
             return this;
+        }
+
+        public CountDownTimer getTimer() {
+            return timer;
+        }
+
+        public OnADCountDownUtilsListener getListener() {
+            return onADCountDownUtilsListener;
         }
 
         /**
@@ -130,7 +152,7 @@ public class ADCountDownUtils {
                             textView.setAlpha((float) 0.5);
                         }
                         if (onADCountDownUtilsListener != null) {
-                            onADCountDownUtilsListener.onTick(result, millisUntilFinished / 1000, time, interval);
+                            onADCountDownUtilsListener.onTick(result, millisUntilFinished / 1000, time, interval, tag);
                         }
                     }
 
@@ -143,17 +165,13 @@ public class ADCountDownUtils {
                             textView.setText(desc);
                         }
                         if (onADCountDownUtilsListener != null) {
-                            onADCountDownUtilsListener.onFinish();
+                            onADCountDownUtilsListener.onFinish(tag);
                         }
                     }
                 };
             }
             timer.start();
 
-        }
-
-        private boolean isFinished() {
-            return isFinished;
         }
 
         public interface OnADCountDownUtilsListener {
@@ -166,14 +184,16 @@ public class ADCountDownUtils {
              * @param total     总时长
              * @param interval  间隔时长
              */
-            void onTick(String result, long countDown, int total, int interval);
+            void onTick(String result, long countDown, int total, int interval, String tag);
 
             /**
              * todo 倒计时结束回调
              */
-            void onFinish();
+            void onFinish(String tag);
+        }
+
+        private boolean isFinished() {
+            return isFinished;
         }
     }
-
-
 }

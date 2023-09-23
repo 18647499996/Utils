@@ -62,7 +62,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
-        immersionBar.transparentStatusBar().titleBar(recyclerView).init();
+        immersionBar.statusBarColor(R.color.black).statusBarDarkFont(false).titleBar(recyclerView).init();
         mainMenuAdapter = new MainMenuAdapter(R.layout.item_menu);
         recyclerView.setAdapter(mainMenuAdapter);
         mainMenuAdapter.setNewData(Arrays.asList(stringArray));

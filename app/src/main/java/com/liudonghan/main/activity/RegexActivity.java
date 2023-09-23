@@ -1,6 +1,7 @@
 package com.liudonghan.main.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -8,15 +9,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liudonghan.main.R;
 import com.liudonghan.main.adapter.MainMenuAdapter;
 import com.liudonghan.mvp.ADBaseActivity;
+import com.liudonghan.utils.ADCountDownUtils;
 import com.liudonghan.utils.ADRegexUtils;
-import com.liudonghan.view.radius.ADTextView;
 import com.liudonghan.view.recycler.ADRecyclerView;
 import com.liudonghan.view.snackbar.ADSnackBarManager;
 
 import java.util.Arrays;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Description：
@@ -32,7 +32,7 @@ public class RegexActivity extends ADBaseActivity<RegexPresenter> implements Reg
     Button activityRegexStyleBtn;
 
     private MainMenuAdapter mainMenuAdapter;
-    private String[] strings = new String[]{"格式化金额", "格式化银行卡", "手机号码脱敏"};
+    private String[] strings = new String[]{"格式化金额", "格式化银行卡", "手机号码脱敏", "取消Format", "取消bank", "取消mobile"};
 
     @Override
     protected int getLayout() throws RuntimeException {
@@ -86,12 +86,66 @@ public class RegexActivity extends ADBaseActivity<RegexPresenter> implements Reg
         switch (position) {
             case 0:
                 activityRegexStyleBtn.setText(ADRegexUtils.getInstance().decimalFormatNumber(309876566));
+                ADCountDownUtils.getInstance()
+                        .find()
+                        .setInterval(1000)
+                        .setTime(5)
+                        .request(new ADCountDownUtils.Builder.OnADCountDownUtilsListener() {
+                            @Override
+                            public void onTick(String result, long countDown, int total, int interval, String tag) {
+                                Log.i("Mac_Liu", "定时器类型：" + tag);
+                            }
+
+                            @Override
+                            public void onFinish(String tag) {
+                                Log.i("Mac_Liu", "结束定时器：" + tag);
+                            }
+                        }).start();
                 break;
             case 1:
                 activityRegexStyleBtn.setText(ADRegexUtils.getInstance().decimalFormatBank("6226220142005874"));
+                ADCountDownUtils.getInstance()
+                        .tag("bank")
+                        .setInterval(1000)
+                        .setTime(10)
+                        .request(new ADCountDownUtils.Builder.OnADCountDownUtilsListener() {
+                            @Override
+                            public void onTick(String result, long countDown, int total, int interval, String tag) {
+                                Log.i("Mac_Liu", "定时器类型：" + tag);
+                            }
+
+                            @Override
+                            public void onFinish(String tag) {
+                                Log.i("Mac_Liu", "结束定时器：" + tag);
+                            }
+                        }).start();
                 break;
             case 2:
+                ADCountDownUtils.getInstance()
+                        .tag("mobile")
+                        .setInterval(1000)
+                        .setTime(120)
+                        .request(new ADCountDownUtils.Builder.OnADCountDownUtilsListener() {
+                            @Override
+                            public void onTick(String result, long countDown, int total, int interval, String tag) {
+                                Log.i("Mac_Liu", "定时器类型： -------- " + tag);
+                            }
+
+                            @Override
+                            public void onFinish(String tag) {
+                                Log.i("Mac_Liu", "结束定时器：    " + tag);
+                            }
+                        }).start();
                 activityRegexStyleBtn.setText(ADRegexUtils.getInstance().getMobileAcute("王莹，1*讯飞耳机，中通:73198854716123 18647499996"));
+                break;
+            case 3:
+                ADCountDownUtils.getInstance().unTaskTimer("format");
+                break;
+            case 4:
+                ADCountDownUtils.getInstance().unTaskTimer("bank");
+                break;
+            case 5:
+                ADCountDownUtils.getInstance().unTaskTimer("mobile");
                 break;
             default:
                 break;
