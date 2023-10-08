@@ -103,22 +103,42 @@ public class ADGsonUtils {
 
     /**
      * 序列化json数组
-     * @param launch json字符串
+     * @param json json字符串
      * @param tClass class类
      * @param <T> List<T>集合
      * @return List<T>
      */
-    public static <T> List<T> jsonArrayList(String launch, Class<T> tClass) {
+    public static <T> List<T> jsonArrayList(String json, Class<T> tClass) {
         List<T> tList = new ArrayList<>();
         try {
-            JSONArray jsonArray = new JSONArray(launch);
+            JSONArray jsonArray = new JSONArray(json);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 T t = new Gson().fromJson(jsonObject.toString(), tClass);
                 tList.add(t);
             }
         } catch (JSONException e) {
-            Log.e(TAG, "JsonSyntax Error：" + launch);
+            Log.e(TAG, "JsonSyntax Error：" + json);
+            e.printStackTrace();
+        }
+        return tList;
+    }
+
+    /**
+     * 序列化json数组
+     * @param json json
+     * @return List<String>
+     */
+    public static List<String> jsonArrayList(String json) {
+        List<String> tList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String str = jsonArray.getString(i);
+                tList.add(str);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "JsonSyntax Error：" + json);
             e.printStackTrace();
         }
         return tList;
