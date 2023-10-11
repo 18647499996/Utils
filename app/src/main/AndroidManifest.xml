@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activity.RegexActivity"></activity>
+        <activity android:name=".activity.encrypt.EncryptActivity"></activity>
+        <activity android:name=".activity.RegexActivity" />
         <activity android:name=".activity.style.TextStyleActivity" />
         <activity android:name=".activity.date.DateActivity" />
         <activity android:name=".pet.PetActivity" />

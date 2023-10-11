@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liudonghan.main.R;
 import com.liudonghan.main.activity.RegexActivity;
 import com.liudonghan.main.activity.date.DateActivity;
+import com.liudonghan.main.activity.encrypt.EncryptActivity;
 import com.liudonghan.main.activity.style.TextStyleActivity;
 import com.liudonghan.main.adapter.MainMenuAdapter;
 import com.liudonghan.main.adapter.VideoAdapter;
@@ -43,7 +44,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
     private MainMenuAdapter mainMenuAdapter;
 
     private String[] stringArray = new String[]{"日期工具", "文本Style处理工具", "Intent管理器", "网络管理工具",
-            "正则工具", "屏幕录制监听", "系统相册工具", "计时器工具"};
+            "正则工具", "屏幕录制监听", "系统相册工具", "计时器工具", "加密工具"};
 
     @Override
     protected int getLayout() throws RuntimeException {
@@ -279,6 +280,10 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 break;
             case 7:
                 // 计时器工具
+                break;
+            case 8:
+                // 加密工具
+                EncryptActivity.startActivity(this, EncryptActivity.class);
                 break;
         }
     }
