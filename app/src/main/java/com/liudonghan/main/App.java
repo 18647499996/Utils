@@ -9,7 +9,10 @@ import androidx.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
 import com.liudonghan.db.GreenDaoManager;
+import com.liudonghan.main.activity.error.ErrorActivity;
 import com.liudonghan.utils.ADApplicationUtils;
+import com.liudonghan.utils.ADCrashErrorManager;
+import com.liudonghan.utils.ADFileUtils;
 
 /**
  * Description：
@@ -17,7 +20,7 @@ import com.liudonghan.utils.ADApplicationUtils;
  * @author Created by: Li_Min
  * Time:4/6/23
  */
-public class App extends Application {
+public class App extends Application implements ADApplicationUtils.ADApplicationUtilsListener, ADCrashErrorManager.Builder.OnADCrashErrorHandlerListener {
 
     @Override
     public void onCreate() {
@@ -33,74 +36,62 @@ public class App extends Application {
 //        StrictMode.setVmPolicy(builder.build());
 //        builder.detectFileUriExposure();
         GreenDaoManager.getInstance().init(getApplicationContext(), "liudonghan.db");
-        ADApplicationUtils.init(this, new ApplicationUtils() {
-            @Override
-            protected void onForeground() {
-                Log.i("Mac_Liu", "前台服务");
-            }
-
-            @Override
-            protected void onBackground() {
-                Log.i("Mac_Liu", "后台服务");
-            }
-
-            @Override
-            public void onActivityBackground() {
-                Log.i("Mac_Liu", "后台服务另一个方法");
-            }
-
-        });
+        ADCrashErrorManager.getInstance()
+                .from(this)
+                .errorActivity(ErrorActivity.class)
+                .customErrorInfo("jsonObject")
+                .listener(this)
+                .apply();
+        ADApplicationUtils.init(this, this);
     }
 
-    public static abstract class ApplicationUtils implements ADApplicationUtils.ADApplicationUtilsListener {
+    @Override
+    public void onCreated(Activity activity, Bundle bundle) {
 
-        protected abstract void onForeground();
+    }
 
-        protected abstract void onBackground();
+    @Override
+    public void onStarted(Activity activity) {
 
-        @Override
-        public void onCreated(Activity activity, Bundle bundle) {
+    }
 
-        }
+    @Override
+    public void onResumed(Activity activity) {
 
-        @Override
-        public void onStarted(Activity activity) {
+    }
 
-        }
+    @Override
+    public void onPaused(Activity activity) {
 
-        @Override
-        public void onResumed(Activity activity) {
+    }
 
-        }
+    @Override
+    public void onStopped(Activity activity) {
 
-        @Override
-        public void onPaused(Activity activity) {
+    }
 
-        }
+    @Override
+    public void onDestroyed(Activity activity) {
 
-        @Override
-        public void onStopped(Activity activity) {
+    }
 
-        }
+    @Override
+    public void onSaveInstanceState(Activity activity, Bundle bundle) {
 
-        @Override
-        public void onDestroyed(Activity activity) {
+    }
 
-        }
+    @Override
+    public void onActivityForeground() {
 
-        @Override
-        public void onSaveInstanceState(Activity activity, Bundle bundle) {
+    }
 
-        }
+    @Override
+    public void onActivityBackground() {
+        Log.i("Mac_Liu", "后台服务另一个方法");
+    }
 
-        @Override
-        public void onActivityForeground() {
-            onForeground();
-        }
+    @Override
+    public void onUncaughtException(Thread thread, Throwable throwable, String errorMsg) {
 
-        @Override
-        public void onActivityBackground() {
-            onBackground();
-        }
     }
 }

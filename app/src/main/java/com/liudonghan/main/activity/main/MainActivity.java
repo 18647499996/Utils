@@ -17,6 +17,7 @@ import com.liudonghan.main.adapter.MainMenuAdapter;
 import com.liudonghan.main.adapter.VideoAdapter;
 import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.utils.ADFormatUtils;
+import com.liudonghan.utils.ADGsonUtils;
 import com.liudonghan.utils.ADIntentManager;
 import com.liudonghan.utils.ADNetworkUtils;
 import com.liudonghan.utils.ADPicturePhotoUtils;
@@ -26,6 +27,8 @@ import com.liudonghan.view.recycler.ADRecyclerView;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 
@@ -44,7 +47,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
     private MainMenuAdapter mainMenuAdapter;
 
     private String[] stringArray = new String[]{"日期工具", "文本Style处理工具", "Intent管理器", "网络管理工具",
-            "正则工具", "屏幕录制监听", "系统相册工具", "计时器工具", "加密工具"};
+            "正则工具", "屏幕录制监听", "系统相册工具", "计时器工具", "加密工具", "系统设置", "异常捕获"};
 
     @Override
     protected int getLayout() throws RuntimeException {
@@ -69,6 +72,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         mainMenuAdapter.setNewData(Arrays.asList(stringArray));
         Log.e("Mac_Liu", "activity路径：" + getLocalClassName());
         Log.i("Mac_Liu", "7天：" + ADFormatUtils.getInstance().getBeforeDay(7));
+
 //        videoAdapter = new VideoAdapter(R.layout.item_video);
 //        recyclerView = (RecyclerView) findViewById(R.id.recycler);
 //        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
@@ -284,6 +288,14 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
             case 8:
                 // 加密工具
                 EncryptActivity.startActivity(this, EncryptActivity.class);
+                break;
+            case 9:
+                // 系统设置
+                break;
+            case 10:
+                // 异常捕获
+                imageView.getDrawable().setBounds(0, 0, 0, 0);
+            default:
                 break;
         }
     }
