@@ -48,6 +48,11 @@ public class ADAnimationUtils {
         return instance;
     }
 
+    /**
+     * todo 渐变动画（ 进 ）
+     *
+     * @param view view引用
+     */
     public void fadeIn(View view) {
         if (view.getVisibility() == View.VISIBLE) {
             return;
@@ -59,8 +64,13 @@ public class ADAnimationUtils {
         view.startAnimation(animation);
     }
 
-
-    public void fadeOutGone(View view) {
+    /**
+     * todo 渐变动画 （ 出 ）
+     *
+     * @param view          view引用
+     * @param isPlaceholder 隐藏是否占位 true 占位 false 不占位
+     */
+    public void fadeOut(View view, boolean isPlaceholder) {
         if (view.getVisibility() != View.VISIBLE) {
             return;
         }
@@ -70,24 +80,11 @@ public class ADAnimationUtils {
         Animation animation = new AlphaAnimation(1F, 0F);
         animation.setDuration(400);
         view.startAnimation(animation);
-        view.setVisibility(View.GONE);
-    }
-
-    public void fadeOutInvisible(View view) {
-        if (view.getVisibility() != View.VISIBLE) {
-            return;
-        }
-        // Since the button is still clickable before fade-out animation
-        // ends, we disable the button first to block click.
-        view.setEnabled(false);
-        Animation animation = new AlphaAnimation(1F, 0F);
-        animation.setDuration(400);
-        view.startAnimation(animation);
-        view.setVisibility(View.INVISIBLE);
+        view.setVisibility(isPlaceholder ? View.INVISIBLE : View.GONE);
     }
 
     /**
-     * 左右闪动（ 平移动画 ）
+     * todo 左右闪动（ 平移动画 ）
      *
      * @param view
      */
@@ -131,7 +128,7 @@ public class ADAnimationUtils {
     }
 
     /**
-     * 添加购物车平移动画
+     * todo 添加购物车图片缩放加向下平移过度动画
      *
      * @param cartNum         数量
      * @param view            页面父组件
@@ -215,12 +212,12 @@ public class ADAnimationUtils {
     }
 
     /**
-     * view拉伸动画（ 宽度拉伸 ）
+     * todo view拉伸动画（ 宽度拉伸 ）
      *
-     * @param view     view组件
-     * @param startAnim    开始宽度
-     * @param endAnim  结束宽度
-     * @param duration 动画时长
+     * @param view      view组件
+     * @param startAnim 开始宽度
+     * @param endAnim   结束宽度
+     * @param duration  动画时长
      */
     @SuppressLint("ObjectAnimatorBinding")
     public void startStretchWidthAnim(View view, int startAnim, int endAnim, int duration) {
