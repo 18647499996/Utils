@@ -1,6 +1,5 @@
 package com.liudonghan.utils;
 
-import android.annotation.NonNull;
 import android.app.Activity;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
