@@ -12,6 +12,7 @@ import com.liudonghan.main.R;
 import com.liudonghan.main.activity.RegexActivity;
 import com.liudonghan.main.activity.date.DateActivity;
 import com.liudonghan.main.activity.encrypt.EncryptActivity;
+import com.liudonghan.main.activity.html.HtmlTextActivity;
 import com.liudonghan.main.activity.style.TextStyleActivity;
 import com.liudonghan.main.adapter.MainMenuAdapter;
 import com.liudonghan.main.adapter.VideoAdapter;
@@ -48,7 +49,8 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
     private MainMenuAdapter mainMenuAdapter;
 
     private String[] stringArray = new String[]{"日期工具", "文本Style处理工具", "Intent管理器", "网络管理工具",
-            "正则工具", "屏幕录制监听", "系统相册工具", "计时器工具", "加密工具", "系统设置", "异常捕获", "AES解密"};
+            "正则工具", "屏幕录制监听", "系统相册工具", "计时器工具", "加密工具", "系统设置", "异常捕获", "AES解密",
+            "Html"};
 
     @Override
     protected int getLayout() throws RuntimeException {
@@ -302,6 +304,9 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 Log.w("Mac_Liu", "AES加密：" + encrypt);
                 String decrypt = ADEncryptManager.getInstance().decryptECB("2oxS7wXkFk0oAx/nG7NCare3A9I7VMIubu+tDyiB8r2mjJkUxtFFgsi8wAqhBxx8NOfl4wyyMSBotxlNJDg6A9uKf8cu000NswYzMgNqy2w=", "cretinzp**273846");
                 Log.w("Mac_Liu", "AES解密：" + decrypt);
+                break;
+            case 12:
+                HtmlTextActivity.startActivity(this, HtmlTextActivity.class);
                 break;
             default:
                 break;

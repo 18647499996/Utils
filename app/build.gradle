@@ -48,8 +48,9 @@ dependencies {
     implementation project(':utils')
     implementation project(':db')
     implementation 'com.github.18647499996:kit:1.2.8'
-    implementation 'com.github.18647499996:base:2.3.1'
-    implementation 'com.github.18647499996:component:2.8.6'
+    implementation 'com.github.18647499996:base:2.3.8'
+    implementation 'com.github.18647499996:component:3.0.6'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
     implementation 'com.jakewharton:butterknife:10.0.0'
+
 }
