@@ -1,18 +1,16 @@
 package com.liudonghan.main.activity.html;
 
-import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
-
 import com.bumptech.glide.Glide;
 import com.liudonghan.main.R;
 import com.liudonghan.mvp.ADBaseActivity;
+import com.liudonghan.mvp.ADBaseLoadingDialog;
 import com.liudonghan.utils.ADGsonUtils;
 import com.liudonghan.utils.ADHtmlUtils;
 import com.liudonghan.view.snackbar.ADSnackBarManager;
@@ -26,7 +24,7 @@ import butterknife.BindView;
  * @author Created by: Li_Min
  * Time:
  */
-public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implements HtmlTextContract.View {
+public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implements HtmlTextContract.View, ADHtmlUtils.OnADHtmlUtilsListener {
 
     @BindView(R.id.html)
     TextView html;
@@ -81,18 +79,7 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
                 .into(activityHtmlImgCover);
 //        ADHtmlUtils.getInstance().parseHtml(htmlStr);
         Log.i("Mac_Liu", "集合数据：" + ADGsonUtils.toJson(ADHtmlUtils.getInstance().parseHtml(htmlStr)));
-//        ADHtmlUtils.getInstance().parseHtml(this, htmlStr, new ADHtmlUtils.OnADHtmlUtilsListener() {
-//            @Override
-//            public void onStart() {
-//                ADBaseLoadingDialog.getInstance().init(HtmlTextActivity.this, "加载中..");
-//            }
-//
-//            @Override
-//            public void onSucceed(Spanned spanned) {
-//                ADBaseLoadingDialog.getInstance().dismiss();
-//                html.setText(spanned);
-//            }
-//        });
+        ADHtmlUtils.getInstance().parseHtml(this, htmlStr, this);
     }
 
     @Override
@@ -118,5 +105,16 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
     @Override
     public void showErrorMessage(String msg) {
         ADSnackBarManager.getInstance().showError(this, msg);
+    }
+
+    @Override
+    public void onReady() {
+        ADBaseLoadingDialog.getInstance().init(HtmlTextActivity.this, "加载中..");
+    }
+
+    @Override
+    public void onSucceed(Spanned spanned) {
+        ADBaseLoadingDialog.getInstance().dismiss();
+        html.setText(spanned);
     }
 }

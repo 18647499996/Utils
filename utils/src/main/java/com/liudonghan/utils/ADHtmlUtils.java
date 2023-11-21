@@ -131,7 +131,7 @@ public class ADHtmlUtils {
      * @param onADHtmlUtilsListener 解析回调
      */
     public void parseHtml(Activity activity, String htmlBody, OnADHtmlUtilsListener onADHtmlUtilsListener) {
-        onADHtmlUtilsListener.onStart();
+        onADHtmlUtilsListener.onReady();
         Point screenSize = ADScreenUtils.getInstance().getScreenSize(activity);
         new Thread(() -> {
             Spanned spanned = Html.fromHtml(htmlBody, source -> {
@@ -151,7 +151,8 @@ public class ADHtmlUtils {
     }
 
     public interface OnADHtmlUtilsListener {
-        void onStart();
+
+        void onReady();
 
         void onSucceed(Spanned spanned);
     }
