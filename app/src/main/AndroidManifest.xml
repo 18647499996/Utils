@@ -15,8 +15,10 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activity.error.ErrorActivity"/>
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".activity.image.ImageViewActivity"/>
+        <activity android:name=".activity.error.ErrorActivity" />
         <activity android:name=".activity.encrypt.EncryptActivity" />
         <activity android:name=".activity.RegexActivity" />
         <activity android:name=".activity.style.TextStyleActivity" />

@@ -30,7 +30,7 @@ public class ADImageUtils {
     }
 
     /**
-     * 设置等比图片宽高
+     * todo 设置等比图片宽高
      *
      * @param imageView imageView组件
      * @param width     宽
@@ -38,19 +38,33 @@ public class ADImageUtils {
      * @return ImageView
      */
     public ImageView setImageScale(ImageView imageView, int width, int height) {
+        return setImageScale(imageView, width, height, 540);
+    }
+
+    /**
+     * 设置等比图片宽高
+     *
+     * @param imageView imageView组件
+     * @param width     宽
+     * @param height    高
+     * @param ratio     等比值（ 默认：540 ）
+     *                  使用于聊天界面图片消息显示
+     * @return ImageView
+     */
+    public ImageView setImageScale(ImageView imageView, int width, int height, int ratio) {
         ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
         if (width == 0 || height == 0) {
-            layoutParams.width = 540;
-            layoutParams.height = 540;
+            layoutParams.width = ratio;
+            layoutParams.height = ratio;
             imageView.setLayoutParams(layoutParams);
             return imageView;
         }
         if (width > height) {
-            layoutParams.width = 540;
-            layoutParams.height = 540 * height / width;
+            layoutParams.width = ratio;
+            layoutParams.height = ratio * height / width;
         } else {
-            layoutParams.width = 540 * width / height;
-            layoutParams.height = 540;
+            layoutParams.width = ratio * width / height;
+            layoutParams.height = ratio;
         }
         imageView.setLayoutParams(layoutParams);
         return imageView;
