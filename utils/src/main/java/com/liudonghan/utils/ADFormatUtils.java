@@ -152,7 +152,18 @@ public class ADFormatUtils {
      * @return long
      */
     public long getSimpleDateToTime(String simpleDate) {
-        SimpleDateFormat simpleDateFormat = getSimpleDateFormat();
+        return getSimpleDateToTime(simpleDate,DEFAULT_FORMAT);
+    }
+
+    /**
+     * todo 根据日期获取时间戳
+     *
+     * @param simpleDate 日期
+     * @param dateFormat 格式化 默认：yyyy-MM-dd HH:mm:ss
+     * @return long
+     */
+    public long getSimpleDateToTime(String simpleDate,String dateFormat) {
+        SimpleDateFormat simpleDateFormat = getSimpleDateFormat(dateFormat);
         try {
             Date date = simpleDateFormat.parse(simpleDate);
             return Objects.requireNonNull(date).getTime();
