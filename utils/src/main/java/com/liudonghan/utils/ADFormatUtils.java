@@ -3,6 +3,7 @@ package com.liudonghan.utils;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -201,6 +202,71 @@ public class ADFormatUtils {
             return r + "分钟前";
         }
         return "刚刚";
+    }
+
+    /**
+     * todo 格式化数量（ 浏览、点赞、收藏 ）
+     *
+     * @param num 数量
+     * @return String
+     */
+    public String formatBrowseNum(String num) {
+        if (TextUtils.isEmpty(num)) {
+            // 数据为空直接返回0
+            return "0";
+        }
+        try {
+            StringBuffer sb = new StringBuffer();
+            if (!ADRegexUtils.getInstance().isNumber(num)) {
+                // 如果数据不是数字则直接返回0
+                return "0";
+            }
+
+
+            BigDecimal b0 = new BigDecimal("1000");
+            BigDecimal b1 = new BigDecimal("10000");
+            BigDecimal b2 = new BigDecimal("100000000");
+            BigDecimal b3 = new BigDecimal(num);
+
+            String formatedNum = "";//输出结果
+            String unit = "";//单位
+
+            if (b3.compareTo(b0) == -1) {
+                sb.append(b3.toString());
+            } else if ((b3.compareTo(b0) == 0 || b3.compareTo(b0) == 1)
+                    || b3.compareTo(b1) == -1) {
+                formatedNum = b3.divide(b0).toString();
+                unit = "k";
+            } else if ((b3.compareTo(b1) == 0 && b3.compareTo(b1) == 1)
+                    || b3.compareTo(b2) == -1) {
+                formatedNum = b3.divide(b1).toString();
+                unit = "w";
+            } else if (b3.compareTo(b2) == 0 || b3.compareTo(b2) == 1) {
+                formatedNum = b3.divide(b2).toString();
+                unit = "亿";
+            }
+            if (!"".equals(formatedNum)) {
+                int i = formatedNum.indexOf(".");
+                if (i == -1) {
+                    sb.append(formatedNum).append(unit);
+                } else {
+                    i = i + 1;
+                    String v = formatedNum.substring(i, i + 1);
+                    if (!v.equals("0")) {
+                        sb.append(formatedNum.substring(0, i + 1)).append(unit);
+                    } else {
+                        sb.append(formatedNum.substring(0, i - 1)).append(unit);
+                    }
+                }
+            }
+            if (sb.length() == 0)
+                return "0";
+            return sb.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return num;
+        }
     }
 
 }
