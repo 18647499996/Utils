@@ -47,5 +47,5 @@ dependencies {
     // google
     implementation 'com.google.code.gson:gson:2.10'
     // html parse utils
-    implementation 'org.jsoup:jsoup:1.13.1'
+    api 'org.jsoup:jsoup:1.13.1'
 }
