@@ -2,7 +2,6 @@ package com.liudonghan.main.activity.html;
 
 import android.os.Bundle;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,14 +16,7 @@ import com.liudonghan.utils.ADHtmlUtils;
 import com.liudonghan.view.snackbar.ADSnackBarManager;
 import com.liudonghan.view.title.ADTitleBuilder;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -66,6 +58,143 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
             "   责任编辑：李婷\n" +
             " </div>\n" +
             "</body>";
+
+    @Override
+    protected int getLayout() throws RuntimeException {
+        return R.layout.activity_html_text;
+    }
+
+    @Override
+    protected Object initBuilderTitle() throws RuntimeException {
+        return new ADTitleBuilder(this).setMiddleTitleBgRes("Html");
+    }
+
+    @Override
+    protected HtmlTextPresenter createPresenter() throws RuntimeException {
+        return (HtmlTextPresenter) new HtmlTextPresenter(this).builder(this);
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) throws RuntimeException {
+        Glide.with(this)
+                .load("https://image.whb.cn/image/8918e16c892f49f3a86f4e8087e870e8.jpg")
+                .into(activityHtmlImgCover);
+//        ADHtmlUtils.getInstance().parseHtml(htmlStr);
+        Log.i("Mac_Liu", "集合数据：" + ADGsonUtils.toJson(ADHtmlUtils.getInstance().parseHtml(htmlStr)));
+        ADHtmlUtils.getInstance().parseHtml(this, htmlStr, this);
+
+        String parser = ADHtmlUtils.getInstance()
+                .from(this)
+                .html(string)
+                .cssQuery("div", "ul.oh", "li", "div.pic")
+                .attrs("original", "alt")
+                .parser();
+        Log.i("Mac_Liu", "Html网页同步分享：" + parser);
+        ADHtmlUtils.getInstance()
+                .from(this)
+                .url("https://www.lssjt.com/11/27/")
+                .cssQuery("div", "ul.oh", "li", "div.pic")
+                .attrs("data-original")
+                .listener(new ADHtmlUtils.Builder.OnConnectListener() {
+                    @Override
+                    public void onReady() {
+
+                    }
+
+                    @Override
+                    public void onDocument(Document document, String json) {
+                        Log.i("Maps集合：", json);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                }).get();
+        ADHtmlUtils.getInstance()
+                .from(this)
+                .url("https://www.lssjt.com/11/27/8778.html")
+                .cssQuery("div.content", "div.body")
+                .attrs("src")
+                .listener(new ADHtmlUtils.Builder.OnConnectListener() {
+                    @Override
+                    public void onReady() {
+
+                    }
+
+                    @Override
+                    public void onDocument(Document document, String json) {
+                        Log.i("历史详情：", json);
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                }).get();
+        ADHtmlUtils.getInstance()
+                .from(this)
+                .url("https://mini.eastday.com/nsa/n231124144547653.html?positionxy=242,27")
+                .cssQuery("body","div", "div.main_content", "div.article", "div.detail_left.clear-fix",
+                        "div.detail_left_cnt", "div.J-contain_detail_cnt.contain_detail_cnt")
+                .attrs("data-url")
+                .listener(new ADHtmlUtils.Builder.OnConnectListener() {
+                    @Override
+                    public void onReady() {
+
+                    }
+
+                    @Override
+                    public void onDocument(Document document, String json) {
+                        Log.i("新闻详情：", json);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                }).get();
+
+
+    }
+
+    @Override
+    protected void addListener() throws RuntimeException {
+
+    }
+
+    @Override
+    protected void onClickDoubleListener(View view) throws RuntimeException {
+
+    }
+
+    @Override
+    protected void onDestroys() throws RuntimeException {
+
+    }
+
+    @Override
+    public void setPresenter(HtmlTextContract.Presenter presenter) {
+        mPresenter = (HtmlTextPresenter) checkNotNull(presenter);
+    }
+
+    @Override
+    public void showErrorMessage(String msg) {
+        ADSnackBarManager.getInstance().showError(this, msg);
+    }
+
+    @Override
+    public void onReady() {
+        ADBaseLoadingDialog.getInstance().init(HtmlTextActivity.this, "加载中..");
+    }
+
+    @Override
+    public void onSucceed(Spanned spanned) {
+        ADBaseLoadingDialog.getInstance().dismiss();
+        html.setText(spanned);
+    }
+
     private String string = "<!DOCTYPE html>\n" +
             "<html>\n" +
             "\n" +
@@ -1327,86 +1456,4 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
             "</body>\n" +
             "\n" +
             "</html>";
-
-    @Override
-    protected int getLayout() throws RuntimeException {
-        return R.layout.activity_html_text;
-    }
-
-    @Override
-    protected Object initBuilderTitle() throws RuntimeException {
-        return new ADTitleBuilder(this).setMiddleTitleBgRes("Html");
-    }
-
-    @Override
-    protected HtmlTextPresenter createPresenter() throws RuntimeException {
-        return (HtmlTextPresenter) new HtmlTextPresenter(this).builder(this);
-    }
-
-    @Override
-    protected void initData(Bundle savedInstanceState) throws RuntimeException {
-        Glide.with(this)
-                .load("https://image.whb.cn/image/8918e16c892f49f3a86f4e8087e870e8.jpg")
-                .into(activityHtmlImgCover);
-//        ADHtmlUtils.getInstance().parseHtml(htmlStr);
-        Log.i("Mac_Liu", "集合数据：" + ADGsonUtils.toJson(ADHtmlUtils.getInstance().parseHtml(htmlStr)));
-        ADHtmlUtils.getInstance().parseHtml(this, htmlStr, this);
-
-//        new Thread(() -> {
-            try {
-//                Document document = Jsoup.connect("https://www.lssjt.com/11/25/").timeout(10000).get();
-                Document parse = Jsoup.parse(string);
-                Element body = parse.body();
-                Log.i("Mac_Liu", "Html文本：" + body.select("div").select("ul.oh").select("li").select("div.pic").html());
-                Elements select1 = body.select("div").select("ul.oh").select("li").select("div.pic");
-                for (int i = 0; i < select1.size(); i++) {
-                    Elements children = select1.get(i).children();
-                    String img = children.select("img").attr("data-original");
-                    String text = children.text();
-                    if (!TextUtils.isEmpty(img)) {
-                        Log.i("Mac_Liu", "简易方式：" + img + "   " + text);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-//        }).start();
-
-    }
-
-    @Override
-    protected void addListener() throws RuntimeException {
-
-    }
-
-    @Override
-    protected void onClickDoubleListener(View view) throws RuntimeException {
-
-    }
-
-    @Override
-    protected void onDestroys() throws RuntimeException {
-
-    }
-
-    @Override
-    public void setPresenter(HtmlTextContract.Presenter presenter) {
-        mPresenter = (HtmlTextPresenter) checkNotNull(presenter);
-    }
-
-    @Override
-    public void showErrorMessage(String msg) {
-        ADSnackBarManager.getInstance().showError(this, msg);
-    }
-
-    @Override
-    public void onReady() {
-        ADBaseLoadingDialog.getInstance().init(HtmlTextActivity.this, "加载中..");
-    }
-
-    @Override
-    public void onSucceed(Spanned spanned) {
-        ADBaseLoadingDialog.getInstance().dismiss();
-        html.setText(spanned);
-    }
 }

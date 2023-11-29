@@ -1,13 +1,16 @@
 package com.liudonghan.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.TextView;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,7 +19,13 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Description：
@@ -57,7 +66,7 @@ public class ADHtmlUtils {
         for (Element tag : allElements) {
             if (tag.hasText()) {
                 if (!ADArrayUtils.isEmpty(tag.getElementsByTag("img"))) {
-                    getContent(tag.children(), elementBeans);
+                    getContent(tag.children(), elementBeans, "src");
                 } else {
                     elementBeans.add(new ElementBean(HtmlMode.Text, tag.text()));
                 }
@@ -72,10 +81,10 @@ public class ADHtmlUtils {
     }
 
 
-    private void getContent(Elements elements, List<ElementBean> elementBeans) {
+    private void getContent(Elements elements, List<ElementBean> elementBeans, String... attrs) {
         for (int i = 0; i < elements.size(); i++) {
             if (!ADArrayUtils.isEmpty(elements.get(i).children())) {
-                getContent(elements.get(i).children(), elementBeans);
+                getContent(elements.get(i).children(), elementBeans, attrs);
             } else {
                 if (!TextUtils.isEmpty(elements.get(i).text())) {
                     elementBeans.add(new ElementBean(HtmlMode.Text, elements.get(i).text()));
@@ -83,18 +92,50 @@ public class ADHtmlUtils {
                     Elements img = elements.get(i).getElementsByTag("img");
                     if (!ADArrayUtils.isEmpty(img)) {
                         for (int j = 0; j < img.size(); j++) {
-                            elementBeans.add(new ElementBean(HtmlMode.Image, img.get(j).attr("src")));
+                            for (String str : attrs) {
+                                String attr = img.get(j).attr(str);
+                                if (!TextUtils.isEmpty(attr)) {
+                                    elementBeans.add(new ElementBean(HtmlMode.Image, attr));
+                                }
+                            }
                         }
                     }
                     Elements video = elements.get(i).getElementsByTag("video");
                     if (!ADArrayUtils.isEmpty(video)) {
                         for (int j = 0; j < video.size(); j++) {
-                            elementBeans.add(new ElementBean(HtmlMode.Video, video.get(j).attr("src")));
+                            for (String str : attrs) {
+                                String attr = video.get(j).attr(str);
+                                if (!TextUtils.isEmpty(attr)) {
+                                    elementBeans.add(new ElementBean(HtmlMode.Video, attr));
+                                }
+                            }
                         }
                     }
                 }
             }
         }
+    }
+
+
+    /**
+     * todo 根据标签查找内容
+     *
+     * @param html     html文本
+     * @param cssQuery css标签
+     * @return Elements
+     */
+    public Elements findCssByElements(String html, String... cssQuery) {
+        Document parse = Jsoup.parse(html);
+        Element body = parse.body();
+        Elements elements = null;
+        for (String css : cssQuery) {
+            elements = body.select(css);
+        }
+        return elements;
+    }
+
+    public Builder from(Context context) {
+        return new Builder(context);
     }
 
     /**
@@ -188,5 +229,226 @@ public class ADHtmlUtils {
         Text,
         Image,
         Video
+    }
+
+    public static class Builder {
+
+        private Context context;
+        private String url;
+        private String html;
+        private int millis = 30 * 1000;
+        private OnConnectListener listener;
+        private String[] cssQuery;
+        private String requestBody;
+        private Map<String, String> headers = new HashMap<>();
+        private String[] attrs = new String[]{};
+
+        public Builder(Context context) {
+            this.context = context;
+        }
+
+        public Builder url(String url) {
+            this.url = url;
+            return this;
+        }
+
+        public Builder timeout(int millis) {
+            this.millis = millis;
+            return this;
+        }
+
+        public Builder headers(Map<String, String> headers) {
+            this.headers = headers;
+            return this;
+        }
+
+        public Builder requestBody(String body) {
+            this.requestBody = requestBody;
+            return this;
+        }
+
+        public Builder listener(OnConnectListener listener) {
+            this.listener = listener;
+            return this;
+        }
+
+        public void get() {
+            execute("get");
+
+        }
+
+        public void post() {
+            execute("post");
+        }
+
+        private void execute(String methodType) {
+            if (null != listener) {
+                listener.onReady();
+            }
+            new Thread(() -> {
+                try {
+                    Document document = "get".equals(methodType) ? connect().get() : connect().post();
+                    if (null != listener) {
+                        if (null != cssQuery) {
+                            listener.onDocument(document, getElementJson(document));
+                        } else {
+                            listener.onDocument(document, "");
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (null != listener) {
+                        listener.onError(e);
+                    }
+                }
+            }).start();
+        }
+
+        /**
+         * 获取格式化element节点Json数据
+         *
+         * @param document Document引用
+         * @return String
+         */
+        private String getElementJson(Document document) {
+            Element body = document.body();
+            Elements elements = null;
+            for (String css : cssQuery) {
+                if (null != elements) {
+                    elements = elements.select(css);
+                } else {
+                    elements = body.select(css);
+                }
+            }
+//            List<Map<String, String>> maps = new ArrayList<>();
+            List<ElementBean> elementBeanList = new ArrayList<>();
+//            String[] keys = attrs.get("key");
+//            String[] values = attrs.get("value");
+            for (int i = 0; i < Objects.requireNonNull(elements).size(); i++) {
+                Elements children = elements.get(i).children();
+                getInstance().getContent(children, elementBeanList, attrs);
+
+//                if (null != keys && null != values) {
+//                    Map<String, String> map = new HashMap<>();
+//                    for (int j = 0; j < keys.length; j++) {
+//                        if (TextUtils.isEmpty(values[j])) {
+//                            if (ADArrayUtils.isEmpty(children)) {
+//                                map.put("text", elements.get(i).text());
+//                            } else {
+//                                map.put("text", children.select(keys[j]).text());
+//                            }
+//                        } else {
+//                            map.put(values[j], children.select(keys[j]).attr(values[j]));
+//                        }
+//                    }
+//                    maps.add(map);
+//                }
+            }
+//            Set set = new HashSet();
+//            set.addAll(elementBeanList);
+//            elementBeanList.clear();
+//            elementBeanList.addAll(set);
+            return ADGsonUtils.toJson(elementBeanList);
+        }
+
+        /**
+         * 网络连接配置
+         *
+         * @return Connection
+         */
+        private Connection connect() {
+            Connection connect = Jsoup.connect(url);
+            if (!ADArrayUtils.isEmpty(headers.entrySet())) {
+                Set<Map.Entry<String, String>> entries = headers.entrySet();
+                for (Map.Entry<String, String> next : entries) {
+                    connect.header(next.getKey(), next.getValue());
+                }
+            }
+            connect.timeout(millis);
+            connect.requestBody(requestBody);
+            return connect;
+        }
+
+        /**
+         * todo 查询css标签下元素
+         *
+         * @param cssQuery 标签
+         * @return Builder
+         */
+        public Builder cssQuery(String... cssQuery) {
+            this.cssQuery = cssQuery;
+            return this;
+        }
+
+//        /**
+//         * todo html标签名称
+//         *
+//         * @param key Html标签数组
+//         * @return Builder
+//         */
+//        public Builder attrsKey(String... key) {
+//            attrs.put("key", key);
+//            return this;
+//        }
+
+        /**
+         * todo html标签属性名称
+         *
+         * @param attrs 标签属性数组
+         *              注：如果attrsKey对应标签无属性，则value值=""，默认返回标签text文本
+         * @return Builder
+         */
+        public Builder attrs(String... attrs) {
+            this.attrs = attrs;
+            return this;
+        }
+
+        /**
+         * 设置Html网页
+         *
+         * @param html 网页信息
+         * @return
+         */
+        public Builder html(String html) {
+            this.html = html;
+            return this;
+        }
+
+        /**
+         * 执行html网页分析
+         *
+         * @return String
+         */
+        public String parser() {
+            if (TextUtils.isEmpty(html)) {
+                Log.i("Mac_Liu", "Could not determine a form action HTML");
+                return null;
+            }
+            Document parse = Jsoup.parse(html);
+            return getElementJson(parse);
+        }
+
+        public interface OnConnectListener {
+
+            /**
+             * 准备
+             */
+            void onReady();
+
+            /**
+             * document回调
+             *
+             * @param document document
+             * @param json     json数据
+             */
+            void onDocument(Document document, String json);
+
+            /**
+             * 异常回调
+             *
+             * @param e 异常信息
+             */
+            void onError(Exception e);
+        }
     }
 }
