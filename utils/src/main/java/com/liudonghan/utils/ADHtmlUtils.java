@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -191,6 +189,19 @@ public class ADHtmlUtils {
         }).start();
     }
 
+    public Elements selectElement(Document document, String... cssQuery) {
+        Element body = document.body();
+        Elements elements = null;
+        for (String css : cssQuery) {
+            if (null != elements) {
+                elements = elements.select(css);
+            } else {
+                elements = body.select(css);
+            }
+        }
+        return elements;
+    }
+
     public interface OnADHtmlUtilsListener {
 
         void onReady();
@@ -290,9 +301,9 @@ public class ADHtmlUtils {
                     Document document = "get".equals(methodType) ? connect().get() : connect().post();
                     if (null != listener) {
                         if (null != cssQuery) {
-                            listener.onDocument(document, getElementJson(document));
+                            listener.onDocument(document, getInstance().selectElement(document, cssQuery), getElementJson(document));
                         } else {
-                            listener.onDocument(document, "");
+                            listener.onDocument(document, document.getAllElements(), "");
                         }
                     }
                 } catch (Exception e) {
@@ -311,43 +322,12 @@ public class ADHtmlUtils {
          * @return String
          */
         private String getElementJson(Document document) {
-            Element body = document.body();
-            Elements elements = null;
-            for (String css : cssQuery) {
-                if (null != elements) {
-                    elements = elements.select(css);
-                } else {
-                    elements = body.select(css);
-                }
-            }
-//            List<Map<String, String>> maps = new ArrayList<>();
+            Elements elements = getInstance().selectElement(document, cssQuery);
             List<ElementBean> elementBeanList = new ArrayList<>();
-//            String[] keys = attrs.get("key");
-//            String[] values = attrs.get("value");
             for (int i = 0; i < Objects.requireNonNull(elements).size(); i++) {
                 Elements children = elements.get(i).children();
                 getInstance().getContent(children, elementBeanList, attrs);
-
-//                if (null != keys && null != values) {
-//                    Map<String, String> map = new HashMap<>();
-//                    for (int j = 0; j < keys.length; j++) {
-//                        if (TextUtils.isEmpty(values[j])) {
-//                            if (ADArrayUtils.isEmpty(children)) {
-//                                map.put("text", elements.get(i).text());
-//                            } else {
-//                                map.put("text", children.select(keys[j]).text());
-//                            }
-//                        } else {
-//                            map.put(values[j], children.select(keys[j]).attr(values[j]));
-//                        }
-//                    }
-//                    maps.add(map);
-//                }
             }
-//            Set set = new HashSet();
-//            set.addAll(elementBeanList);
-//            elementBeanList.clear();
-//            elementBeanList.addAll(set);
             return ADGsonUtils.toJson(elementBeanList);
         }
 
@@ -380,17 +360,6 @@ public class ADHtmlUtils {
             return this;
         }
 
-//        /**
-//         * todo html标签名称
-//         *
-//         * @param key Html标签数组
-//         * @return Builder
-//         */
-//        public Builder attrsKey(String... key) {
-//            attrs.put("key", key);
-//            return this;
-//        }
-
         /**
          * todo html标签属性名称
          *
@@ -407,7 +376,7 @@ public class ADHtmlUtils {
          * 设置Html网页
          *
          * @param html 网页信息
-         * @return
+         * @return Builder
          */
         public Builder html(String html) {
             this.html = html;
@@ -438,10 +407,11 @@ public class ADHtmlUtils {
             /**
              * document回调
              *
-             * @param document document
-             * @param json     json数据
+             * @param document       document网页信息
+             * @param selectElements 选中标签节点
+             * @param json           json数据
              */
-            void onDocument(Document document, String json);
+            void onDocument(Document document, Elements selectElements, String json);
 
             /**
              * 异常回调

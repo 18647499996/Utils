@@ -17,6 +17,7 @@ import com.liudonghan.view.snackbar.ADSnackBarManager;
 import com.liudonghan.view.title.ADTitleBuilder;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import butterknife.BindView;
 
@@ -102,7 +103,7 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
                     }
 
                     @Override
-                    public void onDocument(Document document, String json) {
+                    public void onDocument(Document document, Elements selectElements, String json) {
                         Log.i("Maps集合：", json);
                     }
 
@@ -123,7 +124,7 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
                     }
 
                     @Override
-                    public void onDocument(Document document, String json) {
+                    public void onDocument(Document document, Elements selectElements, String json) {
                         Log.i("历史详情：", json);
 
                     }
@@ -136,7 +137,7 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
         ADHtmlUtils.getInstance()
                 .from(this)
                 .url("https://mini.eastday.com/nsa/n231124144547653.html?positionxy=242,27")
-                .cssQuery("body","div", "div.main_content", "div.article", "div.detail_left.clear-fix",
+                .cssQuery("body", "div", "div.main_content", "div.article", "div.detail_left.clear-fix",
                         "div.detail_left_cnt", "div.J-contain_detail_cnt.contain_detail_cnt")
                 .attrs("data-url")
                 .listener(new ADHtmlUtils.Builder.OnConnectListener() {
@@ -146,7 +147,7 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
                     }
 
                     @Override
-                    public void onDocument(Document document, String json) {
+                    public void onDocument(Document document, Elements selectElements, String json) {
                         Log.i("新闻详情：", json);
                     }
 
@@ -155,7 +156,34 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
 
                     }
                 }).get();
+        ADHtmlUtils.getInstance()
+                .from(this)
+                .url("https://mini.eastday.com/nsa/n231129135758235.html")
+                .cssQuery("body", "div", "div.main_content", "div.article",
+                        "div.detail_left.clear-fix", "div.pagination")
+                .listener(new ADHtmlUtils.Builder.OnConnectListener() {
+                    @Override
+                    public void onReady() {
 
+                    }
+
+                    @Override
+                    public void onDocument(Document document, Elements selectElements, String json) {
+                        Log.i("Mac_Liu", "分页标签：" + json);
+//                        for (int i = 0; i < selectElements.size(); i++) {
+//                            Elements elements = selectElements.get(i).children();
+//                            for (int j = 0; j < elements.size(); j++) {
+//                                String attr = elements.get(j).select("a").attr("href");
+//                                Log.i("Mac_Liu", "标签：" + attr);
+//                            }
+//                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                }).get();
 
     }
 
