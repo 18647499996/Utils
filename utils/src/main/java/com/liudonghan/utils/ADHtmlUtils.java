@@ -78,7 +78,13 @@ public class ADHtmlUtils {
         return elementBeans;
     }
 
-
+    /**
+     * 获取标签内容
+     *
+     * @param elements
+     * @param elementBeans
+     * @param attrs
+     */
     private void getContent(Elements elements, List<ElementBean> elementBeans, String... attrs) {
         for (int i = 0; i < elements.size(); i++) {
             if (!ADArrayUtils.isEmpty(elements.get(i).children())) {
@@ -90,12 +96,21 @@ public class ADHtmlUtils {
                     Elements img = elements.get(i).getElementsByTag("img");
                     if (!ADArrayUtils.isEmpty(img)) {
                         for (int j = 0; j < img.size(); j++) {
+                            ElementBean elementBean = new ElementBean();
                             for (String str : attrs) {
                                 String attr = img.get(j).attr(str);
                                 if (!TextUtils.isEmpty(attr)) {
-                                    elementBeans.add(new ElementBean(HtmlMode.Image, attr));
+                                    if (str.contains("width")) {
+                                        elementBean.setWidth(attr);
+                                    } else if (str.contains("height")) {
+                                        elementBean.setHeight(attr);
+                                    } else {
+                                        elementBean.setContent(attr);
+                                    }
                                 }
                             }
+                            elementBean.setMode(HtmlMode.Image);
+                            elementBeans.add(elementBean);
                         }
                     }
                     Elements video = elements.get(i).getElementsByTag("video");
@@ -213,10 +228,23 @@ public class ADHtmlUtils {
 
         private HtmlMode mode;
         private String content;
+        private String width;
+        private String height;
+
+        public ElementBean() {
+
+        }
 
         public ElementBean(HtmlMode mode, String content) {
             this.mode = mode;
             this.content = content;
+        }
+
+        public ElementBean(HtmlMode mode, String content, String width, String height) {
+            this.mode = mode;
+            this.content = content;
+            this.width = width;
+            this.height = height;
         }
 
         public HtmlMode getMode() {
@@ -233,6 +261,15 @@ public class ADHtmlUtils {
 
         public void setContent(String content) {
             this.content = content;
+        }
+
+
+        public void setWidth(String width) {
+            this.width = width;
+        }
+
+        public void setHeight(String height) {
+            this.height = height;
         }
     }
 

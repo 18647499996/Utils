@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.liudonghan.main.R;
+import com.liudonghan.main.bean.ImageBean;
 import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.mvp.ADBaseLoadingDialog;
 import com.liudonghan.utils.ADGsonUtils;
@@ -17,7 +18,11 @@ import com.liudonghan.view.snackbar.ADSnackBarManager;
 import com.liudonghan.view.title.ADTitleBuilder;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -177,6 +182,55 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
 //                                Log.i("Mac_Liu", "标签：" + attr);
 //                            }
 //                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                }).get();
+        // todo 搜狐详情数据
+        ADHtmlUtils.getInstance()
+                .from(this)
+                .url("https://m.sohu.com/a/740218130_458722?scm=1102.xchannel:1464:110036.0.1.0~9010.8000.0.0.143")
+                .cssQuery("body", "div.article-page", "div.article-content-wrapper", "div.article-main")
+                .attrs("data-src", "width", "height")
+                .listener(new ADHtmlUtils.Builder.OnConnectListener() {
+                    @Override
+                    public void onReady() {
+
+                    }
+
+                    @Override
+                    public void onDocument(Document document, Elements selectElements, String json) {
+                        Element head = document.head();
+                        Elements children = head.children().select("script");
+                        List<ImageBean> imageBeans = new ArrayList<>();
+                        List<ADHtmlUtils.ElementBean> elementBeanList = ADGsonUtils.jsonArrayList(json, ADHtmlUtils.ElementBean.class);
+                        for (int i = 0; i < children.size(); i++) {
+                            String data = children.get(i).data();
+                            if (data.contains("cfgs")) {
+                                String replace = data.replace("var cfgs = ", "").replace(";", "").replace("window.deployEnv = 'prod'", "").replaceAll("\n", "").replaceAll(",[}]", "}");
+                                String[] split = replace.split("imageList:");
+                                String imgList = split[1].trim();
+                                String substring = imgList.substring(0, imgList.length() - 1);
+                                imageBeans = ADGsonUtils.jsonArrayList(substring, ImageBean.class);
+                                Log.i("Mac_Liu", "搜狐Data：" + imageBeans.toString());
+                            }
+                        }
+                        for (int i = 0; i < imageBeans.size(); i++) {
+                            for (int j = 0; i < elementBeanList.size(); j++) {
+                                if (elementBeanList.get(j).getMode() == ADHtmlUtils.HtmlMode.Image) {
+                                    if (!elementBeanList.get(j).getContent().contains("http")) {
+                                        elementBeanList.get(j).setContent("https:" + imageBeans.get(i).getUrl());
+                                        elementBeanList.get(j).setWidth(imageBeans.get(i).getWidth());
+                                        elementBeanList.get(j).setHeight(imageBeans.get(i).getHeight());
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        Log.i("Mac_Liu", "搜狐网页分析：" + ADGsonUtils.toJson(elementBeanList));
                     }
 
                     @Override
