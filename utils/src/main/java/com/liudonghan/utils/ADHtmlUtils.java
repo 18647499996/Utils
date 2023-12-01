@@ -79,11 +79,11 @@ public class ADHtmlUtils {
     }
 
     /**
-     * 获取标签内容
+     * todo 获取标签内容
      *
-     * @param elements
-     * @param elementBeans
-     * @param attrs
+     * @param elements     html标签节点
+     * @param elementBeans 内容列表
+     * @param attrs        标签属性名称
      */
     private void getContent(Elements elements, List<ElementBean> elementBeans, String... attrs) {
         for (int i = 0; i < elements.size(); i++) {
@@ -142,7 +142,31 @@ public class ADHtmlUtils {
         Element body = parse.body();
         Elements elements = null;
         for (String css : cssQuery) {
-            elements = body.select(css);
+            if (null != elements) {
+                elements = elements.select(css);
+            } else {
+                elements = body.select(css);
+            }
+        }
+        return elements;
+    }
+
+    /**
+     * todo 根据标签查找内容
+     *
+     * @param document html文档内容
+     * @param cssQuery css标签
+     * @return Elements
+     */
+    public Elements findCssByElements(Document document, String... cssQuery) {
+        Element body = document.body();
+        Elements elements = null;
+        for (String css : cssQuery) {
+            if (null != elements) {
+                elements = elements.select(css);
+            } else {
+                elements = body.select(css);
+            }
         }
         return elements;
     }
@@ -204,18 +228,6 @@ public class ADHtmlUtils {
         }).start();
     }
 
-    public Elements selectElement(Document document, String... cssQuery) {
-        Element body = document.body();
-        Elements elements = null;
-        for (String css : cssQuery) {
-            if (null != elements) {
-                elements = elements.select(css);
-            } else {
-                elements = body.select(css);
-            }
-        }
-        return elements;
-    }
 
     public interface OnADHtmlUtilsListener {
 
@@ -338,7 +350,7 @@ public class ADHtmlUtils {
                     Document document = "get".equals(methodType) ? connect().get() : connect().post();
                     if (null != listener) {
                         if (null != cssQuery) {
-                            listener.onDocument(document, getInstance().selectElement(document, cssQuery), getElementJson(document));
+                            listener.onDocument(document, getInstance().findCssByElements(document, cssQuery), getElementJson(document));
                         } else {
                             listener.onDocument(document, document.getAllElements(), "");
                         }
@@ -359,7 +371,7 @@ public class ADHtmlUtils {
          * @return String
          */
         private String getElementJson(Document document) {
-            Elements elements = getInstance().selectElement(document, cssQuery);
+            Elements elements = getInstance().findCssByElements(document, cssQuery);
             List<ElementBean> elementBeanList = new ArrayList<>();
             for (int i = 0; i < Objects.requireNonNull(elements).size(); i++) {
                 Elements children = elements.get(i).children();
