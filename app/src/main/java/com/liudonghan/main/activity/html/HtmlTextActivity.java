@@ -14,6 +14,7 @@ import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.mvp.ADBaseLoadingDialog;
 import com.liudonghan.utils.ADGsonUtils;
 import com.liudonghan.utils.ADHtmlUtils;
+import com.liudonghan.utils.ADRegexUtils;
 import com.liudonghan.view.snackbar.ADSnackBarManager;
 import com.liudonghan.view.title.ADTitleBuilder;
 
@@ -22,6 +23,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -192,7 +194,7 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
         // todo 搜狐详情数据
         ADHtmlUtils.getInstance()
                 .from(this)
-                .url("https://m.sohu.com/a/740218130_458722?scm=1102.xchannel:1464:110036.0.1.0~9010.8000.0.0.143")
+                .url("https://m.sohu.com/a/740434259_121119289?scm=1101.topic:55103:5.0.9.a2_3X357-0806_917")
                 .cssQuery("body", "div.article-page", "div.article-content-wrapper", "div.article-main")
                 .attrs("data-src", "width", "height")
                 .listener(new ADHtmlUtils.Builder.OnConnectListener() {
@@ -230,7 +232,21 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
                                 }
                             }
                         }
-                        Log.i("Mac_Liu", "搜狐网页分析：" + ADGsonUtils.toJson(elementBeanList));
+                        Iterator<ADHtmlUtils.ElementBean> iterator = elementBeanList.iterator();
+                        while (iterator.hasNext()){
+                            ADHtmlUtils.ElementBean next = iterator.next();
+                            if (next.getContent().equals("展开剩余")) {
+                                iterator.remove();
+                            }
+                            if (next.getContent().equals("%")){
+                                iterator.remove();
+                            }
+                            if (next.getContent().length() == 2 && ADRegexUtils.getInstance().isNumber(next.getContent())) {
+                                iterator.remove();
+                            }
+                        }
+                        String data = ADGsonUtils.toJson(elementBeanList);
+                        Log.i("Mac_Liu", "搜狐网页分析：" + data);
                     }
 
                     @Override

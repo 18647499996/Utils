@@ -97,6 +97,7 @@ public class ADHtmlUtils {
                     if (!ADArrayUtils.isEmpty(img)) {
                         for (int j = 0; j < img.size(); j++) {
                             ElementBean elementBean = new ElementBean();
+                            elementBean.setMode(HtmlMode.Image);
                             for (String str : attrs) {
                                 String attr = img.get(j).attr(str);
                                 if (!TextUtils.isEmpty(attr)) {
@@ -109,8 +110,9 @@ public class ADHtmlUtils {
                                     }
                                 }
                             }
-                            elementBean.setMode(HtmlMode.Image);
-                            elementBeans.add(elementBean);
+                            if (!TextUtils.isEmpty(elementBean.getContent())){
+                                elementBeans.add(elementBean);
+                            }
                         }
                     }
                     Elements video = elements.get(i).getElementsByTag("video");
