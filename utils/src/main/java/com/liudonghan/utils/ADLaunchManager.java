@@ -48,10 +48,10 @@ public class ADLaunchManager {
     /**
      * 初始化Application
      *
-     * @param app                        应用
-     * @param adApplicationUtilsListener 回调
+     * @param app                   应用
+     * @param launchManagerListener 回调
      */
-    public static void init(@NonNull final Application app, ADApplicationUtilsListener adApplicationUtilsListener) {
+    public static void init(@NonNull final Application app, ADLaunchManagerCallback launchManagerListener) {
         ADLaunchManager.application = app;
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             private int foregroundActivities = 0;
@@ -60,19 +60,19 @@ public class ADLaunchManager {
             @Override
             public void onActivityCreated(@NonNull Activity activity, Bundle bundle) {
                 ADActivityManagerUtils.getActivityManager().addActivity(activity);
-                if (null != adApplicationUtilsListener) {
-                    adApplicationUtilsListener.onCreated(activity, bundle);
+                if (null != launchManagerListener) {
+                    launchManagerListener.onCreated(activity, bundle);
                 }
             }
 
             @Override
             public void onActivityStarted(@NonNull Activity activity) {
-                if (null != adApplicationUtilsListener) {
-                    adApplicationUtilsListener.onStarted(activity);
+                if (null != launchManagerListener) {
+                    launchManagerListener.onStarted(activity);
                     foregroundActivities++;
                     if (foregroundActivities == 1 && !isChangingConfiguration) {
                         Log.i(TAG, "application run in foreground");
-                        adApplicationUtilsListener.onActivityForeground();
+                        launchManagerListener.onActivityForeground();
                     }
                     isChangingConfiguration = false;
                 }
@@ -80,26 +80,26 @@ public class ADLaunchManager {
 
             @Override
             public void onActivityResumed(@NonNull Activity activity) {
-                if (null != adApplicationUtilsListener) {
-                    adApplicationUtilsListener.onResumed(activity);
+                if (null != launchManagerListener) {
+                    launchManagerListener.onResumed(activity);
                 }
             }
 
             @Override
             public void onActivityPaused(@NonNull Activity activity) {
-                if (null != adApplicationUtilsListener) {
-                    adApplicationUtilsListener.onPaused(activity);
+                if (null != launchManagerListener) {
+                    launchManagerListener.onPaused(activity);
                 }
             }
 
             @Override
             public void onActivityStopped(@NonNull Activity activity) {
-                if (null != adApplicationUtilsListener) {
-                    adApplicationUtilsListener.onStopped(activity);
+                if (null != launchManagerListener) {
+                    launchManagerListener.onStopped(activity);
                     foregroundActivities--;
                     if (0 == foregroundActivities) {
                         Log.i(TAG, "application run in background");
-                        adApplicationUtilsListener.onActivityBackground();
+                        launchManagerListener.onActivityBackground();
                     }
                     isChangingConfiguration = activity.isChangingConfigurations();
                 }
@@ -107,16 +107,16 @@ public class ADLaunchManager {
 
             @Override
             public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
-                if (null != adApplicationUtilsListener) {
-                    adApplicationUtilsListener.onSaveInstanceState(activity, bundle);
+                if (null != launchManagerListener) {
+                    launchManagerListener.onSaveInstanceState(activity, bundle);
                 }
             }
 
             @Override
             public void onActivityDestroyed(@NonNull Activity activity) {
                 ADActivityManagerUtils.getActivityManager().finishActivity(activity);
-                if (null != adApplicationUtilsListener) {
-                    adApplicationUtilsListener.onDestroyed(activity);
+                if (null != launchManagerListener) {
+                    launchManagerListener.onDestroyed(activity);
                 }
             }
         });
@@ -247,7 +247,7 @@ public class ADLaunchManager {
         return android.os.Build.VERSION.SDK_INT;
     }
 
-    public static String getSDKVersion(){
+    public static String getSDKVersion() {
         return Build.VERSION.RELEASE;
     }
 
@@ -262,24 +262,66 @@ public class ADLaunchManager {
     }
 
 
-    public interface ADApplicationUtilsListener {
+//    public interface ADLaunchManagerListener {
+//
+//        void onCreated(Activity activity, Bundle bundle);
+//
+//        void onStarted(Activity activity);
+//
+//        void onResumed(Activity activity);
+//
+//        void onPaused(Activity activity);
+//
+//        void onStopped(Activity activity);
+//
+//        void onDestroyed(Activity activity);
+//
+//        void onSaveInstanceState(Activity activity, Bundle bundle);
+//
+//        void onActivityForeground();
+//
+//        void onActivityBackground();
+//    }
 
-        void onCreated(Activity activity, Bundle bundle);
+    public abstract static class ADLaunchManagerCallback  {
+        protected abstract void onForeground();
 
-        void onStarted(Activity activity);
+        protected abstract void onBackground();
 
-        void onResumed(Activity activity);
+        public void onActivityBackground() {
+            onBackground();
+        }
 
-        void onPaused(Activity activity);
+        public void onActivityForeground() {
+            onForeground();
+        }
 
-        void onStopped(Activity activity);
+        public void onStopped(Activity activity) {
 
-        void onDestroyed(Activity activity);
+        }
 
-        void onSaveInstanceState(Activity activity, Bundle bundle);
+        public void onDestroyed(Activity activity) {
 
-        void onActivityForeground();
+        }
 
-        void onActivityBackground();
+        public void onPaused(Activity activity) {
+
+        }
+
+        public void onSaveInstanceState(Activity activity, Bundle bundle) {
+
+        }
+
+        public void onStarted(Activity activity) {
+
+        }
+
+        public void onResumed(Activity activity) {
+
+        }
+
+        public void onCreated(Activity activity, Bundle bundle) {
+
+        }
     }
 }

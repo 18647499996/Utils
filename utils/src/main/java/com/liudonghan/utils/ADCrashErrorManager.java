@@ -70,13 +70,13 @@ public class ADCrashErrorManager {
             if (null != listener) {
                 listener.onUncaughtException(thread, throwable, throwablePrintWriterErrorText(throwable));
             }
-            if (hasCrashedInTheLastSeconds(context)) {
+            if (hasCrashedInTheLastSeconds()) {
                 if (null != mDefaultCrashHandler) {
                     mDefaultCrashHandler.uncaughtException(thread, throwable);
                     return;
                 }
             } else {
-                setLastCrashTimestamp(context, new Date().getTime());
+                setLastCrashTimestamp(new Date().getTime());
                 if (null != getErrorActivityClass()) {
                     String stackTrace = throwablePrintWriterErrorText(throwable);
                     ADIntentManager.getInstance()
@@ -123,27 +123,28 @@ public class ADCrashErrorManager {
         public interface OnADCrashErrorHandlerListener {
             /**
              * todo 异常捕获回调接口
-             * @param thread
-             * @param throwable
-             * @param errorMsg
+             *
+             * @param thread    异常堆栈线程
+             * @param throwable 异常实现类
+             * @param errorMsg  格式化异常信息
              */
             void onUncaughtException(Thread thread, Throwable throwable, String errorMsg);
         }
     }
 
-    private static boolean hasCrashedInTheLastSeconds(@NonNull Context context) {
-        long lastTimestamp = getLastCrashTimestamp(context);
+    private static boolean hasCrashedInTheLastSeconds() {
+        long lastTimestamp = getLastCrashTimestamp();
         long currentTimestamp = new Date().getTime();
         return (lastTimestamp <= currentTimestamp && currentTimestamp - lastTimestamp < 3000);
     }
 
-    private static long getLastCrashTimestamp(@NonNull Context context) {
-        return context.getSharedPreferences(AD_CRASH_ERROR_MANAGER, Context.MODE_PRIVATE).getLong(AD_CRASH_ERROR_MANAGER_TIMESTAMP, -1);
+    private static long getLastCrashTimestamp() {
+        return ADSharedPreferencesManager.getInstance(AD_CRASH_ERROR_MANAGER).getLong(AD_CRASH_ERROR_MANAGER_TIMESTAMP, -1);
     }
 
     @SuppressLint("ApplySharedPref")
-    private static void setLastCrashTimestamp(@NonNull Context context, long timestamp) {
-        context.getSharedPreferences(AD_CRASH_ERROR_MANAGER, Context.MODE_PRIVATE).edit().putLong(AD_CRASH_ERROR_MANAGER_TIMESTAMP, timestamp).commit();
+    private static void setLastCrashTimestamp(long timestamp) {
+        ADSharedPreferencesManager.getInstance(AD_CRASH_ERROR_MANAGER).put(AD_CRASH_ERROR_MANAGER_TIMESTAMP, timestamp);
     }
 
     public static void killCurrentProcess() {

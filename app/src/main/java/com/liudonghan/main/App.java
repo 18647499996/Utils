@@ -19,7 +19,7 @@ import com.liudonghan.utils.ADCrashErrorManager;
  * @author Created by: Li_Min
  * Time:4/6/23
  */
-public class App extends Application implements ADLaunchManager.ADApplicationUtilsListener, ADCrashErrorManager.Builder.OnADCrashErrorHandlerListener {
+public class App extends Application implements ADCrashErrorManager.Builder.OnADCrashErrorHandlerListener {
 
     @Override
     public void onCreate() {
@@ -41,52 +41,18 @@ public class App extends Application implements ADLaunchManager.ADApplicationUti
                 .customErrorInfo("jsonObject")
                 .listener(this)
                 .apply();
-        ADLaunchManager.init(this, this);
-    }
+        ADLaunchManager.init(this, new ADLaunchManager.ADLaunchManagerCallback() {
+            @Override
+            protected void onForeground() {
+                Log.i("Mac_Liu", "切换前台");
+            }
 
-    @Override
-    public void onCreated(Activity activity, Bundle bundle) {
+            @Override
+            protected void onBackground() {
+                Log.i("Mac_Liu", "切换后台");
+            }
 
-    }
-
-    @Override
-    public void onStarted(Activity activity) {
-
-    }
-
-    @Override
-    public void onResumed(Activity activity) {
-
-    }
-
-    @Override
-    public void onPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onDestroyed(Activity activity) {
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Activity activity, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onActivityForeground() {
-
-    }
-
-    @Override
-    public void onActivityBackground() {
-        Log.i("Mac_Liu", "后台服务另一个方法");
+        });
     }
 
     @Override
