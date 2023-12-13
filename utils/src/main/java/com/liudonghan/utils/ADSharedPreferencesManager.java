@@ -49,7 +49,7 @@ public class ADSharedPreferencesManager {
     }
 
     private ADSharedPreferencesManager(final String spName) {
-        sp = ADApplicationUtils.getApp().getSharedPreferences(spName, Context.MODE_PRIVATE);
+        sp = ADLaunchManager.getApp().getSharedPreferences(spName, Context.MODE_PRIVATE);
     }
 
     /**

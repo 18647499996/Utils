@@ -10,9 +10,8 @@ import androidx.multidex.MultiDex;
 import com.facebook.stetho.Stetho;
 import com.liudonghan.db.GreenDaoManager;
 import com.liudonghan.main.activity.error.ErrorActivity;
-import com.liudonghan.utils.ADApplicationUtils;
+import com.liudonghan.utils.ADLaunchManager;
 import com.liudonghan.utils.ADCrashErrorManager;
-import com.liudonghan.utils.ADFileUtils;
 
 /**
  * Description：
@@ -20,7 +19,7 @@ import com.liudonghan.utils.ADFileUtils;
  * @author Created by: Li_Min
  * Time:4/6/23
  */
-public class App extends Application implements ADApplicationUtils.ADApplicationUtilsListener, ADCrashErrorManager.Builder.OnADCrashErrorHandlerListener {
+public class App extends Application implements ADLaunchManager.ADApplicationUtilsListener, ADCrashErrorManager.Builder.OnADCrashErrorHandlerListener {
 
     @Override
     public void onCreate() {
@@ -42,7 +41,7 @@ public class App extends Application implements ADApplicationUtils.ADApplication
                 .customErrorInfo("jsonObject")
                 .listener(this)
                 .apply();
-        ADApplicationUtils.init(this, this);
+        ADLaunchManager.init(this, this);
     }
 
     @Override

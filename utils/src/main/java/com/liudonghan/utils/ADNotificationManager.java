@@ -1,6 +1,5 @@
 package com.liudonghan.utils;
 
-import android.annotation.SuppressLint;
 import android.app.AppOpsManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -334,7 +333,7 @@ public class ADNotificationManager {
 
             NotificationCompat.Builder builder = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) ? new NotificationCompat.Builder(context, channelId) : new NotificationCompat.Builder(context);
             builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), iconLarge)) // 设置自动收报机和通知中显示的大图标。
-                    .setSmallIcon(0 == iconSmall ? ADApplicationUtils.getAppIcon(context) : iconSmall) // 小图标
+                    .setSmallIcon(0 == iconSmall ? ADLaunchManager.getAppIcon(context) : iconSmall) // 小图标
                     .setContentText(TextUtils.isEmpty(content) ? null : content) // 内容
                     .setContentTitle(TextUtils.isEmpty(title) ? null : title) // 标题
                     .setPriority(priority) // 设置优先级 PRIORITY_DEFAULT

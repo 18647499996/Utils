@@ -445,10 +445,10 @@ public class ADLogUtils {
         private Config() {
             if (sDefaultDir != null) return;
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-                    && ADApplicationUtils.getApp().getExternalCacheDir() != null)
-                sDefaultDir = ADApplicationUtils.getApp().getExternalCacheDir() + FILE_SEP + "log" + FILE_SEP;
+                    && ADLaunchManager.getApp().getExternalCacheDir() != null)
+                sDefaultDir = ADLaunchManager.getApp().getExternalCacheDir() + FILE_SEP + "log" + FILE_SEP;
             else {
-                sDefaultDir = ADApplicationUtils.getApp().getCacheDir() + FILE_SEP + "log" + FILE_SEP;
+                sDefaultDir = ADLaunchManager.getApp().getCacheDir() + FILE_SEP + "log" + FILE_SEP;
             }
         }
 

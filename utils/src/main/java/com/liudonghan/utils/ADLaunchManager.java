@@ -25,14 +25,14 @@ import java.util.zip.ZipFile;
  * @author Created by: Li_Min
  * Time:1/4/23
  */
-public class ADApplicationUtils {
+public class ADLaunchManager {
 
     @SuppressLint("StaticFieldLeak")
     private static Application application;
     private static final String TAG = "Mac_Liu";
 
 
-    private ADApplicationUtils() {
+    private ADLaunchManager() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -52,7 +52,7 @@ public class ADApplicationUtils {
      * @param adApplicationUtilsListener 回调
      */
     public static void init(@NonNull final Application app, ADApplicationUtilsListener adApplicationUtilsListener) {
-        ADApplicationUtils.application = app;
+        ADLaunchManager.application = app;
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             private int foregroundActivities = 0;
             private boolean isChangingConfiguration;

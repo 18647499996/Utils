@@ -173,10 +173,10 @@ public class ADCrashErrorManager {
      * @return String
      */
     public static String getErrorDetailsFromIntent(Context context, Intent intent) {
-        return "Build Version: " + ADApplicationUtils.getVersionName(context) + "\n" +
-                "Build Date: " + ADApplicationUtils.getAPKBuildDate(context) + "\n" +
-                "Build SDK: " + "Android " + ADApplicationUtils.getSDKVersion() + " Level " + ADApplicationUtils.getSDKLevel() + "\n" +
-                "Device Mode: " + ADApplicationUtils.getDeviceManufacturer() + " " + ADApplicationUtils.getDeviceModel() + "\n" +
+        return "Build Version: " + ADLaunchManager.getVersionName(context) + "\n" +
+                "Build Date: " + ADLaunchManager.getAPKBuildDate(context) + "\n" +
+                "Build SDK: " + "Android " + ADLaunchManager.getSDKVersion() + " Level " + ADLaunchManager.getSDKLevel() + "\n" +
+                "Device Mode: " + ADLaunchManager.getDeviceManufacturer() + " " + ADLaunchManager.getDeviceModel() + "\n" +
                 "Build Custom Error: " + intent.getStringExtra(AD_CRASH_ERROR_CUSTOM_JSON) + "\n" +
                 "Occurrence Time: " + ADFormatUtils.getInstance().getTimeStampToFormat(System.currentTimeMillis(), ADFormatUtils.DEFAULT_FORMAT) + "\n" +
                 "Stack trace: " + intent.getStringExtra(AD_CRASH_ERROR_STACK_TRACE);
