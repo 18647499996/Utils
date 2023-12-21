@@ -220,6 +220,10 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 Log.w("Mac_Liu", "AES加密：" + encrypt);
                 String decrypt = ADEncryptManager.getInstance().decryptECB("2oxS7wXkFk0oAx/nG7NCare3A9I7VMIubu+tDyiB8r2mjJkUxtFFgsi8wAqhBxx8NOfl4wyyMSBotxlNJDg6A9uKf8cu000NswYzMgNqy2w=", "cretinzp**273846");
                 Log.w("Mac_Liu", "AES解密：" + decrypt);
+                String base64Encode = ADEncryptManager.getInstance().encryptBase64("https://www.bilibili.com/video/BV1HG411Y7W1/");
+                Log.w("Mac_Liu", "Base64加密：" + base64Encode);
+                String base64Decode = ADEncryptManager.getInstance().decryptBase64(base64Encode);
+                Log.w("Mac_Liu", "Base64解密：" + base64Decode);
                 break;
             case 12:
                 HtmlTextActivity.startActivity(this, HtmlTextActivity.class);

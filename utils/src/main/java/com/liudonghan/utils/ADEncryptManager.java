@@ -4,8 +4,10 @@ package com.liudonghan.utils;
 import android.annotation.SuppressLint;
 
 import java.security.InvalidAlgorithmParameterException;
+import java.util.Arrays;
 import java.util.Base64;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
@@ -216,6 +218,34 @@ public class ADEncryptManager {
             Log.w("Mac_Liu", "不良填充 :" + e);
         }
         return null;
+    }
+
+    /**
+     * todo base64编码
+     *
+     * @param data 编码数据
+     * @return String
+     */
+    @SuppressLint("NewApi")
+    public String encryptBase64(String data) {
+        if (TextUtils.isEmpty(data)) {
+            return "";
+        }
+        return Base64.getEncoder().encodeToString(data.getBytes());
+    }
+
+    /**
+     * todo base64解码
+     *
+     * @param encode 解码字符
+     * @return String
+     */
+    @SuppressLint("NewApi")
+    public String decryptBase64(String encode) {
+        if (TextUtils.isEmpty(encode)) {
+            return "";
+        }
+        return new String(Base64.getDecoder().decode(encode));
     }
 
 
