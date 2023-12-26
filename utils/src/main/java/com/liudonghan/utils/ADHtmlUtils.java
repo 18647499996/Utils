@@ -69,9 +69,13 @@ public class ADHtmlUtils {
                     elementBeans.add(new ElementBean(HtmlMode.Text, tag.text()));
                 }
             } else {
-                Elements src = tag.getElementsByTag("img");
-                for (int i = 0; i < src.size(); i++) {
-                    elementBeans.add(new ElementBean(HtmlMode.Image, src.get(i).attr("src")));
+                Elements img = tag.getElementsByTag("img");
+                for (int i = 0; i < img.size(); i++) {
+                    elementBeans.add(new ElementBean(HtmlMode.Image, img.get(i).attr("src")));
+                }
+                Elements video = tag.getElementsByTag("video");
+                for (int i = 0; i < video.size(); i++) {
+                    elementBeans.add(new ElementBean(HtmlMode.Video,video.get(i).attr("src")));
                 }
             }
         }
