@@ -237,6 +237,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 List<OfferBean> offerBeans = ADGsonUtils.jsonArrayList(replace, OfferBean.class);
                 Log.i("Mac_Liu", "JSON 序列化：" + offerBeans.toString());
                 Log.i("Mac_Liu", "列表数据：" + offerBeans.get(0).getDesc());
+                Log.i("Mac_Liu", str.replaceAll("\\\\\"",""));
                 break;
             default:
                 break;
@@ -247,4 +248,6 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
     public void isScreenRecord(boolean isScreenRecord) {
         Log.d("录屏监听：", String.valueOf(isScreenRecord));
     }
+
+    private String str = "\\\"https://image2.cqcb.com/2023/10/28/9aa830df0bac7513012e17307793e242.png\\\"";
 }
