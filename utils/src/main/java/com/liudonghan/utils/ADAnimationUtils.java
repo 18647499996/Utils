@@ -225,4 +225,16 @@ public class ADAnimationUtils {
         scaleX.setDuration(duration);
         scaleX.start();
     }
+
+    /**
+     * 缩放
+     * @param view
+     * @param scaleValue
+     */
+    public void scale(View view, float scaleValue) {
+        ScaleAnimation scaleAnimation = new ScaleAnimation(scaleValue, 1f, scaleValue, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setDuration(150);
+        view.setAnimation(scaleAnimation);
+        view.setVisibility(View.VISIBLE);
+    }
 }

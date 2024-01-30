@@ -23,6 +23,7 @@ import com.liudonghan.utils.ADIntentManager;
 import com.liudonghan.utils.ADNetworkUtils;
 import com.liudonghan.utils.ADPicturePhotoUtils;
 import com.liudonghan.utils.ADScreenUtils;
+import com.liudonghan.utils.ADSignatureManager;
 import com.liudonghan.view.recycler.ADRecyclerView;
 
 import java.io.File;
@@ -44,7 +45,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
     private String[] stringArray = new String[]{"日期工具", "文本Style处理工具", "Intent管理器", "网络管理工具",
             "正则工具", "屏幕录制监听", "系统相册工具", "计时器工具", "加密工具", "系统设置", "异常捕获", "AES解密",
-            "Html", "图片工具", "json"};
+            "Html", "图片工具", "json", "应用签名"};
     private String json = "typenews1([\n" +
             "    {\n" +
             "        \"uk\": \"n231124145618627\",\n" +
@@ -237,7 +238,10 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 List<OfferBean> offerBeans = ADGsonUtils.jsonArrayList(replace, OfferBean.class);
                 Log.i("Mac_Liu", "JSON 序列化：" + offerBeans.toString());
                 Log.i("Mac_Liu", "列表数据：" + offerBeans.get(0).getDesc());
-                Log.i("Mac_Liu", str.replaceAll("\\\\\"",""));
+                Log.i("Mac_Liu", str.replaceAll("\\\\\"", ""));
+                break;
+            case 15:
+                Log.i("Mac_Liu", ADSignatureManager.getInstance().getSHA256(this) + "\n" + ADSignatureManager.getInstance().getMD5(this) + "\n" + ADSignatureManager.getInstance().getSha1(this));
                 break;
             default:
                 break;

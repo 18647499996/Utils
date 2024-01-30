@@ -18,10 +18,35 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            keyAlias 'xflife'
+            keyPassword '1234567890'
+            storeFile file('../xflife.jks')
+            storePassword '1234567890'
+        }
+    }
+
     buildTypes {
         release {
+            zipAlignEnabled true
+            signingConfig signingConfigs.release  //使用上述签名信息
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "isProduction", "false"
+        }
+        debug {
+            minifyEnabled false
+            //debug时使用release签名
+            signingConfig signingConfigs.release
+            //Zip代码压缩优化
+            zipAlignEnabled true
+            buildConfigField "boolean", "isProduction", "false"
+        }
+        predebug.initWith(debug)
+        predebug {
+            signingConfig signingConfigs.release
+            buildConfigField "boolean", "isProduction", "true"
         }
     }
 
