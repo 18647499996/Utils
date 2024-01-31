@@ -21,6 +21,7 @@ import com.liudonghan.utils.ADFormatUtils;
 import com.liudonghan.utils.ADGsonUtils;
 import com.liudonghan.utils.ADIntentManager;
 import com.liudonghan.utils.ADNetworkUtils;
+import com.liudonghan.utils.ADPermissionManager;
 import com.liudonghan.utils.ADPicturePhotoUtils;
 import com.liudonghan.utils.ADScreenUtils;
 import com.liudonghan.utils.ADSignatureManager;
@@ -45,7 +46,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
     private String[] stringArray = new String[]{"日期工具", "文本Style处理工具", "Intent管理器", "网络管理工具",
             "正则工具", "屏幕录制监听", "系统相册工具", "计时器工具", "加密工具", "系统设置", "异常捕获", "AES解密",
-            "Html", "图片工具", "json", "应用签名"};
+            "Html", "图片工具", "json", "应用签名","权限"};
     private String json = "typenews1([\n" +
             "    {\n" +
             "        \"uk\": \"n231124145618627\",\n" +
@@ -242,6 +243,23 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 break;
             case 15:
                 Log.i("Mac_Liu", ADSignatureManager.getInstance().getSHA256(this) + "\n" + ADSignatureManager.getInstance().getMD5(this) + "\n" + ADSignatureManager.getInstance().getSha1(this));
+                break;
+            case 16:
+                ADPermissionManager.with(this)
+                        .permission(ADPermissionManager.ACCESS_COARSE_LOCATION,
+                                ADPermissionManager.READ_EXTERNAL_STORAGE,
+                                ADPermissionManager.WRITE_EXTERNAL_STORAGE)
+                        .request(new ADPermissionManager.OnPermission() {
+                            @Override
+                            public void hasPermission(List<String> mPermissions, boolean isAll) {
+                                Log.i("Mac_Liu",mPermissions.toString() + " ----- " + isAll);
+                            }
+
+                            @Override
+                            public void noPermission(List<String> failPermissions, boolean checkMorePermission) {
+
+                            }
+                        });
                 break;
             default:
                 break;
