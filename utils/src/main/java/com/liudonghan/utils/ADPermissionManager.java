@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -28,23 +29,16 @@ import java.util.Random;
 public class ADPermissionManager {
 
     public static final String REQUEST_INSTALL_PACKAGES = "android.permission.REQUEST_INSTALL_PACKAGES"; // 8.0及以上应用安装权限
-
     public static final String SYSTEM_ALERT_WINDOW = "android.permission.SYSTEM_ALERT_WINDOW"; // 6.0及以上悬浮窗权限
-
     public static final String READ_CALENDAR = "android.permission.READ_CALENDAR"; // 读取日程提醒
     public static final String WRITE_CALENDAR = "android.permission.WRITE_CALENDAR"; // 写入日程提醒
-
     public static final String CAMERA = "android.permission.CAMERA"; // 拍照权限
-
     public static final String READ_CONTACTS = "android.permission.READ_CONTACTS"; // 读取联系人
     public static final String WRITE_CONTACTS = "android.permission.WRITE_CONTACTS"; // 写入联系人
     public static final String GET_ACCOUNTS = "android.permission.GET_ACCOUNTS"; // 访问账户列表
-
     public static final String ACCESS_FINE_LOCATION = "android.permission.ACCESS_FINE_LOCATION"; // 获取精确位置
     public static final String ACCESS_COARSE_LOCATION = "android.permission.ACCESS_COARSE_LOCATION"; // 获取粗略位置
-
     public static final String RECORD_AUDIO = "android.permission.RECORD_AUDIO"; // 录音权限
-
     public static final String READ_PHONE_STATE = "android.permission.READ_PHONE_STATE"; // 读取电话状态
     public static final String CALL_PHONE = "android.permission.CALL_PHONE"; // 拨打电话
     public static final String READ_CALL_LOG = "android.permission.READ_CALL_LOG"; // 读取通话记录
@@ -54,15 +48,12 @@ public class ADPermissionManager {
     public static final String PROCESS_OUTGOING_CALLS = "android.permission.PROCESS_OUTGOING_CALLS"; // 处理拨出电话
     public static final String ANSWER_PHONE_CALLS = "android.permission.ANSWER_PHONE_CALLS";// 8.0危险权限：允许您的应用通过编程方式接听呼入电话。要在您的应用中处理呼入电话，您可以使用 acceptRingingCall() 函数
     public static final String READ_PHONE_NUMBERS = "android.permission.READ_PHONE_NUMBERS";// 8.0危险权限：权限允许您的应用读取设备中存储的电话号码
-
     public static final String BODY_SENSORS = "android.permission.BODY_SENSORS"; // 传感器
-
     public static final String SEND_SMS = "android.permission.SEND_SMS"; // 发送短信
     public static final String RECEIVE_SMS = "android.permission.RECEIVE_SMS"; // 接收短信
     public static final String READ_SMS = "android.permission.READ_SMS"; // 读取短信
     public static final String RECEIVE_WAP_PUSH = "android.permission.RECEIVE_WAP_PUSH"; // 接收WAP PUSH信息
     public static final String RECEIVE_MMS = "android.permission.RECEIVE_MMS"; // 接收彩信
-
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE"; // 读取外部存储
     public static final String WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE"; // 写入外部存储
 
@@ -134,11 +125,8 @@ public class ADPermissionManager {
         if (call == null) {
             throw new IllegalArgumentException("The permission request callback interface must be implemented");
         }
-
         checkTargetSdkVersion(mActivity, mPermissions);
-
         List<String> failPermissions = getFailPermissions(mActivity, mPermissions);
-
         if (failPermissions == null || failPermissions.size() == 0) {
             //证明权限已经全部授予过
             call.hasPermission(mPermissions, true);
@@ -219,45 +207,35 @@ public class ADPermissionManager {
      * @param permissions 需要请求的权限组
      */
     public static List<String> getFailPermissions(Context context, List<String> permissions) {
-
         //如果是安卓6.0以下版本就返回null
         if (!isOverMarshmallow()) {
             return null;
         }
-
         List<String> failPermissions = null;
-
         for (String permission : permissions) {
-
             //检测安装权限
             if (permission.equals(REQUEST_INSTALL_PACKAGES)) {
-
                 if (!isHasInstallPermission(context)) {
                     if (failPermissions == null) failPermissions = new ArrayList<>();
                     failPermissions.add(permission);
                 }
                 continue;
             }
-
             //检测悬浮窗权限
             if (permission.equals(SYSTEM_ALERT_WINDOW)) {
-
                 if (!isHasOverlaysPermission(context)) {
                     if (failPermissions == null) failPermissions = new ArrayList<>();
                     failPermissions.add(permission);
                 }
                 continue;
             }
-
             //检测8.0的两个新权限
             if (permission.equals(ANSWER_PHONE_CALLS) || permission.equals(READ_PHONE_NUMBERS)) {
-
                 //检查当前的安卓版本是否符合要求
                 if (!isOverOreo()) {
                     continue;
                 }
             }
-
             //把没有授予过的权限加入到集合中
             if (context.checkSelfPermission(permission) == PackageManager.PERMISSION_DENIED) {
                 if (failPermissions == null) failPermissions = new ArrayList<>();
@@ -277,8 +255,7 @@ public class ADPermissionManager {
     public static List<String> getFailPermissions(String[] permissions, int[] grantResults) {
         List<String> failPermissions = new ArrayList<>();
         for (int i = 0; i < grantResults.length; i++) {
-
-            //把没有授予过的权限加入到集合中，-1表示没有授予，0表示已经授予
+            // 把没有授予过的权限加入到集合中，-1表示没有授予，0表示已经授予
             if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                 failPermissions.add(permissions[i]);
             }
@@ -294,7 +271,7 @@ public class ADPermissionManager {
      */
     public static boolean isRequestDeniedPermission(Activity activity, List<String> failPermissions) {
         for (String permission : failPermissions) {
-            //检查是否还有权限还能继续申请的（这里指没有被授予的权限但是也没有被永久拒绝的）
+            // 检查是否还有权限还能继续申请的（这里指没有被授予的权限但是也没有被永久拒绝的）
             if (!checkSinglePermissionPermanentDenied(activity, permission)) {
                 return true;
             }
@@ -309,15 +286,13 @@ public class ADPermissionManager {
      * @param permission 请求的权限
      */
     public static boolean checkSinglePermissionPermanentDenied(Activity activity, String permission) {
-
         // 安装权限和浮窗权限不算，本身申请方式和危险权限申请方式不同，因为没有永久拒绝的选项，所以这里返回false
         if (permission.equals(REQUEST_INSTALL_PACKAGES) || permission.equals(SYSTEM_ALERT_WINDOW)) {
             return false;
         }
         // 检测8.0的两个新权限
         if (permission.equals(ANSWER_PHONE_CALLS) || permission.equals(READ_PHONE_NUMBERS)) {
-
-            //检查当前的安卓版本是否符合要求
+            // 检查当前的安卓版本是否符合要求
             if (!isOverOreo()) {
                 return false;
             }
@@ -452,7 +427,6 @@ public class ADPermissionManager {
         public static PermissionFragment newInstant(ArrayList<String> permissions, boolean constant) {
             PermissionFragment fragment = new PermissionFragment();
             Bundle bundle = new Bundle();
-
             int requestCode;
             //请求码随机生成，避免随机产生之前的请求码，必须进行循环判断
             do {
@@ -480,26 +454,21 @@ public class ADPermissionManager {
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
-
             ArrayList<String> permissions = getArguments().getStringArrayList(PERMISSION_GROUP);
-
-            if (permissions == null) return;
-
-            if ((permissions.contains(REQUEST_INSTALL_PACKAGES) && !isHasInstallPermission(getActivity()))
-                    || (permissions.contains(SYSTEM_ALERT_WINDOW) && !isHasOverlaysPermission(getActivity()))) {
-
+            if (permissions == null) {
+                return;
+            }
+            if ((permissions.contains(REQUEST_INSTALL_PACKAGES) && !isHasInstallPermission(getActivity())) || (permissions.contains(SYSTEM_ALERT_WINDOW) && !isHasOverlaysPermission(getActivity()))) {
                 if (permissions.contains(REQUEST_INSTALL_PACKAGES) && !isHasInstallPermission(getActivity())) {
                     //跳转到允许安装未知来源设置页面
                     Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + getActivity().getPackageName()));
                     startActivityForResult(intent, getArguments().getInt(REQUEST_CODE));
                 }
-
                 if (permissions.contains(SYSTEM_ALERT_WINDOW) && !isHasOverlaysPermission(getActivity())) {
                     //跳转到悬浮窗设置页面
                     Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getActivity().getPackageName()));
                     startActivityForResult(intent, getArguments().getInt(REQUEST_CODE));
                 }
-
             } else {
                 requestPermission();
             }
@@ -511,7 +480,7 @@ public class ADPermissionManager {
         public void requestPermission() {
             if (isOverMarshmallow()) {
                 ArrayList<String> permissions = getArguments().getStringArrayList(PERMISSION_GROUP);
-                requestPermissions(permissions.toArray(new String[permissions.size() - 1]), getArguments().getInt(REQUEST_CODE));
+                requestPermissions(Objects.requireNonNull(permissions).toArray(new String[permissions.size() - 1]), getArguments().getInt(REQUEST_CODE));
             }
         }
 
@@ -582,7 +551,7 @@ public class ADPermissionManager {
             //super.onActivityResult(requestCode, resultCode, data);
             if (!isBackCall && requestCode == getArguments().getInt(REQUEST_CODE)) {
                 isBackCall = true;
-                //需要延迟执行，不然有些华为机型授权了但是获取不到权限
+                // 需要延迟执行，不然有些华为机型授权了但是获取不到权限
                 getActivity().getWindow().getDecorView().postDelayed(this, 500);
             }
         }
