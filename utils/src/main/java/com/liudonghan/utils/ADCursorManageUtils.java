@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -444,7 +445,7 @@ public class ADCursorManageUtils {
             dirs.get(position).getMediaPath().add(mediaModel);
             dirs.get(position).setFileCount(dirs.get(position).getMediaPath().size());
         } else {
-            Log.i(TAG, "是否隐藏文件：" + parentFile.getAbsolutePath().contains(".") + "  ------ " + parentFile.getAbsolutePath());
+//            Log.i(TAG, "是否隐藏文件：" + parentFile.getAbsolutePath().contains(".") + "  ------ " + parentFile.getAbsolutePath());
             ImageFolderModel imageFolderModel = new ImageFolderModel();
             List<ImageFolderModel.MediaModel> mediaModelList = new ArrayList<>();
             imageFolderModel.setDirName(parentFile.getName());
@@ -491,7 +492,7 @@ public class ADCursorManageUtils {
     }
 
 
-    public static class ImageFolderModel {
+    public static class ImageFolderModel implements Serializable {
         /**
          * 当前文件夹的路径
          */
@@ -574,7 +575,7 @@ public class ADCursorManageUtils {
                     '}';
         }
 
-        public static class MediaModel extends ADFileModel {
+        public static class MediaModel extends ADFileModel implements Serializable {
             private int width;
             private int height;
             private String resolution;// 分辨率
@@ -626,7 +627,7 @@ public class ADCursorManageUtils {
         }
     }
 
-    public static class ADFileModel {
+    public static class ADFileModel implements Serializable {
         private int id;
         private String filePath;
         private String fileName;

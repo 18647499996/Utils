@@ -16,6 +16,7 @@ import com.liudonghan.main.activity.image.ImageViewActivity;
 import com.liudonghan.main.activity.style.TextStyleActivity;
 import com.liudonghan.main.adapter.MainMenuAdapter;
 import com.liudonghan.mvp.ADBaseActivity;
+import com.liudonghan.utils.ADCursorManageUtils;
 import com.liudonghan.utils.ADEncryptManager;
 import com.liudonghan.utils.ADFormatUtils;
 import com.liudonghan.utils.ADGsonUtils;
@@ -201,7 +202,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 break;
             case 6:
                 // 系统相册工具
-                ADPicturePhotoUtils.getInstance().takePicture();
+                ADPicturePhotoUtils.getInstance().getPicture();
                 break;
             case 7:
                 // 计时器工具
@@ -212,6 +213,8 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 break;
             case 9:
                 // 系统设置
+                List<ADCursorManageUtils.ImageFolderModel> imageOrVideoFile = ADCursorManageUtils.getInstance(this).getImageOrVideoFile();
+                Log.i("Mac_Liu",imageOrVideoFile.toString());
                 break;
             case 10:
                 // 异常捕获
