@@ -179,7 +179,7 @@ public class ADPicturePhotoUtils {
      */
     public void cropImageUri(Uri uri, File file) {
         if (null == file) {
-            Log.i(TAG,"启动相机异常");
+            Log.i(TAG, "启动相机异常");
             return;
         }
 
@@ -234,7 +234,7 @@ public class ADPicturePhotoUtils {
                 case FETCH_PHOTO:
                     if (data != null && data.getData() != null) {
                         if (isCrop) {
-                            Log.i(TAG,"Crop Image File Path：" + data.getData().toString());
+                            Log.i(TAG, "Crop Image File Path：" + data.getData().toString());
                             cropImageUri(data.getData(), sdcardTempFile);
                         } else {
                             sendPicByUri(data.getData());
@@ -243,10 +243,10 @@ public class ADPicturePhotoUtils {
                     break;
                 case CROP_PHOTO:
                     if (sdcardTempFile != null && !photoFlag) {
-                        Log.i(TAG,"打印一下sdcardTempFile");
+                        Log.i(TAG, "print SDCard TempFile:" + sdcardTempFile.getAbsolutePath());
                         adImageFileCallback.handleResult(sdcardTempFile);
                     } else {
-                        Log.i(TAG,"打印一下mFile" + mFile.getAbsolutePath());
+                        Log.i(TAG, "print File:" + mFile.getAbsolutePath());
                         adImageFileCallback.handleResult(mFile);
                     }
                     break;
@@ -260,7 +260,6 @@ public class ADPicturePhotoUtils {
      * @param selectedImage 选择图片
      */
     public void sendPicByUri(Uri selectedImage) {
-        Log.e("chenliangsen", "sendPicByUri");
         Cursor cursor = mContext.getContentResolver().query(selectedImage, null, null, null, null);
         String st8 = "找不到图片";
         if (cursor != null) {

@@ -36,6 +36,10 @@ public class ADIntentManager {
         return instance;
     }
 
+    public static void openCamera(){
+
+    }
+
     /**
      * 构建Intent实例
      *
