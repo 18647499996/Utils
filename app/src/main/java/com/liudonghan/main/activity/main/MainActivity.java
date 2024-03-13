@@ -47,7 +47,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
     private String[] stringArray = new String[]{"日期工具", "文本Style处理工具", "Intent管理器", "网络管理工具",
             "正则工具", "屏幕录制监听", "系统相册工具", "计时器工具", "加密工具", "系统设置", "异常捕获", "AES解密",
-            "Html", "图片工具", "json", "应用签名","权限"};
+            "Html", "图片工具", "json", "应用签名", "权限"};
     private String json = "typenews1([\n" +
             "    {\n" +
             "        \"uk\": \"n231124145618627\",\n" +
@@ -103,6 +103,8 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         mainMenuAdapter.setNewData(Arrays.asList(stringArray));
         Log.e("Mac_Liu", "activity路径：" + getLocalClassName());
         Log.i("Mac_Liu", "7天：" + ADFormatUtils.getInstance().getBeforeDay(7));
+        int miss = 1708937879;
+        Log.i("Mac_Liu", ADFormatUtils.getInstance().getTimeStampToFormat((long) miss * 1000, ADFormatUtils.DEFAULT_FORMAT));
         ADPicturePhotoUtils.getInstance().init(this).onCallBack(this);
     }
 
@@ -214,7 +216,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
             case 9:
                 // 系统设置
                 List<ADCursorManageUtils.ImageFolderModel> imageOrVideoFile = ADCursorManageUtils.getInstance(this).getImageOrVideoFile();
-                Log.i("Mac_Liu",imageOrVideoFile.toString());
+                Log.i("Mac_Liu", imageOrVideoFile.toString());
                 break;
             case 10:
                 // 异常捕获
@@ -255,7 +257,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                         .request(new ADPermissionManager.OnPermission() {
                             @Override
                             public void hasPermission(List<String> mPermissions, boolean isAll) {
-                                Log.i("Mac_Liu",mPermissions.toString() + " ----- " + isAll);
+                                Log.i("Mac_Liu", mPermissions.toString() + " ----- " + isAll);
                             }
 
                             @Override
