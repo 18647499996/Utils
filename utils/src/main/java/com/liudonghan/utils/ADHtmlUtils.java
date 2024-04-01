@@ -248,6 +248,7 @@ public class ADHtmlUtils {
         private String content;
         private String width;
         private String height;
+        private String originImageUrl;
 
         public ElementBean() {
 
@@ -263,6 +264,14 @@ public class ADHtmlUtils {
             this.content = content;
             this.width = width;
             this.height = height;
+        }
+
+        public ElementBean(HtmlMode mode, String content, String width, String height, String originImageUrl) {
+            this.mode = mode;
+            this.content = content;
+            this.width = width;
+            this.height = height;
+            this.originImageUrl = originImageUrl;
         }
 
         public HtmlMode getMode() {
@@ -288,6 +297,22 @@ public class ADHtmlUtils {
 
         public void setHeight(String height) {
             this.height = height;
+        }
+
+        public String getWidth() {
+            return width;
+        }
+
+        public String getHeight() {
+            return height;
+        }
+
+        public String getOriginImageUrl() {
+            return originImageUrl;
+        }
+
+        public void setOriginImageUrl(String originImageUrl) {
+            this.originImageUrl = originImageUrl;
         }
     }
 
