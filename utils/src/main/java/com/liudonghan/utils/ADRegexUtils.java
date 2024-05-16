@@ -1,5 +1,6 @@
 package com.liudonghan.utils;
 
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -169,6 +170,7 @@ public class ADRegexUtils {
 
     /**
      * todo 验证手机号码
+     *
      * @param value
      * @return
      */
@@ -281,6 +283,42 @@ public class ADRegexUtils {
      */
     public boolean isZh(final CharSequence input) {
         return match(REGEX_ZH, input);
+    }
+
+    /**
+     * 根据字符串获取数字
+     *
+     * @param str 字符串
+     * @return String
+     */
+    public String findNumberByStr(final CharSequence str) {
+        return str.toString().replaceAll("[^0-9]", "");
+    }
+
+    /**
+     * 根据字符串获取文本
+     *
+     * @param str 字符串
+     * @return String
+     */
+    public String findTextByStr(final CharSequence str) {
+        return Pattern.compile("\\d+").matcher(str).replaceAll("");
+    }
+
+    public Map<String, String> getCityAddressResolution(String address) {
+        Map<String, String> map = new HashMap<>();
+        String regex = "(?<province>[^省]+省|.+自治区|[^澳门]+澳门|北京|重庆|上海|天津|台湾|[^香港]+香港|[^市]+市)?(?<city>[^自治州]+自治州|[^特别行政区]+特别行政区|[^市]+市|.*?地区|.*?行政单位|.+盟|市辖区|[^县]+县)(?<districts>[^县]+县|[^市]+市|[^镇]+镇|[^区]+区|[^乡]+乡|.+场|.+旗|.+海域|.+岛)?(?<address>.*)";
+        Matcher matcher = Pattern.compile(regex).matcher(address);
+        if (matcher.find()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                map.put("p", TextUtils.isEmpty(matcher.group("province")) ? "" : matcher.group("province"));
+                map.put("c", TextUtils.isEmpty(matcher.group("city")) ? "" : matcher.group("city"));
+                map.put("d", TextUtils.isEmpty(matcher.group("districts")) ? "" : matcher.group("districts"));
+                map.put("a", TextUtils.isEmpty(matcher.group("address")) ? "" : matcher.group("address"));
+                Log.i("Mac_Liu", "正则地址：" + map.get("p") + " - " + map.get("c") + " - " + map.get("d") + " - " + map.get("a"));
+            }
+        }
+        return map;
     }
 
     /**
