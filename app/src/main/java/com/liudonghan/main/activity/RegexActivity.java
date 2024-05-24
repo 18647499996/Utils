@@ -54,7 +54,6 @@ public class RegexActivity extends ADBaseActivity<RegexPresenter> implements Reg
         mainMenuAdapter = new MainMenuAdapter(R.layout.item_menu);
         activityRegexStyleRv.setAdapter(mainMenuAdapter);
         mainMenuAdapter.setNewData(Arrays.asList(strings));
-        ADRegexUtils.getInstance().getCityAddressResolution("北京市朝阳区");
     }
 
     @Override
