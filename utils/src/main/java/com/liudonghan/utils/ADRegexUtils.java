@@ -305,6 +305,11 @@ public class ADRegexUtils {
         return Pattern.compile("\\d+").matcher(str).replaceAll("");
     }
 
+    /**
+     * 解析地址信息（ 省、市、区、详情地址）
+     * @param address 地址信息
+     * @return Map<String, String>
+     */
     public Map<String, String> getCityAddressResolution(String address) {
         Map<String, String> map = new HashMap<>();
         String regex = "(?<province>[^省]+省|.+自治区|[^澳门]+澳门|北京|重庆|上海|天津|台湾|[^香港]+香港|[^市]+市)?(?<city>[^自治州]+自治州|[^特别行政区]+特别行政区|[^市]+市|.*?地区|.*?行政单位|.+盟|市辖区|[^县]+县)(?<districts>[^县]+县|[^市]+市|[^镇]+镇|[^区]+区|[^乡]+乡|.+场|.+旗|.+海域|.+岛)?(?<address>.*)";
