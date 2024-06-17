@@ -2,6 +2,7 @@ package com.liudonghan.main.activity.html;
 
 import android.os.Bundle;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.liudonghan.main.R;
 import com.liudonghan.main.bean.FoodChinaHtmlModel;
+import com.liudonghan.main.bean.FoodJieHtmlModel;
 import com.liudonghan.main.bean.ImageBean;
 import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.mvp.ADBaseLoadingDialog;
@@ -329,7 +331,92 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
                     }
                 })
                 .get();
+        ADHtmlUtils.getInstance()
+                .from(this)
+                // https://m.meishij.net/html5/zuofa/ganbiandouhongshaorou.html 不带视频
+                // https://m.meishij.net/html5/zuofa/jiachangqiezi_12.html 带视频
+                .url("https://m.meishij.net/html5/zuofa/jiachangqiezi_12.html")
+                .cssQuery("body")
+                .listener(new ADHtmlUtils.Builder.OnConnectListener() {
+                    @Override
+                    public void onReady() {
 
+                    }
+
+                    @Override
+                    public void onDocument(Document document, Elements selectElements, String json) {
+                        FoodJieHtmlModel foodJieHtmlModel = new FoodJieHtmlModel();
+                        // 获取封面图、视频链接
+                        Elements select = selectElements.select("div.topimgw");
+                        String cover = ADHtmlUtils.getInstance().findCssByElements(select.html(), "img.headerimg").attr("src");
+                        String video = ADHtmlUtils.getInstance().findCssByElements(select.html(), "div.vw", "video").attr("src");
+                        foodJieHtmlModel.setCover(cover);
+                        foodJieHtmlModel.setVideo(video);
+                        // 获取标签、描述
+                        Elements title = selectElements.select("div.cpc_c1");
+                        Elements cssByElements = ADHtmlUtils.getInstance().findCssByElements(title.html(), "ul.cpargsw", "li.cpargs");
+                        List<String> tags = new ArrayList<>();
+                        for (int i = 0; i < cssByElements.size(); i++) {
+                            tags.add(cssByElements.get(i).text());
+                        }
+                        foodJieHtmlModel.setTags(tags);
+                        String desc = title.select("div.cpdesw").text();
+                        foodJieHtmlModel.setDesc(desc.replaceAll("展开", ""));
+                        // 营养建议
+                        List<FoodJieHtmlModel.Nutrition.Item> items = new ArrayList<>();
+                        FoodJieHtmlModel.Nutrition nutrition = new FoodJieHtmlModel.Nutrition();
+                        Elements nutritionElements = selectElements.select("div.cpc_c2").select("div.msj2022_yyw").select("ul.msj2022_yylist").select("li.item");
+                        for (int i = 0; i < nutritionElements.size(); i++) {
+                            Elements left = nutritionElements.get(i).select("div.left");
+                            if (!ADArrayUtils.isEmpty(left)) {
+                                Elements right = nutritionElements.get(i).select("div.right");
+                                nutrition.setSugarDose(left.select("span.n").text());
+                                nutrition.setSugarUneven(right.select("strong").text());
+                                nutrition.setSuggest(right.select("em").text());
+                            } else {
+                                FoodJieHtmlModel.Nutrition.Item item = new FoodJieHtmlModel.Nutrition.Item();
+                                Elements wrap = nutritionElements.get(i).select("div.wrap");
+                                item.setName(wrap.select("strong").text());
+                                item.setValue(wrap.select("em").text());
+                                items.add(item);
+                            }
+                        }
+                        nutrition.setItems(items);
+                        foodJieHtmlModel.setNutrition(nutrition);
+                        // 食材
+                        List<FoodJieHtmlModel.Nutrition.Item> ingredientList = new ArrayList<>();
+                        Elements ingredientElements = selectElements.select("div.cpc_c3").select("div.c_mtr_ul").select("ul.c_mtr_liw").select("li.c_mtr_li");
+                        for (int i = 0; i < ingredientElements.size(); i++) {
+                            FoodJieHtmlModel.Nutrition.Item item = new FoodJieHtmlModel.Nutrition.Item();
+                            String text = ingredientElements.get(i).select("span.t").text();
+                            if (TextUtils.isEmpty(text)){
+                                item.setName(ingredientElements.get(i).select("span.t1").text());
+                            }else{
+                                item.setName(text);
+                            }
+                            item.setValue(ingredientElements.get(i).select("span.a").text());
+                            ingredientList.add(item);
+                        }
+                        foodJieHtmlModel.setIngredient(ingredientList);
+                        // 做法步骤
+                        List<FoodJieHtmlModel.Step> stepList = new ArrayList<>();
+                        Elements stepElements = selectElements.select("div.cpc_c4").select("div.stepitemw").select("div.stepitem");
+                        for (int i = 0; i < stepElements.size(); i++) {
+                            FoodJieHtmlModel.Step step = new FoodJieHtmlModel.Step();
+                            step.setContent(TextUtils.isEmpty(stepElements.get(i).select("div.stepc").text()) ? stepElements.get(i).select("span.step_title").text() : stepElements.get(i).select("div.stepc").text());
+                            step.setImage(stepElements.get(i).select("img").attr("src"));
+                            stepList.add(step);
+                        }
+                        foodJieHtmlModel.setStep(stepList);
+                        Log.i("美食杰解析：", ADGsonUtils.toJson(foodJieHtmlModel));
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                })
+                .get();
     }
 
     @Override
