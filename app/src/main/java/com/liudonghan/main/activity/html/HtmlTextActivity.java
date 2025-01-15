@@ -13,6 +13,7 @@ import com.liudonghan.main.R;
 import com.liudonghan.main.bean.FoodChinaHtmlModel;
 import com.liudonghan.main.bean.FoodJieHtmlModel;
 import com.liudonghan.main.bean.ImageBean;
+import com.liudonghan.main.bean.Seism;
 import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.mvp.ADBaseLoadingDialog;
 import com.liudonghan.utils.ADArrayUtils;
@@ -389,9 +390,9 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
                         for (int i = 0; i < ingredientElements.size(); i++) {
                             FoodJieHtmlModel.Nutrition.Item item = new FoodJieHtmlModel.Nutrition.Item();
                             String text = ingredientElements.get(i).select("span.t").text();
-                            if (TextUtils.isEmpty(text)){
+                            if (TextUtils.isEmpty(text)) {
                                 item.setName(ingredientElements.get(i).select("span.t1").text());
-                            }else{
+                            } else {
                                 item.setName(text);
                             }
                             item.setValue(ingredientElements.get(i).select("span.a").text());
@@ -417,6 +418,41 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
                     }
                 })
                 .get();
+
+        ADHtmlUtils.getInstance()
+                .from(this)
+                .url("https://news.ceic.ac.cn/index.html")
+                .cssQuery("body", "div.all", "div.main", "div.content", "div.left", "div.news-content","table.news-table")
+                .listener(new ADHtmlUtils.Builder.OnConnectListener() {
+                    @Override
+                    public void onReady() {
+
+                    }
+
+                    @Override
+                    public void onDocument(Document document, Elements selectElements, String json) {
+                        Elements table = selectElements.select("tr");
+                        List<Seism> seismList = new ArrayList<>();
+                        for (int i = 0; i < table.size(); i++) {
+                            Elements elements = table.get(i).select("td");
+                            if (!elements.isEmpty()){
+                                seismList.add(new Seism(elements.get(5).text(),
+                                        elements.get(1).text(),
+                                        elements.get(2).text(),
+                                        elements.get(3).text(),
+                                        elements.get(0).text(),
+                                        elements.get(4).text(),
+                                        elements.get(5).select("a").attr("href")));
+                            }
+                        }
+                        Log.i("地震台网解析",ADGsonUtils.toJson(seismList));
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                }).get();
     }
 
     @Override
