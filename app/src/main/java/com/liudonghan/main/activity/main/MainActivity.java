@@ -103,8 +103,8 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         mainMenuAdapter.setNewData(Arrays.asList(stringArray));
         Log.e("Mac_Liu", "activity路径：" + getLocalClassName());
         Log.i("Mac_Liu", "7天：" + ADFormatUtils.getInstance().getBeforeDay(7));
-        int miss = 1708937879;
-        Log.i("Mac_Liu", ADFormatUtils.getInstance().getTimeStampToFormat((long) miss * 1000, ADFormatUtils.DEFAULT_FORMAT));
+        String miss = "1738506280";
+        Log.i("Mac_Liu", ADFormatUtils.getInstance().getTimeStampToFormat(Long.parseLong(miss)  * 1000, ADFormatUtils.DEFAULT_FORMAT));
         ADPicturePhotoUtils.getInstance().init(this).onCallBack(this);
     }
 
