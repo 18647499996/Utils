@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.liudonghan.main.R;
+import com.liudonghan.main.bean.DouGuoBean;
 import com.liudonghan.main.bean.FoodChinaHtmlModel;
 import com.liudonghan.main.bean.FoodJieHtmlModel;
 import com.liudonghan.main.bean.ImageBean;
@@ -422,7 +423,7 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
         ADHtmlUtils.getInstance()
                 .from(this)
                 .url("https://news.ceic.ac.cn/index.html")
-                .cssQuery("body", "div.all", "div.main", "div.content", "div.left", "div.news-content","table.news-table")
+                .cssQuery("body", "div.all", "div.main", "div.content", "div.left", "div.news-content", "table.news-table")
                 .listener(new ADHtmlUtils.Builder.OnConnectListener() {
                     @Override
                     public void onReady() {
@@ -435,7 +436,7 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
                         List<Seism> seismList = new ArrayList<>();
                         for (int i = 0; i < table.size(); i++) {
                             Elements elements = table.get(i).select("td");
-                            if (!elements.isEmpty()){
+                            if (!elements.isEmpty()) {
                                 seismList.add(new Seism(elements.get(5).text(),
                                         elements.get(1).text(),
                                         elements.get(2).text(),
@@ -445,7 +446,7 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
                                         elements.get(5).select("a").attr("href")));
                             }
                         }
-                        Log.i("地震台网解析",ADGsonUtils.toJson(seismList));
+                        Log.i("地震台网解析", ADGsonUtils.toJson(seismList));
                     }
 
                     @Override
@@ -453,6 +454,39 @@ public class HtmlTextActivity extends ADBaseActivity<HtmlTextPresenter> implemen
 
                     }
                 }).get();
+
+        ADHtmlUtils.getInstance()
+                .from(this)
+                .url("https://www.douguo.com/jingxuan/")
+                .cssQuery("body", "div.wrap", "div", "ul.clearfix")
+                .listener(new ADHtmlUtils.Builder.OnConnectListener() {
+                    @Override
+                    public void onReady() {
+
+                    }
+
+                    @Override
+                    public void onDocument(Document document, Elements selectElements, String json) {
+                        Elements select = selectElements.select("li.item");
+                        List<DouGuoBean> douGuoBeanList = new ArrayList<>();
+                        for (int i = 0; i < select.size(); i++) {
+                            DouGuoBean douGuoBean = new DouGuoBean();
+                            douGuoBean.setCover(select.get(i).select("a.cover").select("img").attr("src"));
+                            douGuoBean.setTitle(select.get(i).select("div.relative").select("a.cookname.text-lips").text());
+                            String url = select.get(i).select("div.relative").select("a.cookname.text-lips").attr("href");
+                            douGuoBean.setUrl("https://www.douguo.com" + url);
+                            douGuoBean.setId(url.split("/")[2].split("\\.")[0]);
+                            douGuoBeanList.add(douGuoBean);
+                        }
+                        Log.i("豆果美食", ADGsonUtils.toJson(douGuoBeanList));
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                })
+                .get();
     }
 
     @Override

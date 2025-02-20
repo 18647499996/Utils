@@ -97,14 +97,15 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
+        String str = "<p data-pid=\\\"ySck9thP\\\">说句很实在的话，真的在国内常坐头等舱或商务舱的（不是专门买打折舱位坐的那种哈）基本上都没时间看空乘，对于这个层次的人来说，空乘也就是空乘而已，就是空乘而已。当然，如果真的要撩骚，只要不是太老、太丑，坐多几次同一个空乘的航班，只要略微表示点，估计就成了。其实，国外他们都坐经济舱，因为，算了，直接看图吧</p><figure data-size=\\\"normal\\\"><img src=\\\"https://pic2.zhimg.com/v2-172e58e60a598a685e19018a84d0bd8b_1440w.jpg\\\" data-rawwidth=\\\"892\\\" data-rawheight=\\\"1176\\\" data-size=\\\"normal\\\" data-original-token=\\\"v2-3fcce33cf5bd954a14bd041442d93b59\\\" data-default-watermark-src=\\\"https://pic2.zhimg.com/v2-373ca335101d8883d4a907961bdfaa29_b.jpg\\\" class=\\\"origin_image zh-lightbox-thumb\\\" width=\\\"892\\\" data-original=\\\"https://pic2.zhimg.com/v2-172e58e60a598a685e19018a84d0bd8b_r.jpg\\\"/></figure><p></p>";
         immersionBar.statusBarColor(R.color.black).statusBarDarkFont(false).titleBar(recyclerView).init();
         mainMenuAdapter = new MainMenuAdapter(R.layout.item_menu);
         recyclerView.setAdapter(mainMenuAdapter);
         mainMenuAdapter.setNewData(Arrays.asList(stringArray));
-        Log.e("Mac_Liu", "activity路径：" + getLocalClassName());
+        Log.e("Mac_Liu", "activity路径：" + str.length());
         Log.i("Mac_Liu", "7天：" + ADFormatUtils.getInstance().getBeforeDay(7));
         String miss = "1738506280";
-        Log.i("Mac_Liu", ADFormatUtils.getInstance().getTimeStampToFormat(Long.parseLong(miss)  * 1000, ADFormatUtils.DEFAULT_FORMAT));
+        Log.i("Mac_Liu", ADFormatUtils.getInstance().getTimeStampToFormat(Long.parseLong(miss) * 1000, ADFormatUtils.DEFAULT_FORMAT));
         ADPicturePhotoUtils.getInstance().init(this).onCallBack(this);
     }
 
