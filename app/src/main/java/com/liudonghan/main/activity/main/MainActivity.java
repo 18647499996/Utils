@@ -224,9 +224,9 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                 imageView.getDrawable().setBounds(0, 0, 0, 0);
                 break;
             case 11:
-                String encrypt = ADEncryptManager.getInstance().encryptECB("cretinzp**273846", "{targetId=30}");
+                String encrypt = ADEncryptManager.getInstance().encryptCBC("12345678910", "mgvf2IBoLq7Kzxlx","mgvf2IBoLq7Kzxlx");
                 Log.w("Mac_Liu", "AES加密：" + encrypt);
-                String decrypt = ADEncryptManager.getInstance().decryptECB("2oxS7wXkFk0oAx/nG7NCare3A9I7VMIubu+tDyiB8r2mjJkUxtFFgsi8wAqhBxx8NOfl4wyyMSBotxlNJDg6A9uKf8cu000NswYzMgNqy2w=", "cretinzp**273846");
+                String decrypt = ADEncryptManager.getInstance().decryptCBC(encrypt, "mgvf2IBoLq7Kzxlx","mgvf2IBoLq7Kzxlx");
                 Log.w("Mac_Liu", "AES解密：" + decrypt);
                 String base64Encode = ADEncryptManager.getInstance().encryptBase64("https://www.bilibili.com/video/BV1HG411Y7W1/");
                 Log.w("Mac_Liu", "Base64加密：" + base64Encode);
